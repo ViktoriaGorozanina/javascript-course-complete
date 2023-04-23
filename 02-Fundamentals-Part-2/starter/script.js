@@ -82,13 +82,50 @@
 
 //* 37 REVIEWING FUNCTIONS
 
-const calcAge = function (birthYear) {
-  return 2037 - birthYear;
-};
+// const calcAge = function (birthYear) {
+//   return 2037 - birthYear;
+// };
 
-const yearsUntilRetirement = function (birthYear, firstName) {
-  const age = calcAge(birthYear);
-  const retirement = 65 - age;
-  return retirement;
-  //   return `${firstName} retires in ${retirement} years`;
-};
+// const yearsUntilRetirement = function (birthYear, firstName) {
+//   const age = calcAge(birthYear);
+//   const retirement = 65 - age;
+
+//   if (retirement > 0) {
+//     console.log(`${firstName} retires in ${retirement} years`);
+//     return retirement;
+//   } else {
+//     console.log(`${firstName} already retired`);
+//     return -1;
+//   }
+// };
+
+// console.log(yearsUntilRetirement(1950, `Yo`));
+
+//? CHALLENGE 1
+
+const calcAverage = (compOne, compTwo, compThree) =>
+  (compOne + compTwo + compThree) / 3;
+
+let dolphinsAverage = calcAverage(44, 23, 71);
+let koalasAverage = calcAverage(65, 54, 49);
+
+dolphinsAverage = calcAverage(85, 54, 41);
+koalasAverage = calcAverage(23, 34, 27);
+
+function checkWinner(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
+  if (teamOneScore >= 2 * teamTwoScore) {
+    return `${teamOneName} are the winners! (${teamOneScore} vs ${teamTwoScore})`;
+  } else if (teamTwoScore >= 2 * teamOneScore) {
+    return `${teamTwoName} are the winners! (${teamTwoScore} vs ${teamOneScore})`;
+  } else {
+    return `No one wins!`;
+  }
+}
+
+const winner = checkWinner(
+  `Koalas`,
+  koalasAverage,
+  `Dolphins`,
+  dolphinsAverage
+);
+console.log(winner);
