@@ -221,3 +221,141 @@
 // const total = [bill[0] + tips[0], bill[1] + tips[1], bill[2] + tips[2]];
 
 // console.log(total);
+
+//* 42 OBJECTS
+
+// // USUAL ARRAY
+// const friends = [`Michael`, `Steven`, `Peter`];
+// const jonasArray = [`Jonas`, `Surname`, 2037 - 1991, `teacher`, friends];
+// console.log(jonasArray);
+
+// // OBJECT
+// const jonas = {
+//   firstName: `Jonas`,
+//   surname: `Surname`,
+//   age: 2037 - 1991,
+//   job: `teacher`,
+//   friends: friends,
+// };
+
+// console.log(jonas);
+
+//* 43 DOT vs BRACKET NOTATION (retrieve data from objects)
+
+// const friends = [`Michael`, `Steven`, `Peter`];
+// const jonas = {
+//   firstName: `Jonas`,
+//   lastName: `Surname`,
+//   age: 2037 - 1991,
+//   job: `teacher`,
+//   friends: friends,
+// };
+
+// console.log(jonas);
+
+// // DOT NOTATION
+// console.log(jonas.lastName); //with a dot we can only state an existing property name
+// console.log(jonas[`lastName`]); //in brackets we can put any expression that will give us a value equal to any of the properties of the object:
+// // example
+// const nameKey = `Name`;
+// console.log(jonas[`first` + nameKey]);
+// //example 2
+// const interestedIn = prompt(
+//   `What do you want to know about Jonas? (firtName, lastName, age, job or friends)`
+// );
+
+// console.log(jonas[interestedIn]);
+
+// if (jonas[interestedIn]) {
+//   console.log(jonas[interestedIn]);
+// } else {
+//   console.log(`I dont have this information`);
+// }
+
+// // add property to an object
+// jonas.location = `Portugal`;
+// jonas[`twitter`] = `@blabla`;
+// console.log(jonas[interestedIn]);
+
+// //Challenge
+// // `Jonas has 3 friends, and his best friend is called Michael.`
+
+// console.log(
+//   `${jonas.firstName} has ${jonas.friends.length} friends, and his best friend is called ${jonas.friends[0]}.`
+// );
+
+//* 44 OBJECT METHODS
+
+// const friends = [`Michael`, `Steven`, `Peter`];
+// const jonas = {
+//   firstName: `Jonas`,
+//   lastName: `Surname`,
+//   job: `teacher`,
+//   friends: friends,
+//   hasDriversLicense: true,
+//   birthYear: 1986,
+
+//   // calcAge: function (birthYear) { //option 1
+//   //   return 2023 - birthYear;
+
+//   // calcAge: function () {
+//   //   //option 2
+//   //   return 2023 - this.birthYear; //using THIS instead of jonas. (dont repeat yourself)
+//   // },
+
+//   calcAge: function () {
+//     //option 3 - creating a property variable to store the value
+//     this.age = 2023 - this.birthYear;
+//     return this.age;
+//   },
+
+//   getSummary: function () {
+//     return `${this.firstName} is ${this.calcAge()} years old ${
+//       this.job
+//     } and he has ${this.hasDriversLicense ? `a` : `no`} drivers license.`;
+//   },
+// };
+// // console.log(jonas.calcAge());
+// // // or
+// // console.log(jonas[`calcAge`]()); //calling the function
+// // console.log(jonas.age); //WE HAVE TO CALL THE CALC>AGE FUNCTION BEFORE!
+
+// //Challenge
+// // Jonas is 46 years old teacher and he has a drivers licence.
+// // const jonasLicense = jonas.hasDriversLicense ? `a` : `no`;
+// console.log(jonas.getSummary());
+
+//? CHALLENGE 3
+
+const mark = {
+  firstName: `Mark`,
+  weight: 78,
+  height: 1.69,
+
+  calcBmi: function () {
+    this.bmi = this.weight / this.height ** 2;
+    return this.bmi;
+  },
+};
+
+const john = {
+  firstName: `John`,
+  weight: 92,
+  height: 1.95,
+
+  calcBmi: function () {
+    this.bmi = this.weight / this.height ** 2;
+    return this.bmi;
+  },
+};
+
+john.calcBmi();
+mark.calcBmi(); //a function must be called always!
+console.log(mark.bmi, john.bmi);
+
+const winner =
+  mark.bmi > john.bmi
+    ? `${mark.firstName}'s BMI (${mark.bmi}) is bigger than ${john.firstName}'s BMI (${john.bmi}).`
+    : `${john.firstName}'s BMI (${john.bmi}) is bigger than ${mark.firstName}'s BMI (${mark.bmi}).`;
+
+console.log(winner);
