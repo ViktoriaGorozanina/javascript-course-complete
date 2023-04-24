@@ -449,30 +449,42 @@
 
 //? CHALLENGE # 4
 
-let bill = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+// let bill = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
 
-let tips = [];
-let totals = [];
+// let tips = [];
+// let totals = [];
 
-function calcTip(bill) {
-  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
-}
+// function calcTip(bill) {
+//   return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+// }
 
-for (let i = 0; i < bill.length; i++) {
-  tips.push(calcTip(bill[i]));
-  totals.push(tips[i] + bill[i]);
-}
+// for (let i = 0; i < bill.length; i++) {
+//   tips.push(calcTip(bill[i]));
+//   totals.push(tips[i] + bill[i]);
+// }
 
-console.log(tips, totals);
-//-------------------------BONUS
-let sum;
-const calcAverage = function (arr) {
-  sum = 0;
+// console.log(tips, totals);
+// //-------------------------BONUS
+// let sum;
+// const calcAverage = function (arr) {
+//   sum = 0;
+//   for (let i = 0; i < arr.length; i++) {
+//     // sum = sum + arr[i];
+//     sum += arr[i];
+//   }
+//   return sum / arr.length;
+// };
+
+// console.log(calcAverage(tips));
+
+//? section 5 CHALLENGE#1
+
+let statement = [];
+const temperatures = [12, 5, -5, 0, 4];
+const printForecast = function (arr) {
   for (let i = 0; i < arr.length; i++) {
-    // sum = sum + arr[i];
-    sum += arr[i];
+    statement.push(`... ${temperatures[i]}C in ${i + 1} days `);
   }
-  return sum / arr.length;
+  return `${statement.join(``)} ...`;
 };
-
-console.log(calcAverage(tips));
+console.log(printForecast(temperatures));
