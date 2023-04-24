@@ -327,35 +327,152 @@
 
 //? CHALLENGE 3
 
-const mark = {
-  firstName: `Mark`,
-  weight: 78,
-  height: 1.69,
+// const mark = {
+//   firstName: `Mark`,
+//   weight: 78,
+//   height: 1.69,
 
-  calcBmi: function () {
-    this.bmi = this.weight / this.height ** 2;
-    return this.bmi;
-  },
+//   calcBmi: function () {
+//     this.bmi = this.weight / this.height ** 2;
+//     return this.bmi;
+//   },
+// };
+
+// const john = {
+//   firstName: `John`,
+//   weight: 92,
+//   height: 1.95,
+
+//   calcBmi: function () {
+//     this.bmi = this.weight / this.height ** 2;
+//     return this.bmi;
+//   },
+// };
+
+// john.calcBmi();
+// mark.calcBmi(); //a function must be called always!
+// console.log(mark.bmi, john.bmi);
+
+// const winner =
+//   mark.bmi > john.bmi
+//     ? `${mark.firstName}'s BMI (${mark.bmi}) is bigger than ${john.firstName}'s BMI (${john.bmi}).`
+//     : `${john.firstName}'s BMI (${john.bmi}) is bigger than ${mark.firstName}'s BMI (${mark.bmi}).`;
+
+// console.log(winner);
+
+//* 46 Iteration: The for LOOP
+
+// // console.log(`Lifting weights repetition 1`);
+
+// //for loop keeps running while logical condition is true
+// for (let rep = 1; rep <= 10; rep++) {
+//   console.log(`Lifting weights repetiton ${rep}`);
+// }
+
+//* 47 LOOPING ARRAYS, Breaking and continuing
+
+// const types = [];
+// const friends = [`Michael`, `Peter`, `Steven`];
+// const jonas = [`Jonas`, `Surname`, 2037 - 1991, `teacher`, friends];
+
+// console.log(jonas.length);
+
+// for (let i = 0; i < jonas.length; i++) {
+//   console.log(jonas[i], typeof jonas[i]);
+
+//   // filling types array:
+//   // types[i] = typeof jonas[i];
+//   types.push(typeof jonas[i]);
+// }
+
+// console.log(types);
+
+// const years = [1991, 2007, 1969, 2020];
+// const ages = [];
+
+// for (let i = 0; i < years.length; i++) {
+//   ages.push(2023 - years[i]);
+// }
+// console.log(ages);
+
+//CONTINUE
+// console.log(`-----------ONLY STRINGS--------`);
+// for (let i = 0; i < jonas.length; i++) {
+//   if (typeof jonas[i] !== `string`) continue;
+//   console.log(jonas[i], typeof jonas[i]);
+// }
+
+// //BREAK
+// console.log(`-----------BREAK WHEN NUMBER--------`);
+// for (let i = 0; i < jonas.length; i++) {
+//   if (typeof jonas[i] === `number`) break;
+//   console.log(jonas[i], typeof jonas[i]);
+// }
+
+//* 48 LOOP BACKWARDS / LOOPS IN LOOPS
+
+// const friends = [`Michael`, `Peter`, `Steven`];
+// const jonas = [`Jonas`, `Surname`, 2037 - 1991, `teacher`, friends];
+
+// //BACKWARDS
+// for (let i = jonas.length - 1; i >= 0; i--) {
+//   console.log(i, jonas[i]);
+// }
+
+// //LOOP in LOOP
+// for (let exercise = 1; exercise <= 4; exercise++) {
+//   console.log(`--------Starting exercise------ ${exercise}`);
+
+//   for (let rep = 1; rep < 5; rep++) {
+//     console.log(`Lifting weights repetition ${rep}`);
+//   }
+// }
+
+//* 49 WHILE LOOP
+
+// let rep = 1;
+// while (rep <= 10) {
+//   // console.log(`WHILE Lifting weights repetition ${rep}`);
+//   rep++;
+// }
+
+// // example that does not depend on numbers:
+// let dice = Math.trunc(Math.random() * 6) + 1;
+// // console.log(dice);
+
+// while (dice !== 6) {
+//   console.log(`You rolled a dice ${dice}`);
+//   dice = Math.trunc(Math.random() * 6) + 1;
+
+//   if (dice === 6) console.log(`Finish`);
+// }
+
+//? CHALLENGE # 4
+
+let bill = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+
+let tips = [];
+let totals = [];
+
+function calcTip(bill) {
+  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+}
+
+for (let i = 0; i < bill.length; i++) {
+  tips.push(calcTip(bill[i]));
+  totals.push(tips[i] + bill[i]);
+}
+
+console.log(tips, totals);
+//-------------------------BONUS
+let sum;
+const calcAverage = function (arr) {
+  sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    // sum = sum + arr[i];
+    sum += arr[i];
+  }
+  return sum / arr.length;
 };
 
-const john = {
-  firstName: `John`,
-  weight: 92,
-  height: 1.95,
-
-  calcBmi: function () {
-    this.bmi = this.weight / this.height ** 2;
-    return this.bmi;
-  },
-};
-
-john.calcBmi();
-mark.calcBmi(); //a function must be called always!
-console.log(mark.bmi, john.bmi);
-
-const winner =
-  mark.bmi > john.bmi
-    ? `${mark.firstName}'s BMI (${mark.bmi}) is bigger than ${john.firstName}'s BMI (${john.bmi}).`
-    : `${john.firstName}'s BMI (${john.bmi}) is bigger than ${mark.firstName}'s BMI (${mark.bmi}).`;
-
-console.log(winner);
+console.log(calcAverage(tips));
