@@ -103,29 +103,121 @@
 
 //? CHALLENGE 1
 
-const calcAverage = (compOne, compTwo, compThree) =>
-  (compOne + compTwo + compThree) / 3;
+// const calcAverage = (compOne, compTwo, compThree) =>
+//   (compOne + compTwo + compThree) / 3;
 
-let dolphinsAverage = calcAverage(44, 23, 71);
-let koalasAverage = calcAverage(65, 54, 49);
+// let dolphinsAverage = calcAverage(44, 23, 71);
+// let koalasAverage = calcAverage(65, 54, 49);
 
-dolphinsAverage = calcAverage(85, 54, 41);
-koalasAverage = calcAverage(23, 34, 27);
+// dolphinsAverage = calcAverage(85, 54, 41);
+// koalasAverage = calcAverage(23, 34, 27);
 
-function checkWinner(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
-  if (teamOneScore >= 2 * teamTwoScore) {
-    return `${teamOneName} are the winners! (${teamOneScore} vs ${teamTwoScore})`;
-  } else if (teamTwoScore >= 2 * teamOneScore) {
-    return `${teamTwoName} are the winners! (${teamTwoScore} vs ${teamOneScore})`;
-  } else {
-    return `No one wins!`;
-  }
-}
+// function checkWinner(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
+//   if (teamOneScore >= 2 * teamTwoScore) {
+//     return `${teamOneName} are the winners! (${teamOneScore} vs ${teamTwoScore})`;
+//   } else if (teamTwoScore >= 2 * teamOneScore) {
+//     return `${teamTwoName} are the winners! (${teamTwoScore} vs ${teamOneScore})`;
+//   } else {
+//     return `No one wins!`;
+//   }
+// }
 
-const winner = checkWinner(
-  `Koalas`,
-  koalasAverage,
-  `Dolphins`,
-  dolphinsAverage
-);
-console.log(winner);
+// const winner = checkWinner(
+//   `Koalas`,
+//   koalasAverage,
+//   `Dolphins`,
+//   dolphinsAverage
+// );
+// console.log(winner);
+
+//* 39 ARRAYS
+
+// const friend1 = `Michael`;
+// const friend2 = `STeven`;
+// const friend3 = `Peter`;
+
+// // instead of that we store this data in an array:
+// const friends = [`Michael`, `Steven`, `Peter`];
+// const yearss = new Array(1991, 1994, 2008, 2020);
+
+// const firstName = `Jonas`;
+// const jonas = [firstName, `Surname`, 2023 - 1991, `teacher`, friends];
+// console.log(jonas);
+
+// // Exercise
+
+// const calcAge = function (birthYear) {
+//   return 2037 - birthYear;
+// };
+
+// const years = [1990, 1967, 2002, 2020, 2018];
+// const age1 = calcAge(years[0]);
+// const age2 = calcAge(years[2]);
+// const age3 = calcAge(years[years.length - 1]);
+// console.log(age1, age2, age3);
+
+// const ages = [
+//   calcAge(years[0]),
+//   calcAge(years[2]),
+//   calcAge(years[years.length - 1]),
+// ];
+
+// console.log(ages);
+
+//* 40 BASIC ARRAY OPERATIONS (METHODS)
+
+// // ADD elements:
+// // PUSH --------------------------
+// const friends = [`Michael`, `Steven`, `Peter`];
+// // friends.push(`Gary`);
+// const newLength = friends.push(`Gary`);
+// console.log(friends);
+// console.log(newLength);
+
+// // UNSHIFT ----------------------
+
+// friends.unshift(`John`);
+// console.log(friends);
+
+// // REMOVE elements
+// // POP ----------------------
+// friends.pop();
+// console.log(friends);
+
+// // SHIFT ----------------------
+
+// friends.shift();
+// console.log(friends);
+
+// const removed = friends.shift();
+// console.log(friends);
+// console.log(removed);
+
+// // INDEX OF ----------------------
+// console.log(friends.indexOf(`Steven`));
+
+// const position = friends.indexOf(`Steven`);
+// console.log(position);
+
+// // INCLUDES ----------------------
+// console.log(friends.includes(`Bob`)); //false
+// console.log(friends.includes(`Steven`)); //true
+
+//? CHALLENGE 2
+// let bill = [125, 555, 44];
+// let tipPers = [15, 20];
+
+// function calcTip(bill) {
+//   if (bill >= 50 && bill <= 300) {
+//     return (bill * tipPers[0]) / 100;
+//   } else {
+//     return (bill * tipPers[1]) / 100;
+//   }
+// }
+
+// const tips = [calcTip(bill[0]), calcTip(bill[1]), calcTip(bill[2])];
+// console.log(tips);
+
+// const total = [bill[0] + tips[0], bill[1] + tips[1], bill[2] + tips[2]];
+
+// console.log(total);
