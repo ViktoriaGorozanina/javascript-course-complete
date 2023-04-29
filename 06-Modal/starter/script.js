@@ -6,6 +6,20 @@ const btnCloseModal = document.querySelector(`.close-modal`);
 const btnsOpenModal = document.querySelectorAll(`.show-modal`);
 
 console.log(btnsOpenModal);
-for (let i = 0; i < btnsOpenModal.length; i++);
+const openModal = function () {
+  console.log(`Button clicked`);
+  modal.classList.remove(`hidden`);
+  overlay.classList.remove(`hidden`);
+};
+// ATTACH THE FUNCTION TO ALL THREE BUTTONS THAT HAVE ONE THE SAME CLASS
+for (let i = 0; i < btnsOpenModal.length; i++)
+  btnsOpenModal[i].addEventListener(`click`, openModal);
 
-console.log(btnsOpenModal[i].textContent);
+const closeModal = function () {
+  modal.classList.add(`hidden`);
+  overlay.classList.add(`hidden`);
+};
+// WE DO NOT CALL FUNCTION BY (), THE FUNCTION WILL BE CALLED AUTOMATICALLY WHEN CLICKED
+btnCloseModal.addEventListener(`click`, closeModal);
+
+overlay.addEventListener(`click`, closeModal);
