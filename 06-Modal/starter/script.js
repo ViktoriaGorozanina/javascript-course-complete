@@ -24,4 +24,11 @@ btnCloseModal.addEventListener(`click`, closeModal);
 
 overlay.addEventListener(`click`, closeModal);
 
-document.addEventListener(`keydown`, function (e) {});
+//by the code below below we will see in the console which key was presses
+document.addEventListener(`keydown`, function (e) {
+  console.log(e.key);
+  //if key Escape is pressed then close modal if modal does not contain Hidden class in it:
+  if (e.key === `Escape` && !modal.classList.contains(`hidden`)) {
+    closeModal();
+  }
+});
