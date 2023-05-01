@@ -1,6 +1,8 @@
 'use strict';
 
 // Selecting elements
+const player0El = document.querySelector(`.player--0`);
+const player1El = document.querySelector(`.player--1`);
 const score0El = document.querySelector(`#score--0`);
 //another way to get an element by ID:
 const score1El = document.getElementById(`score--1`);
@@ -13,7 +15,9 @@ const btnNew = document.querySelector(`.btn--new`);
 const btnRoll = document.querySelector(`.btn--roll`);
 const btnHold = document.querySelector(`.btn--hold`);
 
+let activePlayer = 0;
 let currentScore = 0;
+const scores = [0, 0];
 
 score0El.textContent = 0;
 score1El.textContent = 0;
@@ -32,11 +36,18 @@ btnRoll.addEventListener(`click`, function () {
   // 3. Check for rolled 1: ...
   if (dice !== 1) {
     currentScore += dice; //same as cs = cs + dice
-    current0El.textContent = currentScore; //change later
+
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
   } else {
     //... if true, switch to the next player
-    document.querySelector(`.player--0`).classList.remove(`player--active`);
-    document.querySelector(`.player--1`).classList.add(`player--active`);
-    current0El.textContent = 0;
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    currentScore = 0;
+    //? TOGGLE
+    player0El.classList.toggle(`player--active`);
+    player1El.classList.toggle(`player--active`);
   }
 });
+
+//hold the score
