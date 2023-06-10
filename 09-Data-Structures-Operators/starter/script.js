@@ -12,10 +12,6 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  order: function (starterIndex, mainIndex) {
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-  },
-
   openingHours: {
     thu: {
       open: 12,
@@ -30,31 +26,89 @@ const restaurant = {
       close: 24,
     },
   },
-};
-//Receieve 2 return values from a function:
-const [starter, mainCourse] = restaurant.order(2, 0);
-console.log(starter, mainCourse);
-//Nested destructuring:
-const nested = [1, 2, [5, 6]];
-const [, , [ha, ho]] = nested;
-console.log(ha, ho);
-// Default valeus (if we try to reach an element that is not existing in the array the we can set a default value):
-const [p = 1, q = 1, r = 1] = [8, 9];
-console.log(p, q, r);
-//
-const arr = [1, 2, 3];
-const a = arr[0];
-const b = arr[1];
-const c = arr[2];
-//or
-const [x, y, z] = arr;
-console.log(x, y, z);
 
-const [first, second] = restaurant.categories;
-console.log(first, second);
-// to skip elements we use space
-let [main, , secondary] = restaurant.categories;
-console.log(main, secondary);
-// to swap it we reassign it:
-[main, secondary] = [secondary, main];
-console.log(main, secondary);
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+
+  orderDelivery: function ({
+    starterIndex = 1,
+    mainIndex = 0,
+    time = `20:00`,
+    address,
+  }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    );
+  },
+};
+//destructuring by function:
+restaurant.orderDelivery({
+  time: `22:30`,
+  address: `Via del sol, 21`,
+  mainIndex: 2,
+  starterIndex: 2,
+});
+//...the missing values will be replaced by default values from above in function
+restaurant.orderDelivery({
+  address: `Muhu 4 - 42`,
+  starterIndex: 1,
+});
+
+//Destructuring OBJECTS
+const { name, openingHours, categories } = restaurant;
+
+console.log(restaurant);
+console.log(name, categories, openingHours);
+//to rename the variable that are extracted from an object:
+const {
+  name: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
+console.log(restaurantName, hours, tags);
+//to retrieve data from somewhere lese without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
+const { menu = [], starterMenu: starters = [] } = restaurant;
+console.log(menu, starters);
+
+//mutating variables (different from arrays)
+let a = 111;
+let b = 999;
+
+const obj = { a: 23, b: 7, c: 14 };
+({ a, b } = obj); //to make it work we have to wrap it in ( )
+console.log(a, b);
+
+//destructuring nested objects.
+const {
+  fri: { open: o, close: c }, //renamed them too just for fun
+} = openingHours;
+console.log(o, c);
+
+// //Receieve 2 return values from a function:
+// const [starter, mainCourse] = restaurant.order(2, 0);
+// console.log(starter, mainCourse);
+// //Nested destructuring:
+// const nested = [1, 2, [5, 6]];
+// const [, , [ha, ho]] = nested;
+// console.log(ha, ho);
+// // Default valeus (if we try to reach an element that is not existing in the array the we can set a default value):
+// const [p = 1, q = 1, r = 1] = [8, 9];
+// console.log(p, q, r);
+// //
+// const arr = [1, 2, 3];
+// const a = arr[0];
+// const b = arr[1];
+// const c = arr[2];
+// //or
+// const [x, y, z] = arr;
+// console.log(x, y, z);
+
+// const [first, second] = restaurant.categories;
+// console.log(first, second);
+// // to skip elements we use space
+// let [main, , secondary] = restaurant.categories;
+// console.log(main, secondary);
+// // to swap it we reassign it:
+// [main, secondary] = [secondary, main];
+// console.log(main, secondary);
