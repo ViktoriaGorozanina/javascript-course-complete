@@ -41,49 +41,112 @@ const restaurant = {
       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
     );
   },
+
+  orderPasta: function (ing1, ing2, ing3) {
+    // console.log(`Here is your pasta with ${ing1}, ${ing2} and ${ing3}`);
+  },
 };
-//destructuring by function:
-restaurant.orderDelivery({
-  time: `22:30`,
-  address: `Via del sol, 21`,
-  mainIndex: 2,
-  starterIndex: 2,
-});
-//...the missing values will be replaced by default values from above in function
-restaurant.orderDelivery({
-  address: `Muhu 4 - 42`,
-  starterIndex: 1,
-});
 
-//Destructuring OBJECTS
-const { name, openingHours, categories } = restaurant;
+//----------Lesson 105
+//By usung SPREAD OPERATOR we will create a new array using this array but with some new elements in the beginning:
 
-console.log(restaurant);
-console.log(name, categories, openingHours);
-//to rename the variable that are extracted from an object:
-const {
-  name: restaurantName,
-  openingHours: hours,
-  categories: tags,
-} = restaurant;
-console.log(restaurantName, hours, tags);
-//to retrieve data from somewhere lese without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
-const { menu = [], starterMenu: starters = [] } = restaurant;
-console.log(menu, starters);
+const arr = [7, 8, 9];
+const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+console.log(badNewArr);
+//spread operator:
+const newArr = [1, 2, ...arr];
+console.log(newArr);
 
-//mutating variables (different from arrays)
-let a = 111;
-let b = 999;
+//we want to log individual elements (alltogether) of this new array:
+console.log(...newArr); //it will show like data 1 2 7 8 9 not array[1, 2, 7, 8, 9]
+//taking an existing array in the object above and creating a new one by adding some elemnts
+const newMenu = [...restaurant.mainMenu, `Gnocci`];
+console.log(newMenu);
 
-const obj = { a: 23, b: 7, c: 14 };
-({ a, b } = obj); //to make it work we have to wrap it in ( )
-console.log(a, b);
+//copy array
+const mainMenuCopy = [...restaurant.mainMenu];
+//join arrays together:
+const menuJoin = [...restaurant.mainMenu, ...restaurant.starterMenu];
+console.log(...menuJoin);
+//Spread operator works on other Iterables too: array, strings, maps, sets. Not objects. We use operator to build an arrwy or to pass values to a function
+const str = `JOnas`;
+const letters = [...str, ` `, `s.`];
+console.log(letters);
+console.log(...str);
+// console.log(`${...str} JOnas`);//wont work - not building an array not passing value to a function
+//real-world exxample:
+// const ingredients = [
+//   prompt(`let\'s make pasta!
+// ingredient 1?`),
+//   prompt(`
+// ingredient 2?`),
+//   prompt(`
+// ingredient 3?`),
+// ];
+// console.log(ingredients);
 
-//destructuring nested objects.
-const {
-  fri: { open: o, close: c }, //renamed them too just for fun
-} = openingHours;
-console.log(o, c);
+// restaurant.orderPasta(...ingredients); //function from the object above
+
+// spread operator works now with Objects too (in the last JS versions):
+const newRestaurant = {
+  foundedIn: 1998,
+  ...restaurant,
+  founder: `Guillome`,
+};
+console.log(newRestaurant);
+
+const restaurantCopy = {
+  ...restaurant,
+};
+restaurantCopy.name = `New resto`;
+console.log(restaurantCopy.name);
+console.log(restaurant.name);
+
+//-----------------lesseon 104
+// //destructuring by function:
+// restaurant.orderDelivery({
+//   time: `22:30`,
+//   address: `Via del sol, 21`,
+//   mainIndex: 2,
+//   starterIndex: 2,
+// });
+// //...the missing values will be replaced by default values from above in function
+// restaurant.orderDelivery({
+//   address: `Muhu 4 - 42`,
+//   starterIndex: 1,
+// });
+
+// //Destructuring OBJECTS
+// const { name, openingHours, categories } = restaurant;
+
+// console.log(restaurant);
+// console.log(name, categories, openingHours);
+// //to rename the variable that are extracted from an object:
+// const {
+//   name: restaurantName,
+//   openingHours: hours,
+//   categories: tags,
+// } = restaurant;
+// console.log(restaurantName, hours, tags);
+// //to retrieve data from somewhere lese without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
+// const { menu = [], starterMenu: starters = [] } = restaurant;
+// console.log(menu, starters);
+
+// //mutating variables (different from arrays)
+// let a = 111;
+// let b = 999;
+
+// const obj = { a: 23, b: 7, c: 14 };
+// ({ a, b } = obj); //to make it work we have to wrap it in ( )
+// console.log(a, b);
+
+// //destructuring nested objects.
+// const {
+//   fri: { open: o, close: c }, //renamed them too just for fun
+// } = openingHours;
+// console.log(o, c);
+
+//-----------------lesseon 103?
 
 // //Receieve 2 return values from a function:
 // const [starter, mainCourse] = restaurant.order(2, 0);
