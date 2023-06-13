@@ -45,64 +45,110 @@ const restaurant = {
   orderPasta: function (ing1, ing2, ing3) {
     // console.log(`Here is your pasta with ${ing1}, ${ing2} and ${ing3}`);
   },
+
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient);
+    console.log(otherIngredients);
+  },
 };
 
-//----------Lesson 105
+//*----------Lesson 105
 //By usung SPREAD OPERATOR we will create a new array using this array but with some new elements in the beginning:
 
-const arr = [7, 8, 9];
-const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
-console.log(badNewArr);
-//spread operator:
-const newArr = [1, 2, ...arr];
-console.log(newArr);
+// const arr = [7, 8, 9];
+// const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+// console.log(badNewArr);
+// //spread operator:
+// const newArr = [1, 2, ...arr];
+// console.log(newArr);
 
-//we want to log individual elements (alltogether) of this new array:
-console.log(...newArr); //it will show like data 1 2 7 8 9 not array[1, 2, 7, 8, 9]
-//taking an existing array in the object above and creating a new one by adding some elemnts
-const newMenu = [...restaurant.mainMenu, `Gnocci`];
-console.log(newMenu);
+// //we want to log individual elements (alltogether) of this new array:
+// console.log(...newArr); //it will show like data 1 2 7 8 9 not array[1, 2, 7, 8, 9]
+// //taking an existing array in the object above and creating a new one by adding some elemnts
+// const newMenu = [...restaurant.mainMenu, `Gnocci`];
+// console.log(newMenu);
 
-//copy array
-const mainMenuCopy = [...restaurant.mainMenu];
-//join arrays together:
-const menuJoin = [...restaurant.mainMenu, ...restaurant.starterMenu];
-console.log(...menuJoin);
-//Spread operator works on other Iterables too: array, strings, maps, sets. Not objects. We use operator to build an arrwy or to pass values to a function
-const str = `JOnas`;
-const letters = [...str, ` `, `s.`];
-console.log(letters);
-console.log(...str);
-// console.log(`${...str} JOnas`);//wont work - not building an array not passing value to a function
-//real-world exxample:
-// const ingredients = [
-//   prompt(`let\'s make pasta!
-// ingredient 1?`),
-//   prompt(`
-// ingredient 2?`),
-//   prompt(`
-// ingredient 3?`),
-// ];
-// console.log(ingredients);
+// //copy array
+// const mainMenuCopy = [...restaurant.mainMenu];
+// //join arrays together:
+// const menuJoin = [...restaurant.mainMenu, ...restaurant.starterMenu];
+// console.log(...menuJoin);
+// //Spread operator works on other Iterables too: array, strings, maps, sets. Not objects. We use operator to build an arrwy or to pass values to a function
+// const str = `JOnas`;
+// const letters = [...str, ` `, `s.`];
+// console.log(letters);
+// console.log(...str);
+// // console.log(`${...str} JOnas`);//wont work - not building an array not passing value to a function
+// //real-world exxample:
+// // const ingredients = [
+// //   prompt(`let\'s make pasta!
+// // ingredient 1?`),
+// //   prompt(`
+// // ingredient 2?`),
+// //   prompt(`
+// // ingredient 3?`),
+// // ];
+// // console.log(ingredients);
 
-// restaurant.orderPasta(...ingredients); //function from the object above
+// // restaurant.orderPasta(...ingredients); //function from the object above
 
-// spread operator works now with Objects too (in the last JS versions):
-const newRestaurant = {
-  foundedIn: 1998,
-  ...restaurant,
-  founder: `Guillome`,
+// // spread operator works now with Objects too (in the last JS versions):
+// const newRestaurant = {
+//   foundedIn: 1998,
+//   ...restaurant,
+//   founder: `Guillome`,
+// };
+// console.log(newRestaurant);
+
+// const restaurantCopy = {
+//   ...restaurant,
+// };
+// restaurantCopy.name = `New resto`;
+// console.log(restaurantCopy.name);
+// console.log(restaurant.name);
+
+//*-----------------lesseon 106
+
+//REST PATTERN
+// It is used to pack elements into an array
+
+// 1) Destructuring:
+
+const arr = [1, 2, ...[3, 4]]; //SPREAD operator is used on the RIGHT side of =
+//exmpl 1
+const [a, b, ...others] = [1, 2, 3, 4, 5]; //REST PATTERN is use on the LEFT side of =
+console.log(a, b, others);
+
+//exmpl 2
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+]; //it alsways must be the last in the destructuring assingment
+console.log(pizza, risotto, otherFood);
+
+//creating an object with REST pattern
+const { sat, ...weekdays } = restaurant.openingHours;
+console.log(weekdays);
+
+// 2) Functions:
+const add = function (...numbers) {
+  let sum = 0;
+
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+  console.log(sum);
 };
-console.log(newRestaurant);
 
-const restaurantCopy = {
-  ...restaurant,
-};
-restaurantCopy.name = `New resto`;
-console.log(restaurantCopy.name);
-console.log(restaurant.name);
+add(2, 3);
+add(5, 3, 7, 2);
+add(8, 2, 5, 3, 2, 1, 4);
 
-//-----------------lesseon 104
+const x = [23, 5, 7]; //spread
+add(...x);
+
+//===
+restaurant.orderPizza(`mushrooms`, `onion`, `olives`, `spinach`);
+
+//*-----------------lesseon 104
 // //destructuring by function:
 // restaurant.orderDelivery({
 //   time: `22:30`,
