@@ -114,41 +114,74 @@ const restaurant = {
 
 // 1) Destructuring:
 
-const arr = [1, 2, ...[3, 4]]; //SPREAD operator is used on the RIGHT side of =
-//exmpl 1
-const [a, b, ...others] = [1, 2, 3, 4, 5]; //REST PATTERN is use on the LEFT side of =
-console.log(a, b, others);
+// const arr = [1, 2, ...[3, 4]]; //SPREAD operator is used on the RIGHT side of =
+// //exmpl 1
+// const [a, b, ...others] = [1, 2, 3, 4, 5]; //REST PATTERN is use on the LEFT side of =
+// console.log(a, b, others);
 
-//exmpl 2
-const [pizza, , risotto, ...otherFood] = [
-  ...restaurant.mainMenu,
-  ...restaurant.starterMenu,
-]; //it alsways must be the last in the destructuring assingment
-console.log(pizza, risotto, otherFood);
+// //exmpl 2
+// const [pizza, , risotto, ...otherFood] = [
+//   ...restaurant.mainMenu,
+//   ...restaurant.starterMenu,
+// ]; //it alsways must be the last in the destructuring assingment
+// console.log(pizza, risotto, otherFood);
 
-//creating an object with REST pattern
-const { sat, ...weekdays } = restaurant.openingHours;
-console.log(weekdays);
+// //creating an object with REST pattern
+// const { sat, ...weekdays } = restaurant.openingHours;
+// console.log(weekdays);
 
-// 2) Functions:
-const add = function (...numbers) {
-  let sum = 0;
+// // 2) Functions:
+// const add = function (...numbers) {
+//   let sum = 0;
 
-  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
-  console.log(sum);
-};
+//   for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+//   console.log(sum);
+// };
 
-add(2, 3);
-add(5, 3, 7, 2);
-add(8, 2, 5, 3, 2, 1, 4);
+// add(2, 3);
+// add(5, 3, 7, 2);
+// add(8, 2, 5, 3, 2, 1, 4);
 
-const x = [23, 5, 7]; //spread
-add(...x);
+// const x = [23, 5, 7]; //spread
+// add(...x);
 
-//===
-restaurant.orderPizza(`mushrooms`, `onion`, `olives`, `spinach`);
+// //===
+// restaurant.orderPizza(`mushrooms`, `onion`, `olives`, `spinach`);
 
-//*-----------------lesseon 104
+//*-----------------lesson 107
+//short-circuiting (&& and ||)
+// Use any DATA type, they can return any data type, they do short-circuiting
+console.log(`=====OR=====`);
+//SHORT CIRCUITING means that if first value (with and or or operator) is a truthy value then it will return it immediately
+console.log(3 || `Jonas`);
+console.log(`` || `Jonas`);
+console.log(true || 0);
+console.log(undefined || null);
+
+console.log(undefined || 0 || `` || `Hello` || 23);
+
+//exmpl (we dont know if it exists but we want to log it):
+// restaurant.numGuests = 23; //does not exist
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10; //since it doesnt exeist it will be replaced by 10 by default
+//however if it will be = 0 (instead of 23)  then we will have a problem since its a faulsy result (solution in the next lesson)
+console.log(guests1);
+
+const guests2 = restaurant.numGuests || 10; //the same result as above
+console.log(guests2);
+
+console.log(`=====AND &&=====`);
+//it returns a faulsy value (opposite to OR operator)? if no then the last one since it didnt find any faulsy and returned any that left
+console.log(0 && `Jonas`);
+console.log(7 && `Jonas`);
+console.log(`Hello` && 23 && null && `Jonas`); //it will stop at faulty value (null)
+
+if (restaurant.orderPizza) {
+  restaurant.orderPizza(`muchrooms`, `spinach`);
+}
+// or another way (replacement for if statemnets SOMETIMES):
+restaurant.orderPizza && restaurant.orderPizza(`mush`, `spin`); //if the 1 doesnt exist then it will stop on it and do nothing, if it does exist then it will proceed to the second one
+
+//*-----------------lesson 104
 // //destructuring by function:
 // restaurant.orderDelivery({
 //   time: `22:30`,
