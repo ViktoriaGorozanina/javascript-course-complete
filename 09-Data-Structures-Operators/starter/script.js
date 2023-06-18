@@ -52,6 +52,80 @@ const restaurant = {
   },
 };
 
+//*-----------------lesseon 103?
+
+// //Receieve 2 return values from a function:
+// const [starter, mainCourse] = restaurant.order(2, 0);
+// console.log(starter, mainCourse);
+// //Nested destructuring:
+// const nested = [1, 2, [5, 6]];
+// const [, , [ha, ho]] = nested;
+// console.log(ha, ho);
+// // Default valeus (if we try to reach an element that is not existing in the array the we can set a default value):
+// const [p = 1, q = 1, r = 1] = [8, 9];
+// console.log(p, q, r);
+// //
+// const arr = [1, 2, 3];
+// const a = arr[0];
+// const b = arr[1];
+// const c = arr[2];
+// //or
+// const [x, y, z] = arr;
+// console.log(x, y, z);
+
+// const [first, second] = restaurant.categories;
+// console.log(first, second);
+// // to skip elements we use space
+// let [main, , secondary] = restaurant.categories;
+// console.log(main, secondary);
+// // to swap it we reassign it:
+// [main, secondary] = [secondary, main];
+// console.log(main, secondary);
+
+//*-----------------lesson 104
+// //destructuring by function:
+// restaurant.orderDelivery({
+//   time: `22:30`,
+//   address: `Via del sol, 21`,
+//   mainIndex: 2,
+//   starterIndex: 2,
+// });
+// //...the missing values will be replaced by default values from above in function
+// restaurant.orderDelivery({
+//   address: `Muhu 4 - 42`,
+//   starterIndex: 1,
+// });
+
+// //Destructuring OBJECTS
+// const { name, openingHours, categories } = restaurant;
+
+// console.log(restaurant);
+// console.log(name, categories, openingHours);
+// //to rename the variable that are extracted from an object:
+// const {
+//   name: restaurantName,
+//   openingHours: hours,
+//   categories: tags,
+// } = restaurant;
+// console.log(restaurantName, hours, tags);
+// //to retrieve data from somewhere lese without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
+// const { menu = [], starterMenu: starters = [] } = restaurant;
+// console.log(menu, starters);
+
+// //mutating variables (different from arrays)
+// let a = 111;
+// let b = 999;
+
+// const obj = { a: 23, b: 7, c: 14 };
+// ({ a, b } = obj); //to make it work we have to wrap it in ( )
+// console.log(a, b);
+
+// //destructuring nested objects.
+// const {
+//   fri: { open: o, close: c }, //renamed them too just for fun
+// } = openingHours;
+// console.log(o, c);
+
 //*----------Lesson 105
 //By usung SPREAD OPERATOR we will create a new array using this array but with some new elements in the beginning:
 
@@ -181,85 +255,48 @@ const restaurant = {
 // // or another way (replacement for if statemnets SOMETIMES):
 // restaurant.orderPizza && restaurant.orderPizza(`mush`, `spin`); //if the 1 doesnt exist then it will stop on it and do nothing, if it does exist then it will proceed to the second one
 
-//*-----------------lesson 107
-restaurant.numGuests = 0;
-const guests = restaurant.numGuests || 10; //since restaurant.numGeuests is a faulsy value then it goes to the second operator which is 10
-console.log(guests);
+//*-----------------lesson 108
+// restaurant.numGuests = 0;
+// const guests = restaurant.numGuests || 10; //since restaurant.numGeuests is a faulsy value then it goes to the second operator which is 10
+// console.log(guests);
 
-//Nullish Coalescing operator (??)
-const guestsCorrect = restaurant.numGuests ?? 10;
-console.log(guestsCorrect); // now we get 0,because this operator works with the idea of KNOWLEDGE values instead of FAULSY values (nullish values are ONLY null or undefined, NOT 0 or empty string ` `)
+// //Nullish Coalescing operator (??)
+// const guestsCorrect = restaurant.numGuests ?? 10;
+// console.log(guestsCorrect); // now we get 0,because this operator works with the idea of KNOWLEDGE values instead of FAULSY values (nullish values are ONLY null or undefined, NOT 0 or empty string ` `)
 
-//*-----------------lesson 104
-// //destructuring by function:
-// restaurant.orderDelivery({
-//   time: `22:30`,
-//   address: `Via del sol, 21`,
-//   mainIndex: 2,
-//   starterIndex: 2,
-// });
-// //...the missing values will be replaced by default values from above in function
-// restaurant.orderDelivery({
-//   address: `Muhu 4 - 42`,
-//   starterIndex: 1,
-// });
+//*-----------------lesson 109
+//Logical Assignment Operators  ( )
 
-// //Destructuring OBJECTS
-// const { name, openingHours, categories } = restaurant;
+const rest1 = {
+  name: `Capri`,
+  // numGuests: 20,
+  numGuests: 0,
+};
+const rest2 = {
+  name: `La Piazza`,
+  owner: `Giovanni Rossi`,
+};
 
-// console.log(restaurant);
-// console.log(name, categories, openingHours);
-// //to rename the variable that are extracted from an object:
-// const {
-//   name: restaurantName,
-//   openingHours: hours,
-//   categories: tags,
-// } = restaurant;
-// console.log(restaurantName, hours, tags);
-// //to retrieve data from somewhere lese without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
-// const { menu = [], starterMenu: starters = [] } = restaurant;
-// console.log(menu, starters);
+//OR assingment operator:
+// rest1.numGuests = rest1.numGuests || 10;
+// rest2.numGuests = rest2.numGuests || 10;
+// rest1.numGuests ||= 10;
+rest2.numGuests ||= 10; //this line is THE SAME as the line above but just in a more concise way
+//nullish assingment operator
+rest1.numGuests ??= 30; //this way it will accept 0 value since it is not null or undefined
 
-// //mutating variables (different from arrays)
-// let a = 111;
-// let b = 999;
+console.log(rest1);
+console.log(rest2);
 
-// const obj = { a: 23, b: 7, c: 14 };
-// ({ a, b } = obj); //to make it work we have to wrap it in ( )
-// console.log(a, b);
+//----
+rest1.owner = rest1.owner && `<Anonymous>`; //did not replace, undefined - since there is no owner in the rest1
+console.log(rest1);
 
-// //destructuring nested objects.
-// const {
-//   fri: { open: o, close: c }, //renamed them too just for fun
-// } = openingHours;
-// console.log(o, c);
+rest2.owner = rest2.owner && `<Anonymous>`; //replaced the value because as we learned before && operator skips the truthy value and returns the faulsy one or if there is none then the last truthy one
 
-//-----------------lesseon 103?
+rest1.owner ??= `<Anonymous>`; //replaced
+console.log(rest1);
+rest1.owner &&= `<Anonymous>`; //replaced
 
-// //Receieve 2 return values from a function:
-// const [starter, mainCourse] = restaurant.order(2, 0);
-// console.log(starter, mainCourse);
-// //Nested destructuring:
-// const nested = [1, 2, [5, 6]];
-// const [, , [ha, ho]] = nested;
-// console.log(ha, ho);
-// // Default valeus (if we try to reach an element that is not existing in the array the we can set a default value):
-// const [p = 1, q = 1, r = 1] = [8, 9];
-// console.log(p, q, r);
-// //
-// const arr = [1, 2, 3];
-// const a = arr[0];
-// const b = arr[1];
-// const c = arr[2];
-// //or
-// const [x, y, z] = arr;
-// console.log(x, y, z);
-
-// const [first, second] = restaurant.categories;
-// console.log(first, second);
-// // to skip elements we use space
-// let [main, , secondary] = restaurant.categories;
-// console.log(main, secondary);
-// // to swap it we reassign it:
-// [main, secondary] = [secondary, main];
-// console.log(main, secondary);
+console.log(rest1);
+console.log(rest2);
