@@ -149,37 +149,46 @@ const restaurant = {
 // restaurant.orderPizza(`mushrooms`, `onion`, `olives`, `spinach`);
 
 //*-----------------lesson 107
-//short-circuiting (&& and ||)
-// Use any DATA type, they can return any data type, they do short-circuiting
-console.log(`=====OR=====`);
-//SHORT CIRCUITING means that if first value (with and or or operator) is a truthy value then it will return it immediately
-console.log(3 || `Jonas`);
-console.log(`` || `Jonas`);
-console.log(true || 0);
-console.log(undefined || null);
+// //short-circuiting (&& and ||)
+// // Use any DATA type, they can return any data type, they do short-circuiting
+// console.log(`=====OR ||=====`);
+// //SHORT CIRCUITING means that if first value (with and or or operator) is a truthy value then it will return it immediately
+// console.log(3 || `Jonas`);
+// console.log(`` || `Jonas`);
+// console.log(true || 0);
+// console.log(undefined || null);
 
-console.log(undefined || 0 || `` || `Hello` || 23);
+// console.log(undefined || 0 || `` || `Hello` || 23);
 
-//exmpl (we dont know if it exists but we want to log it):
-// restaurant.numGuests = 23; //does not exist
-const guests1 = restaurant.numGuests ? restaurant.numGuests : 10; //since it doesnt exeist it will be replaced by 10 by default
-//however if it will be = 0 (instead of 23)  then we will have a problem since its a faulsy result (solution in the next lesson)
-console.log(guests1);
+// //exmpl (we dont know if it exists but we want to log it):
+// // restaurant.numGuests = 23; //does not exist
+// const guests1 = restaurant.numGuests ? restaurant.numGuests : 10; //since it doesnt exeist it will be replaced by 10 by default
+// //however if it will be = 0 (instead of 23)  then we will have a problem since its a faulsy result (solution in the next lesson)
+// console.log(guests1);
 
-const guests2 = restaurant.numGuests || 10; //the same result as above
-console.log(guests2);
+// const guests2 = restaurant.numGuests || 10; //the same result as above
+// console.log(guests2);
 
-console.log(`=====AND &&=====`);
-//it returns a faulsy value (opposite to OR operator)? if no then the last one since it didnt find any faulsy and returned any that left
-console.log(0 && `Jonas`);
-console.log(7 && `Jonas`);
-console.log(`Hello` && 23 && null && `Jonas`); //it will stop at faulty value (null)
+// console.log(`=====AND &&=====`);
+// //it returns a faulsy value (opposite to OR operator)? if no then the last one since it didnt find any faulsy and returned any that left
+// console.log(0 && `Jonas`);
+// console.log(7 && `Jonas`);
+// console.log(`Hello` && 23 && null && `Jonas`); //it will stop at faulty value (null)
 
-if (restaurant.orderPizza) {
-  restaurant.orderPizza(`muchrooms`, `spinach`);
-}
-// or another way (replacement for if statemnets SOMETIMES):
-restaurant.orderPizza && restaurant.orderPizza(`mush`, `spin`); //if the 1 doesnt exist then it will stop on it and do nothing, if it does exist then it will proceed to the second one
+// if (restaurant.orderPizza) {
+//   restaurant.orderPizza(`muchrooms`, `spinach`);
+// }
+// // or another way (replacement for if statemnets SOMETIMES):
+// restaurant.orderPizza && restaurant.orderPizza(`mush`, `spin`); //if the 1 doesnt exist then it will stop on it and do nothing, if it does exist then it will proceed to the second one
+
+//*-----------------lesson 107
+restaurant.numGuests = 0;
+const guests = restaurant.numGuests || 10; //since restaurant.numGeuests is a faulsy value then it goes to the second operator which is 10
+console.log(guests);
+
+//Nullish Coalescing operator (??)
+const guestsCorrect = restaurant.numGuests ?? 10;
+console.log(guestsCorrect); // now we get 0,because this operator works with the idea of KNOWLEDGE values instead of FAULSY values (nullish values are ONLY null or undefined, NOT 0 or empty string ` `)
 
 //*-----------------lesson 104
 // //destructuring by function:
