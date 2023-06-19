@@ -265,38 +265,119 @@ const restaurant = {
 // console.log(guestsCorrect); // now we get 0,because this operator works with the idea of KNOWLEDGE values instead of FAULSY values (nullish values are ONLY null or undefined, NOT 0 or empty string ` `)
 
 //*-----------------lesson 109
-//Logical Assignment Operators  ( )
+// //Logical Assignment Operators  ( )
 
-const rest1 = {
-  name: `Capri`,
-  // numGuests: 20,
-  numGuests: 0,
+// const rest1 = {
+//   name: `Capri`,
+//   // numGuests: 20,
+//   numGuests: 0,
+// };
+// const rest2 = {
+//   name: `La Piazza`,
+//   owner: `Giovanni Rossi`,
+// };
+
+// //OR assingment operator:
+// // rest1.numGuests = rest1.numGuests || 10;
+// // rest2.numGuests = rest2.numGuests || 10;
+// // rest1.numGuests ||= 10;
+// rest2.numGuests ||= 10; //this line is THE SAME as the line above but just in a more concise way
+// //nullish assingment operator
+// rest1.numGuests ??= 30; //this way it will accept 0 value since it is not null or undefined
+
+// console.log(rest1);
+// console.log(rest2);
+
+// //----
+// rest1.owner = rest1.owner && `<Anonymous>`; //did not replace, undefined - since there is no owner in the rest1
+// console.log(rest1);
+
+// rest2.owner = rest2.owner && `<Anonymous>`; //replaced the value because as we learned before && operator skips the truthy value and returns the faulsy one or if there is none then the last truthy one
+
+// rest1.owner ??= `<Anonymous>`; //replaced
+// console.log(rest1);
+// rest1.owner &&= `<Anonymous>`; //replaced
+
+// console.log(rest1);
+// console.log(rest2);
+
+//?------------Challenge #1
+const game = {
+  team1: `Bayern Munich`,
+  team2: `Borrussia Dortmund`,
+  players: [
+    [
+      `Neuer`,
+      `Pavard`,
+      `Martinez`,
+      `Alaba`,
+      `Davies`,
+      `Kimmich`,
+      `Goretzka`,
+      `Coman`,
+      `Muller`,
+      `Gnarby`,
+      `Lewandowski`,
+    ],
+    [
+      `Burki`,
+      `Shcukz`,
+      `Hummels`,
+      `Akanji`,
+      `Hakimi`,
+      `Weigl`,
+      `Witsel`,
+      `Hazard`,
+      `Brandt`,
+      `Sancho`,
+      `Gotze`,
+    ],
+  ],
+  score: `4:0`,
+  scored: [`Lewadowski`, `Gnarby`, `Lewandowski`, `Hummels`],
+  date: `Nov 9th, 2037`,
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
 };
-const rest2 = {
-  name: `La Piazza`,
-  owner: `Giovanni Rossi`,
+//1== Passed
+// const players1 = [...game.players[0]];
+// const players2 = [...game.players[1]];
+//or
+const [players1, players2] = game.players;
+console.log(players1, players2);
+
+//2== Passed
+// const [gk, fieldPlayers] = [players1.shift(), players1];
+const [gk, ...fieldPlayers] = players1;
+console.log(fieldPlayers, gk);
+
+//3== Passed
+const allPlayers = [...players1, ...players2];
+console.log(allPlayers);
+
+//4== Passed
+const players1Final = [...players1, `Thiago`, `Countinho`, `Perisic`];
+console.log(players1Final);
+
+//5== Partially passed
+// const { team1, draw, team2 } = game.odds;
+//or
+const {
+  odds: { team1, x: draw, team2 },
+} = game;
+console.log(team1, draw, team2);
+
+//6== Not passed
+const printGoals = function (...players) {
+  console.log(`${players.length} goals were scored. `);
 };
 
-//OR assingment operator:
-// rest1.numGuests = rest1.numGuests || 10;
-// rest2.numGuests = rest2.numGuests || 10;
-// rest1.numGuests ||= 10;
-rest2.numGuests ||= 10; //this line is THE SAME as the line above but just in a more concise way
-//nullish assingment operator
-rest1.numGuests ??= 30; //this way it will accept 0 value since it is not null or undefined
+// printGoals(`Davies`, `Muller`, `Lewandowski`, `Kimich`);
+printGoals(...game.scored);
 
-console.log(rest1);
-console.log(rest2);
-
-//----
-rest1.owner = rest1.owner && `<Anonymous>`; //did not replace, undefined - since there is no owner in the rest1
-console.log(rest1);
-
-rest2.owner = rest2.owner && `<Anonymous>`; //replaced the value because as we learned before && operator skips the truthy value and returns the faulsy one or if there is none then the last truthy one
-
-rest1.owner ??= `<Anonymous>`; //replaced
-console.log(rest1);
-rest1.owner &&= `<Anonymous>`; //replaced
-
-console.log(rest1);
-console.log(rest2);
+//7== Not passed
+team1 < team2 && console.log(`Team 1 is more likely to win`);
+team1 > team2 && console.log(`Team 2 is more likely to win`);
