@@ -52,7 +52,24 @@ const restaurant = {
   },
 };
 
-//*-----------------lesseon 103?
+//*------------Lesson 111
+//New way of looping
+
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of menu) console.log(item); //all element are individually logged now
+//possible to use Continue or Break words
+console.log(...menu.entries());
+
+for (const item of menu.entries()) {
+  console.log(`${item[0] + 1}: ${item[1]}`); //oldschool way, we can destructure array instead:
+} //getting all items as arrays with the index and the array element itself
+//new way:
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1}: ${el}`);
+}
+
+//*-----------------lesson 103?
 
 // //Receieve 2 return values from a function:
 // const [starter, mainCourse] = restaurant.order(2, 0);
@@ -302,82 +319,82 @@ const restaurant = {
 // console.log(rest2);
 
 //?------------Challenge #1
-const game = {
-  team1: `Bayern Munich`,
-  team2: `Borrussia Dortmund`,
-  players: [
-    [
-      `Neuer`,
-      `Pavard`,
-      `Martinez`,
-      `Alaba`,
-      `Davies`,
-      `Kimmich`,
-      `Goretzka`,
-      `Coman`,
-      `Muller`,
-      `Gnarby`,
-      `Lewandowski`,
-    ],
-    [
-      `Burki`,
-      `Shcukz`,
-      `Hummels`,
-      `Akanji`,
-      `Hakimi`,
-      `Weigl`,
-      `Witsel`,
-      `Hazard`,
-      `Brandt`,
-      `Sancho`,
-      `Gotze`,
-    ],
-  ],
-  score: `4:0`,
-  scored: [`Lewadowski`, `Gnarby`, `Lewandowski`, `Hummels`],
-  date: `Nov 9th, 2037`,
-  odds: {
-    team1: 1.33,
-    x: 3.25,
-    team2: 6.5,
-  },
-};
-//1== Passed
-// const players1 = [...game.players[0]];
-// const players2 = [...game.players[1]];
-//or
-const [players1, players2] = game.players;
-console.log(players1, players2);
+// const game = {
+//   team1: `Bayern Munich`,
+//   team2: `Borrussia Dortmund`,
+//   players: [
+//     [
+//       `Neuer`,
+//       `Pavard`,
+//       `Martinez`,
+//       `Alaba`,
+//       `Davies`,
+//       `Kimmich`,
+//       `Goretzka`,
+//       `Coman`,
+//       `Muller`,
+//       `Gnarby`,
+//       `Lewandowski`,
+//     ],
+//     [
+//       `Burki`,
+//       `Shcukz`,
+//       `Hummels`,
+//       `Akanji`,
+//       `Hakimi`,
+//       `Weigl`,
+//       `Witsel`,
+//       `Hazard`,
+//       `Brandt`,
+//       `Sancho`,
+//       `Gotze`,
+//     ],
+//   ],
+//   score: `4:0`,
+//   scored: [`Lewadowski`, `Gnarby`, `Lewandowski`, `Hummels`],
+//   date: `Nov 9th, 2037`,
+//   odds: {
+//     team1: 1.33,
+//     x: 3.25,
+//     team2: 6.5,
+//   },
+// };
+// //1== Passed
+// // const players1 = [...game.players[0]];
+// // const players2 = [...game.players[1]];
+// //or
+// const [players1, players2] = game.players;
+// console.log(players1, players2);
 
-//2== Passed
-// const [gk, fieldPlayers] = [players1.shift(), players1];
-const [gk, ...fieldPlayers] = players1;
-console.log(fieldPlayers, gk);
+// //2== Passed
+// // const [gk, fieldPlayers] = [players1.shift(), players1];
+// const [gk, ...fieldPlayers] = players1;
+// console.log(fieldPlayers, gk);
 
-//3== Passed
-const allPlayers = [...players1, ...players2];
-console.log(allPlayers);
+// //3== Passed
+// const allPlayers = [...players1, ...players2];
+// console.log(allPlayers);
 
-//4== Passed
-const players1Final = [...players1, `Thiago`, `Countinho`, `Perisic`];
-console.log(players1Final);
+// //4== Passed
+// const players1Final = [...players1, `Thiago`, `Countinho`, `Perisic`];
+// console.log(players1Final);
 
-//5== Partially passed
-// const { team1, draw, team2 } = game.odds;
-//or
-const {
-  odds: { team1, x: draw, team2 },
-} = game;
-console.log(team1, draw, team2);
+// //5== Partially passed
+// // const { team1, draw, team2 } = game.odds;
+// //or
+// const {
+//   odds: { team1, x: draw, team2 },
+// } = game;
+// console.log(team1, draw, team2);
 
-//6== Not passed
-const printGoals = function (...players) {
-  console.log(`${players.length} goals were scored. `);
-};
+// //6== Not passed
+// const printGoals = function (...players) {
+//   console.log(`${players.length} goals were scored. `);
+// };
 
-// printGoals(`Davies`, `Muller`, `Lewandowski`, `Kimich`);
-printGoals(...game.scored);
+// // printGoals(`Davies`, `Muller`, `Lewandowski`, `Kimich`);
+// printGoals(...game.scored);
 
-//7== Not passed
-team1 < team2 && console.log(`Team 1 is more likely to win`);
-team1 > team2 && console.log(`Team 2 is more likely to win`);
+// //7== Not passed
+// team1 < team2 && console.log(`Team 1 is more likely to win`);
+// team1 > team2 && console.log(`Team 2 is more likely to win`);
