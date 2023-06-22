@@ -5,6 +5,24 @@ const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
 // Data needed for first part of the section
+
+const weekdays = [`mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`];
+const openingHours = {
+  [weekdays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekdays[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [`day-${2 + 4}`]: {
+    //computed the value just to show how it can work
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
+
 const restaurant = {
   name: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
@@ -12,22 +30,14 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
-  },
+  //ES6 enhanced object literals:
+  openingHours,
 
-  order: function (starterIndex, mainIndex) {
+  // order: function (starterIndex, mainIndex) {
+  //   return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  // },
+  //ES6, easier sintax for methods/functions in objects:
+  order(starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
@@ -52,22 +62,13 @@ const restaurant = {
   },
 };
 
-//*------------Lesson 111
-//New way of looping
-
-const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
-
-for (const item of menu) console.log(item); //all element are individually logged now
-//possible to use Continue or Break words
-console.log(...menu.entries());
-
-for (const item of menu.entries()) {
-  console.log(`${item[0] + 1}: ${item[1]}`); //oldschool way, we can destructure array instead:
-} //getting all items as arrays with the index and the array element itself
-//new way:
-for (const [i, el] of menu.entries()) {
-  console.log(`${i + 1}: ${el}`);
-}
+//*------------Lesson 112
+//Enhanced object literals ES6
+//....brought Openng hours out of the restaurant object
+//Before ES6 we would need to write into the restaurant object `openingHours: openingHours,`
+//instead we write: just `openingHours,`
+//2nd enhancement:  ES6, easier sintax for methods/functions in objects: oldway - `item: function(el, el2) {}`, new way - `item(el, el2) {}`
+//3rd enhancement:
 
 //*-----------------lesson 103?
 
@@ -398,3 +399,20 @@ for (const [i, el] of menu.entries()) {
 // //7== Not passed
 // team1 < team2 && console.log(`Team 1 is more likely to win`);
 // team1 > team2 && console.log(`Team 2 is more likely to win`);
+
+//*------------Lesson 111
+//New way of looping
+
+// const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+// for (const item of menu) console.log(item); //all element are individually logged now
+// //possible to use Continue or Break words
+// console.log(...menu.entries());
+
+// for (const item of menu.entries()) {
+//   console.log(`${item[0] + 1}: ${item[1]}`); //oldschool way, we can destructure array instead:
+// } //getting all items as arrays with the index and the array element itself
+// //new way:
+// for (const [i, el] of menu.entries()) {
+//   console.log(`${i + 1}: ${el}`);
+// }
