@@ -16,7 +16,7 @@ const openingHours = {
     open: 11,
     close: 23,
   },
-  [`day-${2 + 4}`]: {
+  [weekdays[2 + 3]]: {
     //computed the value just to show how it can work
     open: 0, // Open 24 hours
     close: 24,
@@ -61,14 +61,6 @@ const restaurant = {
     console.log(otherIngredients);
   },
 };
-
-//*------------Lesson 112
-//Enhanced object literals ES6
-//....brought Openng hours out of the restaurant object
-//Before ES6 we would need to write into the restaurant object `openingHours: openingHours,`
-//instead we write: just `openingHours,`
-//2nd enhancement:  ES6, easier sintax for methods/functions in objects: oldway - `item: function(el, el2) {}`, new way - `item(el, el2) {}`
-//3rd enhancement:
 
 //*-----------------lesson 103?
 
@@ -126,7 +118,7 @@ const restaurant = {
 //   categories: tags,
 // } = restaurant;
 // console.log(restaurantName, hours, tags);
-// //to retrieve data from somewhere lese without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
+// //to retrieve data from somewhere else without knowing for sure what it is (i.e. we might call it menu but in the source it will be called StarterMenu)
 // const { menu = [], starterMenu: starters = [] } = restaurant;
 // console.log(menu, starters);
 
@@ -145,7 +137,7 @@ const restaurant = {
 // console.log(o, c);
 
 //*----------Lesson 105
-//By usung SPREAD OPERATOR we will create a new array using this array but with some new elements in the beginning:
+//By using SPREAD OPERATOR we will create a new array using this array but we can add some new elements:
 
 // const arr = [7, 8, 9];
 // const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
@@ -219,8 +211,8 @@ const restaurant = {
 // console.log(pizza, risotto, otherFood);
 
 // //creating an object with REST pattern
-// const { sat, ...weekdays } = restaurant.openingHours;
-// console.log(weekdays);
+// const { sat, ...weekday } = restaurant.openingHours;
+// console.log(weekday);
 
 // // 2) Functions:
 // const add = function (...numbers) {
@@ -244,7 +236,7 @@ const restaurant = {
 // //short-circuiting (&& and ||)
 // // Use any DATA type, they can return any data type, they do short-circuiting
 // console.log(`=====OR ||=====`);
-// //SHORT CIRCUITING means that if first value (with and or or operator) is a truthy value then it will return it immediately
+// //SHORT CIRCUITING means that if first value (with AND or OR operator) is a truthy value then it will return it immediately
 // console.log(3 || `Jonas`);
 // console.log(`` || `Jonas`);
 // console.log(true || 0);
@@ -314,7 +306,7 @@ const restaurant = {
 
 // rest1.owner ??= `<Anonymous>`; //replaced
 // console.log(rest1);
-// rest1.owner &&= `<Anonymous>`; //replaced
+// rest2.owner &&= `<Anonymous>`; //replaced
 
 // console.log(rest1);
 // console.log(rest2);
@@ -416,3 +408,29 @@ const restaurant = {
 // for (const [i, el] of menu.entries()) {
 //   console.log(`${i + 1}: ${el}`);
 // }
+
+//*------------Lesson 112
+//Enhanced object literals ES6
+//....brought Openng hours out of the restaurant object
+//Before ES6 we would need to write into the restaurant object `openingHours: openingHours,`
+//instead we write: just `openingHours,`
+//2nd enhancement:  ES6, easier sintax for methods/functions in objects: oldway - `item: function(el, el2) {}`, new way - `item(el, el2) {}`
+//3rd enhancement: we can write properties of an object as calculations or whatever (exmpl: [weekdays[4]]: {open: 11,} OR [`day-${2 + 4}`]: {...})
+
+//*------------Lesson 113
+
+if (restaurant.openingHours && restaurant.openingHours.mon)
+  console.log(restaurant.openingHours.mon); // returns undefined which is not existing property
+
+// instead we write: (with optional chaining)
+console.log(restaurant.openingHours.mon?.open);
+console.log(restaurant.openingHours?.mon?.open);
+
+//exapmle
+const days = [`mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`];
+
+for (const day of days) {
+  // console.log(day);
+  const open = restaurant.openingHours[day]?.open ?? `closed`;
+  console.log(`On ${day} we open at ${open}`); // on sat it opens at 0 - null. so we have to use nullish coalesing operator (changed from || to  ??)
+}
