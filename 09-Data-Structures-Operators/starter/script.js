@@ -418,6 +418,7 @@ const restaurant = {
 //3rd enhancement: we can write properties of an object as calculations or whatever (exmpl: [weekdays[4]]: {open: 11,} OR [`day-${2 + 4}`]: {...})
 
 //*------------Lesson 113
+// optional chaining
 
 if (restaurant.openingHours && restaurant.openingHours.mon)
   console.log(restaurant.openingHours.mon); // returns undefined which is not existing property
@@ -433,4 +434,57 @@ for (const day of days) {
   // console.log(day);
   const open = restaurant.openingHours[day]?.open ?? `closed`;
   console.log(`On ${day} we open at ${open}`); // on sat it opens at 0 - null. so we have to use nullish coalesing operator (changed from || to  ??)
+}
+
+//Methods
+
+console.log(restaurant.orderRisotto?.(0, 1) ?? `Metthod does not exist`); //if we wouldnt use ?. then it would give an error since the method does not exist
+
+//Arrays
+const users = [
+  {
+    name: `Victoria`,
+    email: `hoho`,
+  },
+];
+console.log(users[0]?.year ?? `User array empty`);
+//by writing as it is shown above we get the same result as below------
+if (users.length > 0) console.log(users[0].name);
+else console.log(`user empty`);
+
+//*------------Lesson 114
+// Looping objects: Object keys, values and entries/
+
+//Looping over property names (keys):
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+console.log(`We are open on ${properties.length} days`);
+
+for (const day of Object.keys(openingHours)) {
+  console.log(day);
+}
+//or
+// for (const day of properties) {
+//   console.log(day);
+// }
+
+//modified what is above to make it cooler:
+let openStr = `We are open on ${properties.length} days: `;
+
+for (const day of properties) {
+  openStr += `${day}, `;
+}
+console.log(openStr); //result We are open on 3 days: thu fri sat
+
+//Property values:
+const values = Object.values(openingHours);
+console.log(values);
+
+//Entries : (returns keys AND values)
+const entries = Object.entries(openingHours);
+console.log(entries);
+
+for (const [key, { open, close }] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
 }
