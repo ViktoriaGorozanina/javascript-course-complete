@@ -420,71 +420,170 @@ const restaurant = {
 //*------------Lesson 113
 // optional chaining
 
-if (restaurant.openingHours && restaurant.openingHours.mon)
-  console.log(restaurant.openingHours.mon); // returns undefined which is not existing property
+// if (restaurant.openingHours && restaurant.openingHours.mon)
+//   console.log(restaurant.openingHours.mon); // returns undefined which is not existing property
 
-// instead we write: (with optional chaining)
-console.log(restaurant.openingHours.mon?.open);
-console.log(restaurant.openingHours?.mon?.open);
+// // instead we write: (with optional chaining)
+// console.log(restaurant.openingHours.mon?.open);
+// console.log(restaurant.openingHours?.mon?.open);
 
-//exapmle
-const days = [`mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`];
+// //exapmle
+// const days = [`mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`];
 
-for (const day of days) {
-  // console.log(day);
-  const open = restaurant.openingHours[day]?.open ?? `closed`;
-  console.log(`On ${day} we open at ${open}`); // on sat it opens at 0 - null. so we have to use nullish coalesing operator (changed from || to  ??)
-}
+// for (const day of days) {
+//   // console.log(day);
+//   const open = restaurant.openingHours[day]?.open ?? `closed`;
+//   console.log(`On ${day} we open at ${open}`); // on sat it opens at 0 - null. so we have to use nullish coalesing operator (changed from || to  ??)
+// }
 
-//Methods
+// //Methods
 
-console.log(restaurant.orderRisotto?.(0, 1) ?? `Metthod does not exist`); //if we wouldnt use ?. then it would give an error since the method does not exist
+// console.log(restaurant.orderRisotto?.(0, 1) ?? `Metthod does not exist`); //if we wouldnt use ?. then it would give an error since the method does not exist
 
-//Arrays
-const users = [
-  {
-    name: `Victoria`,
-    email: `hoho`,
-  },
-];
-console.log(users[0]?.year ?? `User array empty`);
-//by writing as it is shown above we get the same result as below------
-if (users.length > 0) console.log(users[0].name);
-else console.log(`user empty`);
+// //Arrays
+// const users = [
+//   {
+//     name: `Victoria`,
+//     email: `hoho`,
+//   },
+// ];
+// console.log(users[0]?.year ?? `User array empty`);
+// //by writing as it is shown above we get the same result as below------
+// if (users.length > 0) console.log(users[0].name);
+// else console.log(`user empty`);
 
 //*------------Lesson 114
 // Looping objects: Object keys, values and entries/
 
 //Looping over property names (keys):
-const properties = Object.keys(openingHours);
-console.log(properties);
+// const properties = Object.keys(openingHours);
+// console.log(properties);
+// console.log(Object.keys(openingHours));
 
-console.log(`We are open on ${properties.length} days`);
+// console.log(`We are open on ${properties.length} days`);
 
-for (const day of Object.keys(openingHours)) {
-  console.log(day);
-}
-//or
-// for (const day of properties) {
+// for (const day of Object.keys(openingHours)) {
 //   console.log(day);
 // }
+// //or
+// // for (const day of properties) {
+// //   console.log(day);
+// // }
 
-//modified what is above to make it cooler:
-let openStr = `We are open on ${properties.length} days: `;
+// //modified what is above to make it cooler:
+// let openStr = `We are open on ${properties.length} days: `;
 
-for (const day of properties) {
-  openStr += `${day}, `;
-}
-console.log(openStr); //result We are open on 3 days: thu fri sat
+// for (const day of properties) {
+//   openStr += `${day}, `;
+// }
+// console.log(openStr); //result We are open on 3 days: thu fri sat
 
-//Property values:
-const values = Object.values(openingHours);
-console.log(values);
+// //Property values:
+// const values = Object.values(openingHours);
+// console.log(values);
 
-//Entries : (returns keys AND values)
-const entries = Object.entries(openingHours);
-console.log(entries);
+// //Entries : (returns keys AND values)
+// const entries = Object.entries(openingHours);
+// console.log(entries);
 
-for (const [key, { open, close }] of entries) {
-  console.log(`On ${key} we open at ${open} and close at ${close}`);
-}
+// for (const [key, { open, close }] of entries) {
+//   console.log(`On ${key} we open at ${open} and close at ${close}`);
+// }
+
+//?------------Lesson 115 CHALLENGE #2
+
+const game = {
+  team1: `Bayern Munich`,
+  team2: `Borrussia Dortmund`,
+  players: [
+    [
+      `Neuer`,
+      `Pavard`,
+      `Martinez`,
+      `Alaba`,
+      `Davies`,
+      `Kimmich`,
+      `Goretzka`,
+      `Coman`,
+      `Muller`,
+      `Gnarby`,
+      `Lewandowski`,
+    ],
+    [
+      `Burki`,
+      `Shcukz`,
+      `Hummels`,
+      `Akanji`,
+      `Hakimi`,
+      `Weigl`,
+      `Witsel`,
+      `Hazard`,
+      `Brandt`,
+      `Sancho`,
+      `Gotze`,
+    ],
+  ],
+  score: `4:0`,
+  scored: [`Lewadowski`, `Gnarby`, `Lewandowski`, `Hummels`],
+  date: `Nov 9th, 2037`,
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+//==1 PASSED
+// for (let [i, scored] of Object.entries(game.scored)) {
+//   console.log(`Goal ${+i + 1}: ${scored}`);
+// }
+
+// for (const [i, scored] of game.scored.entries()) {
+//   console.log(`Goal ${i + 1}: ${scored}`);
+// }
+
+// console.log(Object.entries(game.scored));
+// console.log(game.scored.entries());
+
+//==2
+console.log(`task 2`);
+
+// let sum = 0;
+// for (let odd of Object.values(game.odds)) {
+//   sum += odd;
+// }
+
+// const oddAv = sum / game.odds.length;
+// console.log(oddAv);
+
+// const odds = Object.values(game.odds);
+// let sum = 0;
+
+// for (let odd of odds) {
+//   sum += odd;
+// }
+
+// const average = sum / odds.length;
+// console.log(average);
+
+//==3 PASSED
+console.log(`task 3`);
+
+// const odd = Object.keys(game.odds);
+// let oddPrint;
+// let outcome = ``;
+// for (let [key, value] of Object.entries(game.odds)) {
+//   if (key === `x`) {
+//     outcome = `draw`;
+//   } else {
+//     const teamNumber = key.slice(4);
+//     outcome = `victory ${game['team' + teamNumber]}`;
+//   }
+
+//   oddPrint = `Odd of ${outcome}: ${value}`;
+//   console.log(oddPrint);
+// }
+
+//==BONUS
+console.log(`task BONUS`);
+
+const scorers = {};
