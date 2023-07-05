@@ -537,18 +537,18 @@ const game = {
 //   console.log(`Goal ${+i + 1}: ${scored}`);
 // }
 
-// for (const [i, scored] of game.scored.entries()) {
+// for (const [i, scored] of game.scored.entries())
 //   console.log(`Goal ${i + 1}: ${scored}`);
-// }
+// //
 
 // console.log(Object.entries(game.scored));
 // console.log(game.scored.entries());
 
-//==2
+//==2 PASSED
 console.log(`task 2`);
 
 // let sum = 0;
-// for (let odd of Object.values(game.odds)) {
+// for (const odd of Object.values(game.odds)) {
 //   sum += odd;
 // }
 
@@ -563,6 +563,15 @@ console.log(`task 2`);
 // }
 
 // const average = sum / odds.length;
+// console.log(average);
+
+// TEACHER'S SOLUTION:.
+// let odds = Object.values(game.odds);
+// let average = 0;
+
+// for (const odd of odds) average += odd;
+// average /= odds.length;
+
 // console.log(average);
 
 //==3 PASSED
@@ -582,6 +591,13 @@ console.log(`task 3`);
 //   oddPrint = `Odd of ${outcome}: ${value}`;
 //   console.log(oddPrint);
 // }
+
+//TECHERS SOLUTION:
+
+for (const [team, odd] of Object.entries(game.odds)) {
+  const teamStr = team === `x` ? `draw` : `victory ${game[team]}`;
+  console.log(`Odd of ${teamStr} ${odd}`);
+}
 
 //==BONUS
 console.log(`task BONUS`);
