@@ -524,7 +524,7 @@ const game = {
     ],
   ],
   score: `4:0`,
-  scored: [`Lewadowski`, `Gnarby`, `Lewandowski`, `Hummels`],
+  scored: [`Lewandowski`, `Gnarby`, `Lewandowski`, `Hummels`],
   date: `Nov 9th, 2037`,
   odds: {
     team1: 1.33,
@@ -532,6 +532,7 @@ const game = {
     team2: 6.5,
   },
 };
+
 //==1 PASSED
 // for (let [i, scored] of Object.entries(game.scored)) {
 //   console.log(`Goal ${+i + 1}: ${scored}`);
@@ -594,12 +595,22 @@ console.log(`task 3`);
 
 //TECHERS SOLUTION:
 
-for (const [team, odd] of Object.entries(game.odds)) {
-  const teamStr = team === `x` ? `draw` : `victory ${game[team]}`;
-  console.log(`Odd of ${teamStr} ${odd}`);
-}
+// for (const [team, odd] of Object.entries(game.odds)) {
+//   const teamStr = team === `x` ? `draw` : `victory ${game[team]}`;
+//   console.log(`Odd of ${teamStr} ${odd}`);
+// }
 
 //==BONUS
 console.log(`task BONUS`);
 
 const scorers = {};
+
+for (let player of game.scored) {
+  if (scorers.hasOwnProperty(player)) {
+    scorers[player]++;
+  } else {
+    scorers[player] = 1;
+  }
+}
+
+console.log(scorers);
