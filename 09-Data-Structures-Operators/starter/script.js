@@ -492,46 +492,46 @@ const restaurant = {
 
 //?------------Lesson 115 CHALLENGE #2
 
-const game = {
-  team1: `Bayern Munich`,
-  team2: `Borrussia Dortmund`,
-  players: [
-    [
-      `Neuer`,
-      `Pavard`,
-      `Martinez`,
-      `Alaba`,
-      `Davies`,
-      `Kimmich`,
-      `Goretzka`,
-      `Coman`,
-      `Muller`,
-      `Gnarby`,
-      `Lewandowski`,
-    ],
-    [
-      `Burki`,
-      `Shcukz`,
-      `Hummels`,
-      `Akanji`,
-      `Hakimi`,
-      `Weigl`,
-      `Witsel`,
-      `Hazard`,
-      `Brandt`,
-      `Sancho`,
-      `Gotze`,
-    ],
-  ],
-  score: `4:0`,
-  scored: [`Lewandowski`, `Gnarby`, `Lewandowski`, `Hummels`],
-  date: `Nov 9th, 2037`,
-  odds: {
-    team1: 1.33,
-    x: 3.25,
-    team2: 6.5,
-  },
-};
+// const game = {
+//   team1: `Bayern Munich`,
+//   team2: `Borrussia Dortmund`,
+//   players: [
+//     [
+//       `Neuer`,
+//       `Pavard`,
+//       `Martinez`,
+//       `Alaba`,
+//       `Davies`,
+//       `Kimmich`,
+//       `Goretzka`,
+//       `Coman`,
+//       `Muller`,
+//       `Gnarby`,
+//       `Lewandowski`,
+//     ],
+//     [
+//       `Burki`,
+//       `Shcukz`,
+//       `Hummels`,
+//       `Akanji`,
+//       `Hakimi`,
+//       `Weigl`,
+//       `Witsel`,
+//       `Hazard`,
+//       `Brandt`,
+//       `Sancho`,
+//       `Gotze`,
+//     ],
+//   ],
+//   score: `4:0`,
+//   scored: [`Lewandowski`, `Gnarby`, `Lewandowski`, `Hummels`],
+//   date: `Nov 9th, 2037`,
+//   odds: {
+//     team1: 1.33,
+//     x: 3.25,
+//     team2: 6.5,
+//   },
+// };
 
 //==1 PASSED
 // for (let [i, scored] of Object.entries(game.scored)) {
@@ -546,7 +546,7 @@ const game = {
 // console.log(game.scored.entries());
 
 //==2 PASSED
-console.log(`task 2`);
+// console.log(`task 2`);
 
 // let sum = 0;
 // for (const odd of Object.values(game.odds)) {
@@ -576,7 +576,7 @@ console.log(`task 2`);
 // console.log(average);
 
 //==3 PASSED
-console.log(`task 3`);
+// console.log(`task 3`);
 
 // const odd = Object.keys(game.odds);
 // let oddPrint;
@@ -601,16 +601,103 @@ console.log(`task 3`);
 // }
 
 //==BONUS
-console.log(`task BONUS`);
+// console.log(`task BONUS`);
 
-const scorers = {};
+// const scorers = {};
 
-for (let player of game.scored) {
-  if (scorers.hasOwnProperty(player)) {
-    scorers[player]++;
-  } else {
-    scorers[player] = 1;
-  }
-}
+// for (let player of game.scored) {
+//   if (scorers.hasOwnProperty(player)) {
+//     scorers[player]++;
+//   } else {
+//     scorers[player] = 1;
+//   }
+// }
+//OR:
+// const scorers = {};
+// for (const player of game.scored) {
+//   scorers[player] ? scorers[player]++ : (scorers[player] = 1);
+// }
 
-console.log(scorers);
+// console.log(scorers);
+
+//*------------Lesson 116
+
+// const orderSet = new Set([
+//   `Pasta`,
+//   `Pizza`,
+//   `Pizza`,
+//   `Risotto`,
+//   `Pasta`,
+//   `Pizza`,
+// ]);
+
+// console.log(orderSet); //it will onlu print (3) [Pasta, Pizza, Risotto]
+
+// console.log(new Set(`Vic`));
+
+// //working with sets
+// console.log(orderSet.size); // 3 shows how many unique elements are in the set
+// console.log(orderSet.has(`Bread`)); // false - shows if there is a desired element
+
+// orderSet.add(`Garlic Bread`);
+// orderSet.add(`Garlic Bread`); //it will add only one Bread
+// console.log(orderSet);
+
+// orderSet.delete(`Pasta`); //deletes Pasta
+// console.log(orderSet);
+
+// console.log(orderSet[2]); //wont work - undefined
+
+// for (const order of orderSet) console.log(order); //looping is possible through a set
+
+// //usecase:
+// const staff = [`Waiter`, `Chef`, `Waiter`, `Manager`, `Chef`, `Waiter`];
+// const staffUnique = new Set(staff);
+
+// console.log(staffUnique);
+// //lets convert it to an array(using spread operator):
+// const staffNew = [...new Set(staff)];
+// console.log(staffNew);
+
+// console.log(staffUnique.size);
+// console.log(new Set(`Victoria`).size); //counts letters
+
+//*------------Lesson 117
+//Maps: fundamentals
+
+//Data structure that we can use to map values to keys
+
+const rest = new Map();
+rest.set(`name`, `Classico Italiano`);
+rest.set(`name`, `NewName`);
+rest.set(1, `Firenze, Italy`);
+rest.set(2, `Lisbon, Portugal`);
+
+rest
+  .set(`categories`, ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set(`open`, 11)
+  .set(`close`, 23)
+  .set(true, `We are open`)
+  .set(false, `We are closed`);
+
+console.log(rest.get(`name`));
+
+//usecase
+const time = 21;
+console.log(rest.get(time > rest.get(`open`) && time < rest.get(`close`)));
+//
+console.log(rest.has(`categories`)); //true. boolean result
+console.log(rest.delete(2));
+console.log(rest.get(1));
+
+rest.set([1, 2], `Test`);
+console.log(rest.get([1, 2])); //undefined
+// to use an array we create a variable for it:
+const arr = [1, 2];
+rest.set(arr, `Test`);
+rest.set(document.querySelector(`h1`), `Heading`);
+console.log(rest.get(arr));
+
+console.log(rest);
+console.log(rest.size);
+// console.log(rest.clear);
