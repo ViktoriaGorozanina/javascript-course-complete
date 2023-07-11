@@ -834,67 +834,163 @@ const restaurant = {
 
 //*------------Lesson 122
 
-const airline = `TAP Air Portugal`;
-console.log(airline.toLowerCase());
-console.log(airline.toUpperCase());
-console.log(`TAP Air Portugal`.toLowerCase());
+// const airline = `TAP Air Portugal`;
+// console.log(airline.toLowerCase());
+// console.log(airline.toUpperCase());
+// console.log(`TAP Air Portugal`.toLowerCase());
 
-//Fix capitalization in names:
-const passenger = `jonas`;
-const passengerLower = passenger.toLowerCase();
-const passengerCorrect =
-  passengerLower[0].toUpperCase() + passengerLower.slice(1);
-console.log(passengerCorrect);
+// //Fix capitalization in names:
+// const passenger = `jonas`;
+// const passengerLower = passenger.toLowerCase();
+// const passengerCorrect =
+//   passengerLower[0].toUpperCase() + passengerLower.slice(1);
+// console.log(passengerCorrect);
 
-//comparing emails:
-const email = `hello@gmail.com`;
-const loginEmail = `HellO@GmaIl.com \n`; // \n - enter
+// //comparing emails:
+// const email = `hello@gmail.com`;
+// const loginEmail = `HellO@GmaIl.com \n`; // \n - enter
 
-const lowerEmail = loginEmail.toLowerCase();
-const trimmedEmail = lowerEmail.trim();
-console.log(trimmedEmail);
-//to do the same in one step:
-const normalizedEmail = loginEmail.toLowerCase().trim();
-console.log(normalizedEmail);
+// const lowerEmail = loginEmail.toLowerCase();
+// const trimmedEmail = lowerEmail.trim();
+// console.log(trimmedEmail);
+// //to do the same in one step:
+// const normalizedEmail = loginEmail.toLowerCase().trim();
+// console.log(normalizedEmail);
 
-console.log(email === normalizedEmail);//true
+// console.log(email === normalizedEmail);//true
 
-//to replace parts of strings:
-const priceGB = `288,978£`;
-console.log(priceGB);
-const priceUS = priceGB.replace(`£`, `$`).replace(`,`, `.`);
+// //to replace parts of strings:
+// const priceGB = `288,978£`;
+// console.log(priceGB);
+// const priceUS = priceGB.replace(`£`, `$`).replace(`,`, `.`);
 
-console.log(priceUS);
+// console.log(priceUS);
 
-const announcement = `COme to the boarding door 23! door door`
-console.log(announcement.replace(`O`, `o`));
-console.log(announcement.replace(`door`, `gate`));//replaces only first element
-console.log(announcement.replaceAll(`door`, `gate`));//replaces all elements
-//before it was done by a regular expression:
-console.log(announcement.replace(/door/g, `gate`));//g stands for global
+// const announcement = `COme to the boarding door 23! door door`
+// console.log(announcement.replace(`O`, `o`));
+// console.log(announcement.replace(`door`, `gate`));//replaces only first element
+// console.log(announcement.replaceAll(`door`, `gate`));//replaces all elements
+// //before it was done by a regular expression:
+// console.log(announcement.replace(/door/g, `gate`));//g stands for global
 
-//bolleans:
-const plane = `Airbus A320neo`;
-console.log(plane.includes(`A320`));
-console.log(plane.startsWith(`A`));
+// //bolleans:
+// const plane = `Airbus A320neo`;
+// console.log(plane.includes(`A320`));
+// console.log(plane.startsWith(`A`));
 
-if (plane.includes(`Airbus`) && plane.endsWith(`neo`))  {
-  console.log(`yayy`);
-} else {
-  console.log(`no`);
-};
+// if (plane.includes(`Airbus`) && plane.endsWith(`neo`))  {
+//   console.log(`yayy`);
+// } else {
+//   console.log(`no`);
+// };
 
-const checkBaggage = function(items) {
-const baggage = items.toLowerCase();
-if(baggage.includes(`sock`) || baggage.includes(`wolf`)) {
-  console.log(`Go home!`);}
-  else {
-    console.log(`welcome aboard`);
+// const checkBaggage = function(items) {
+// const baggage = items.toLowerCase();
+// if(baggage.includes(`sock`) || baggage.includes(`wolf`)) {
+//   console.log(`Go home!`);}
+//   else {
+//     console.log(`welcome aboard`);
+//   }
+// };
+
+// checkBaggage(`I have socks, lock, bag, banana, bycicle`);
+// checkBaggage(`I have lipstick, sandwich, DOG, snEaker, babY`);
+
+//*------------Lesson 123
+// //SPLIT
+// console.log(`a+very+nice+string`.split(`+`));
+// //usecase:
+// const [firstName, lastName] = `Victoria Gorozanina`.split(` `);
+// console.log(firstName);
+// console.log(lastName);
+
+// //JOIN usecase:
+// console.log([`Mrs.`, firstName, lastName.toUpperCase()].join(` `));//Mrs. Victoria GOROZANINA
+
+// //Capitalize every word
+// const capitalizeName = function(fullname) {
+// const names = fullname.split(` `);
+// const namesUpper = [];
+// for (const nam of names) {
+//   // namesUpper.push(nam[0].toUpperCase() + nam.slice(1));  //OR:
+//   namesUpper.push(nam.replace(nam[0], nam[0].toUpperCase()));
+
+// }
+// console.log(namesUpper.join(` `));
+// };
+
+// capitalizeName(`victoria evgenyevna gorozanina`)
+// capitalizeName(`marie ann smith`)
+
+
+// //padding a string
+// const message = `Go to gate 23`;
+// console.log(message.padStart(20, `+`));
+// console.log(message.padEnd(20, `+`));
+// console.log(message.padStart(25, `+`).padEnd(35, `-`));//first step it will make it 25, then second step it will make it 35 from 25
+
+// //usecase:
+// //credit card masked numbers
+// const maskCreditCard = function(number) {
+// // const str = String(number);//OR:
+// const str = number +``;
+// const lastNum = str.slice(-4);
+// return lastNum.padStart(str.length, `*`);
+// };
+// console.log(maskCreditCard(4589265435892547));
+
+// //Repeat method:
+// const message2 = `Message tra lala... Yayy `;
+// console.log(message2.repeat(5));
+
+// const planesInLine = function(n) {
+//   console.log(`There are ${n} planes in line ${`✈`.repeat(n)}`);
+// }
+// planesInLine(5);
+// planesInLine(3);
+// planesInLine(8);
+
+//?------------Challenge #4
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  const separate = text.split(`\n`);
+  const splitArr = [];
+
+    for(const el of separate) {
+    const trimmed = el.trim().toLowerCase();
+    const split = trimmed.split(`_`);
+    splitArr.push(split)
+  };
+
+ let camelCaseArr=[];
+  for(const [el1, el2] of splitArr){
+    // console.log(el1, el2);
+    const camelCase = el1 + el2.replace(el2[0], el2[0].toUpperCase());
+    camelCaseArr.push(camelCase);
+
+    // console.log(camelCase);
+    // return camelCase;
   }
-};
 
-checkBaggage(`I have socks, lock, bag, banana, bycicle`);
-checkBaggage(`I have lipstick, sandwich, DOG, snEaker, babY`);
+  for(let i=0; i<camelCaseArr.length; i++) {
+
+  const tick = camelCaseArr[i] + `✅`.repeat(i+1);
+  console.log(tick);
+  }
+
+});
+
+
+
+
+
+
+
+
 
 
 
