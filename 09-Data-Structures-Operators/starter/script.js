@@ -970,7 +970,8 @@ document.querySelector('button').addEventListener('click', function () {
   for(const [el1, el2] of splitArr){
     // console.log(el1, el2);
     const camelCase = el1 + el2.replace(el2[0], el2[0].toUpperCase());
-    camelCaseArr.push(camelCase);
+    const padding = camelCase.padEnd(20, ` `);
+    camelCaseArr.push(padding);
 
     // console.log(camelCase);
     // return camelCase;
@@ -978,11 +979,32 @@ document.querySelector('button').addEventListener('click', function () {
 
   for(let i=0; i<camelCaseArr.length; i++) {
 
-  const tick = camelCaseArr[i] + `✅`.repeat(i+1);
+  const tick = camelCaseArr[i] + (`✅`.repeat(i+1));
   console.log(tick);
   }
 
 });
+
+//TEACHER's SOLUTION:
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  const rows = text.split('\n');
+
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_');
+
+    const output = `${first}${second.replace(
+      second[0],
+      second[0].toUpperCase()
+    )}`;
+    console.log(`${output.padEnd(20)}${'✅'.repeat(i + 1)}`);
+  }
+});
+
 
 
 
