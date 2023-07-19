@@ -108,6 +108,39 @@
 
 
 //the same but in arrow function:
-const greet =  greeting => name => console.log(`${greeting} ${name}`);
-greet(`Hoho`)(`Lucy`)
+// const greet =  greeting => name => console.log(`${greeting} ${name}`);
+// greet(`Hoho`)(`Lucy`)
+
+
+//*------------------Lesson 133
+
+const lufthansa = {
+    airline: `Lufthansa`,
+    iataCode: `LH`,
+    bookings: [],
+    book(flightNum, name) {
+        console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`);
+        this.bookings.push({
+            flight: `${this.iataCode}${flightNum}`, name
+        })
+    }
+};
+
+lufthansa.book(239, `Jonas`);
+lufthansa.book(635, `Victoira`)
+
+const eurowings = {
+    name: `Eurowings`,
+    iataCode: `EW`,
+    bookings: []
+}
+
+const book = lufthansa.book; //we brought out a function (as a variable)out of an object to reuse it in another situations
+//does not work/
+//BUT this. keyword in this situation would point to Lufthansa object - which we dont want.
+//there are three methods: call, apply and bind
+
+//CALL:
+book.call(eurowings, 23, `Aisha`)
+console.log(eurowings);
 
