@@ -130,7 +130,7 @@ lufthansa.book(239, `Jonas`);
 lufthansa.book(635, `Victoira`)
 
 const eurowings = {
-    name: `Eurowings`,
+    airline: `Eurowings`,
     iataCode: `EW`,
     bookings: []
 }
@@ -138,9 +138,30 @@ const eurowings = {
 const book = lufthansa.book; //we brought out a function (as a variable)out of an object to reuse it in another situations
 //does not work/
 //BUT this. keyword in this situation would point to Lufthansa object - which we dont want.
+//book(23, `Sarah`);
 //there are three methods: call, apply and bind
 
-//CALL:
-book.call(eurowings, 23, `Aisha`)
+//CALL method:
+book.call(eurowings, 23, `Aisha`)//the first word will be where the THIS keyword will point to
 console.log(eurowings);
 
+book.call(lufthansa, 239, `Mary`)
+console.log(lufthansa);
+
+const swiss = {
+    airline: `Swiss airlines`,
+    iataCode: `SA`,
+    bookings: []
+}
+
+book.call(swiss, 111, `Leny`);
+console.log(swiss);
+
+//Apply methid (similar to CALL method, but doesnt recieve the list of arguments after the THIS keyword statement, instead it will take an ARRAY). Not much used anymore nowadays
+
+const flightData = [583, `George`];
+book.apply(swiss, flightData)
+console.log(swiss);
+
+//this one below is the same but using CALL and spread operator
+book.call(swiss, ...flightData)
