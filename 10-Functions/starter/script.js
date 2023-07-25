@@ -165,3 +165,48 @@ console.log(swiss);
 
 //this one below is the same but using CALL and spread operator
 book.call(swiss, ...flightData)
+
+//*------------------Lesson 134
+
+//BIND method:
+//it does not immediately calls the function, instead it returns a new function where THIS keyword is BOUND, so it set to whatever value we set to bind
+
+const bookEW = book.bind(eurowings);//new function where THIS KEYWORD is ALWAYS eurowings
+const bookLH = book.bind(lufthansa)
+const bookSA = book.bind(swiss)
+bookEW(23, `Mathew`)
+bookLH(256, `Babe`)
+bookSA(123, `Mary`)
+
+//preset for specific
+const bookEW23 = book.bind(eurowings, 23); //so it is bound to eurowings and automatically fills in the first argument in the function, we only need to enter the second argument
+bookEW23(`Victoria`)
+bookEW23(`Olga`)
+
+//Objects used together with eventListeners
+
+lufthansa.planes = 300;
+lufthansa.buyPlane = function() {
+    console.log(this);
+    this.planes++;
+    console.log(this.planes);
+};
+document.querySelector(`.buy`).addEventListener(`click`, lufthansa.buyPlane.bind(lufthansa))// (`click`, lufthansa.buyPlane) - THIS keyword in this case will point to the element (button), so we have to bind it to the object
+
+//partial application
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+const addVAT = addTax.bind(null, 0.23)//null for binding with Non existing object, 0.23 for the first argument (rate)
+console.log(addVAT(100));
+//or other way:
+const addTaxRate = function(rate) {
+    return function(value) {
+        return value + value * rate
+    }
+}
+
+const addVAT2 = addTaxRate(0.23)
+console.log(addVAT2(100));
+
+
