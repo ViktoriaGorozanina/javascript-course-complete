@@ -114,99 +114,165 @@
 
 //*------------------Lesson 133
 
-const lufthansa = {
-    airline: `Lufthansa`,
-    iataCode: `LH`,
-    bookings: [],
-    book(flightNum, name) {
-        console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`);
-        this.bookings.push({
-            flight: `${this.iataCode}${flightNum}`, name
-        })
-    }
-};
+// const lufthansa = {
+//     airline: `Lufthansa`,
+//     iataCode: `LH`,
+//     bookings: [],
+//     book(flightNum, name) {
+//         console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`);
+//         this.bookings.push({
+//             flight: `${this.iataCode}${flightNum}`, name
+//         })
+//     }
+// };
 
-lufthansa.book(239, `Jonas`);
-lufthansa.book(635, `Victoira`)
+// lufthansa.book(239, `Jonas`);
+// lufthansa.book(635, `Victoira`)
 
-const eurowings = {
-    airline: `Eurowings`,
-    iataCode: `EW`,
-    bookings: []
-}
+// const eurowings = {
+//     airline: `Eurowings`,
+//     iataCode: `EW`,
+//     bookings: []
+// }
 
-const book = lufthansa.book; //we brought out a function (as a variable)out of an object to reuse it in another situations
-//does not work/
-//BUT this. keyword in this situation would point to Lufthansa object - which we dont want.
-//book(23, `Sarah`);
-//there are three methods: call, apply and bind
+// const book = lufthansa.book; //we brought out a function (as a variable)out of an object to reuse it in another situations
+// //does not work/
+// //BUT this. keyword in this situation would point to Lufthansa object - which we dont want.
+// //book(23, `Sarah`);
+// //there are three methods: call, apply and bind
 
-//CALL method:
-book.call(eurowings, 23, `Aisha`)//the first word will be where the THIS keyword will point to
-console.log(eurowings);
+// //CALL method:
+// book.call(eurowings, 23, `Aisha`)//the first word will be where the THIS keyword will point to
+// console.log(eurowings);
 
-book.call(lufthansa, 239, `Mary`)
-console.log(lufthansa);
+// book.call(lufthansa, 239, `Mary`)
+// console.log(lufthansa);
 
-const swiss = {
-    airline: `Swiss airlines`,
-    iataCode: `SA`,
-    bookings: []
-}
+// const swiss = {
+//     airline: `Swiss airlines`,
+//     iataCode: `SA`,
+//     bookings: []
+// }
 
-book.call(swiss, 111, `Leny`);
-console.log(swiss);
+// book.call(swiss, 111, `Leny`);
+// console.log(swiss);
 
-//Apply methid (similar to CALL method, but doesnt recieve the list of arguments after the THIS keyword statement, instead it will take an ARRAY). Not much used anymore nowadays
+// //Apply methid (similar to CALL method, but doesnt recieve the list of arguments after the THIS keyword statement, instead it will take an ARRAY). Not much used anymore nowadays
 
-const flightData = [583, `George`];
-book.apply(swiss, flightData)
-console.log(swiss);
+// const flightData = [583, `George`];
+// book.apply(swiss, flightData)
+// console.log(swiss);
 
-//this one below is the same but using CALL and spread operator
-book.call(swiss, ...flightData)
+// //this one below is the same but using CALL and spread operator
+// book.call(swiss, ...flightData)
 
 //*------------------Lesson 134
 
 //BIND method:
 //it does not immediately calls the function, instead it returns a new function where THIS keyword is BOUND, so it set to whatever value we set to bind
 
-const bookEW = book.bind(eurowings);//new function where THIS KEYWORD is ALWAYS eurowings
-const bookLH = book.bind(lufthansa)
-const bookSA = book.bind(swiss)
-bookEW(23, `Mathew`)
-bookLH(256, `Babe`)
-bookSA(123, `Mary`)
+// const bookEW = book.bind(eurowings);//new function where THIS KEYWORD is ALWAYS eurowings
+// const bookLH = book.bind(lufthansa)
+// const bookSA = book.bind(swiss)
+// bookEW(23, `Mathew`)
+// bookLH(256, `Babe`)
+// bookSA(123, `Mary`)
 
-//preset for specific
-const bookEW23 = book.bind(eurowings, 23); //so it is bound to eurowings and automatically fills in the first argument in the function, we only need to enter the second argument
-bookEW23(`Victoria`)
-bookEW23(`Olga`)
+// //preset for specific
+// const bookEW23 = book.bind(eurowings, 23); //so it is bound to eurowings and automatically fills in the first argument in the function, we only need to enter the second argument
+// bookEW23(`Victoria`)
+// bookEW23(`Olga`)
 
-//Objects used together with eventListeners
+// //Objects used together with eventListeners
 
-lufthansa.planes = 300;
-lufthansa.buyPlane = function() {
-    console.log(this);
-    this.planes++;
-    console.log(this.planes);
-};
-document.querySelector(`.buy`).addEventListener(`click`, lufthansa.buyPlane.bind(lufthansa))// (`click`, lufthansa.buyPlane) - THIS keyword in this case will point to the element (button), so we have to bind it to the object
+// lufthansa.planes = 300;
+// lufthansa.buyPlane = function() {
+//     console.log(this);
+//     this.planes++;
+//     console.log(this.planes);
+// };
+// document.querySelector(`.buy`).addEventListener(`click`, lufthansa.buyPlane.bind(lufthansa))// (`click`, lufthansa.buyPlane) - THIS keyword in this case will point to the element (button), so we have to bind it to the object
 
-//partial application
-const addTax = (rate, value) => value + value * rate;
-console.log(addTax(0.1, 200));
+// //partial application
+// const addTax = (rate, value) => value + value * rate;
+// console.log(addTax(0.1, 200));
 
-const addVAT = addTax.bind(null, 0.23)//null for binding with Non existing object, 0.23 for the first argument (rate)
-console.log(addVAT(100));
-//or other way:
-const addTaxRate = function(rate) {
-    return function(value) {
-        return value + value * rate
+// const addVAT = addTax.bind(null, 0.23)//null for binding with Non existing object, 0.23 for the first argument (rate)
+// console.log(addVAT(100));
+// //or other way:
+// const addTaxRate = function(rate) {
+//     return function(value) {
+//         return value + value * rate
+//     }
+// }
+
+// const addVAT2 = addTaxRate(0.23)
+// console.log(addVAT2(100));
+
+//?------------------Challenge #1 135 - PASSED
+
+const poll = {
+    question: 'What is your favourite programming language?',
+    options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+    // This generates [0, 0, 0, 0]. More in the next section 😃
+    answers: new Array(4).fill(0),
+    // spreadOptions: options.join(`\n`)
+
+    displayResults: function(type = `array`) {
+        if (type === `string`) {
+            console.log(`Poll results are ${this.answers.join(`, `)}`);
+        } else {
+            console.log(this.answers);
+        }
+}};
+
+
+const registerNewAnswer = function() {
+    const answer = Number(prompt(`${poll.question} \n ${poll.options.join(`\n`)} \n (Write option number)`))
+    if(answer<=3 && answer>=0) {
+        poll.answers[answer]++
+        console.log(poll.answers);
+    } else {
+        console.log(`Incorrect value. Please chose between 0-3`)
     }
-}
+const answerDisplay = poll.displayResults.bind(poll)
+answerDisplay(`string`);
+};
 
-const addVAT2 = addTaxRate(0.23)
-console.log(addVAT2(100));
+
+const promptWin = document.querySelector(`.poll`).addEventListener(`click`, registerNewAnswer);
+
+//BONUS:
+
+const testData1 = {
+    answers:[5, 2, 3]
+};
+
+const testData2 = {
+    answers:[1, 5, 3, 9, 6, 1]
+};
+
+const test1= poll.displayResults.bind(testData1)
+const test2= poll.displayResults.bind(testData2)
+
+test1(`string`);
+test1(`array`);
+test2(`string`);
+test2(`array`);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
