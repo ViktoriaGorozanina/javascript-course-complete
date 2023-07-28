@@ -211,61 +211,81 @@
 
 //?------------------Challenge #1 135 - PASSED
 
-const poll = {
-    question: 'What is your favourite programming language?',
-    options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
-    // This generates [0, 0, 0, 0]. More in the next section 😃
-    answers: new Array(4).fill(0),
-    // spreadOptions: options.join(`\n`)
+// const poll = {
+//     question: 'What is your favourite programming language?',
+//     options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+//     // This generates [0, 0, 0, 0]. More in the next section 😃
+//     answers: new Array(4).fill(0),
+//     // spreadOptions: options.join(`\n`)
 
-    displayResults: function(type = `array`) {
-        if (type === `string`) {
-            console.log(`Poll results are ${this.answers.join(`, `)}`);
-        } else {
-            console.log(this.answers);
-        }
-}};
-
-
-const registerNewAnswer = function() {
-    const answer = Number(prompt(`${poll.question} \n ${poll.options.join(`\n`)} \n (Write option number)`))
-    if(answer<=3 && answer>=0) {
-        poll.answers[answer]++
-        console.log(poll.answers);
-    } else {
-        console.log(`Incorrect value. Please chose between 0-3`)
-    }
-const answerDisplay = poll.displayResults.bind(poll)
-answerDisplay(`string`);
-};
+//     displayResults: function(type = `array`) {
+//         if (type === `string`) {
+//             console.log(`Poll results are ${this.answers.join(`, `)}`);
+//         } else {
+//             console.log(this.answers);
+//         }
+// }};
 
 
-const promptWin = document.querySelector(`.poll`).addEventListener(`click`, registerNewAnswer);
-
-//BONUS:
-
-const testData1 = {
-    answers:[5, 2, 3]
-};
-
-const testData2 = {
-    answers:[1, 5, 3, 9, 6, 1]
-};
-
-const test1= poll.displayResults.bind(testData1)
-const test2= poll.displayResults.bind(testData2)
-
-test1(`string`);
-test1(`array`);
-test2(`string`);
-test2(`array`);
+// const registerNewAnswer = function() {
+//     const answer = Number(prompt(`${poll.question} \n ${poll.options.join(`\n`)} \n (Write option number)`))
+//     if(answer<=3 && answer>=0) {
+//         poll.answers[answer]++
+//         console.log(poll.answers);
+//     } else {
+//         console.log(`Incorrect value. Please chose between 0-3`)
+//     }
+// const answerDisplay = poll.displayResults.bind(poll)
+// answerDisplay(`string`);
+// };
 
 
+// const promptWin = document.querySelector(`.poll`).addEventListener(`click`, registerNewAnswer);
+
+// //BONUS:
+
+// const testData1 = {
+//     answers:[5, 2, 3]
+// };
+
+// const testData2 = {
+//     answers:[1, 5, 3, 9, 6, 1]
+// };
+
+// const test1= poll.displayResults.bind(testData1)
+// const test2= poll.displayResults.bind(testData2)
+
+// test1(`string`);
+// test1(`array`);
+// test2(`string`);
+// test2(`array`);
+
+//*------------------Lesson 136
+
+// const runOnce = function() {
+//     console.log(`This will never run again`);
+// }
+// runOnce();
+
+// //instead we do this:
+// (function() {
+//     console.log(`This will never run again`);
+    
+// })();
 
 
+// // for arrow function:
+// (() => console.log(`This will ALSO never run again`))();
 
+// {
+//     const isPrivate = 2;
+//     var notPrivate = 333;
+// }
 
+// console.log(notPrivate);//since it is VAR then is will be accessed
+// console.log(isPrivate);//it wont see the var in the inner scope from this global scope, so the var is private
 
+//*------------------Lesson 137
 
 
 
