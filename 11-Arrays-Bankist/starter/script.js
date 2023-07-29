@@ -74,3 +74,47 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+//?----------------------Lesson 142
+
+// let arr = [ `a`, `b`, `c`, `d`, `e`]; 
+
+
+// //SLICE
+// console.log(arr.slice(2));
+// console.log(arr.slice(2,3));
+// console.log(arr.slice(-2));
+// console.log(arr.slice(-1));//last element
+// console.log(arr.slice(0, -2));// minus means EXCEPET last two
+
+// //SPLICE
+// const arr2 = arr.splice(-1);//deleted the last element of the arr and left the last element to create a new array arr2
+// console.log(arr);
+// console.log(arr2);
+
+// arr.splice(1, 2)//deletes/extracts all elements from 1 to 2
+// console.log(arr);
+
+// //REVERSE
+// arr = [ `a`, `b`, `c`, `d`, `e`]; 
+// const arr3 = [`j`,`i`,`h`,`g`,`i`];
+// console.log(arr3.reverse());
+
+// //CONCAT
+// //joins arrays
+
+// const letters = arr.concat(arr3, arr2);
+// console.log(letters);
+// console.log(arr);
+
+// //JOIN
+// console.log(letters.join(`-`));
+
+//?----------------------Lesson 143
+
+const arr = [23, 11, 64]
+console.log(arr[0]);//before we would do this
+console.log(arr.at(0));//now we can do this with the same result
+
+console.log(arr[arr.length -1]);// the way we would do it before
+console.log(arr.slice(-1)[0]);//or this way. [means value at this position]
+console.log(arr.at(-1));// this is how we can do it now
