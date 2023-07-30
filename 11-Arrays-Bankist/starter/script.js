@@ -61,20 +61,65 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+
+//*----------------------Lesson 147
+const displayMovements = function(movements) {
+
+containerMovements.innerHTML = ``;//innerHTML is similar to textContent, but textContext return text, while innerHTML returns everyting in HMTL
+
+movements.forEach(function(mov, i) {
+const type = mov > 0 ? `deposit` : `withdrawal`
+
+  //create HTML element
+  const html = `
+  <div class="movements__row">
+    <div class="movements__type movements__type--${type}">${i+1} ${type}</div>
+    <div class="movements__value">${mov}</div>
+  </div>`;
+  containerMovements.insertAdjacentHTML(`afterbegin`, html)
+})
+}
+displayMovements(account1.movements);
+
+// console.log(containerMovements.innerHTML);
+
+//?----------------------Lesson 148 CHALLENGE - PASSED
+
+const dogsJulia = [9, 16, 6, 8, 3];
+const dogsKate = [10, 5, 6, 1, 4];
+
+
+const checkDogs = function(dogs) {
+return dogs.slice(1,3)
+}
+
+const dogsJuliaKate = dogsKate.concat(checkDogs(dogsJulia))
+console.log(dogsJuliaKate);
+
+dogsJuliaKate.forEach(function(age, i) {
+if(age>=3) {
+  console.log(`Dog number ${i+1} is an adult, and is ${age} years old`);
+} else {
+  console.log(`Dog number ${i+1} is still a puppy, and is ${age} years old`);
+}
+})
+
+console.log(dogsJulia);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-//?----------------------Lesson 142
+//*----------------------Lesson 142
 
 // let arr = [ `a`, `b`, `c`, `d`, `e`]; 
 
@@ -109,7 +154,7 @@ const currencies = new Map([
 // //JOIN
 // console.log(letters.join(`-`));
 
-//?----------------------Lesson 143
+//*----------------------Lesson 143
 
 // const arr = [23, 11, 64]
 // console.log(arr[0]);//before we would do this
@@ -119,34 +164,61 @@ const currencies = new Map([
 // console.log(arr.slice(-1)[0]);//or this way. [means value at this position]
 // console.log(arr.at(-1));// this is how we can do it now
 
-//?----------------------Lesson 144
+//*----------------------Lesson 144
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-//FOR-OF method:
-for (const movement of movements) {
-  if(movement>0) {
-    console.log(`You deposited ${movement}`);
-  } else {
-    console.log(`You withdrew ${Math.abs(movement)}`);
-  }
-}
-//or like :
-// for (const [i, movement] of movements.entries()) {
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// //FOR-OF method:
+// for (const movement of movements) {
 //   if(movement>0) {
-//     console.log(`Movement ${i+1}: You deposited ${movement}`);
+//     console.log(`You deposited ${movement}`);
 //   } else {
-//     console.log(`Movement ${i+1}: You withdrew ${Math.abs(movement)}`);
+//     console.log(`You withdrew ${Math.abs(movement)}`);
 //   }
 // }
+// //or like :
+// // for (const [i, movement] of movements.entries()) {
+// //   if(movement>0) {
+// //     console.log(`Movement ${i+1}: You deposited ${movement}`);
+// //   } else {
+// //     console.log(`Movement ${i+1}: You withdrew ${Math.abs(movement)}`);
+// //   }
+// // }
 
-//BUT forEach method:
-movements.forEach(function(movement, index, array) {
-  if(movement>0) {
-    console.log(`Movement ${index+1}: You deposited ${movement}`);
-  } else {
-    console.log(`Movement ${index+1}: You withdrew ${Math.abs(movement)}`);
-  }
-})
+// //BUT forEach method:
+// movements.forEach(function(movement, index, array) {
+//   if(movement>0) {
+//     console.log(`Movement ${index+1}: You deposited ${movement}`);
+//   } else {
+//     console.log(`Movement ${index+1}: You withdrew ${Math.abs(movement)}`);
+//   }
+// })
 
 
-//
+//*----------------------Lesson 145
+//MAP
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
+
+// currencies.forEach(function(value, key, map) {
+//   console.log(`value: ${value}. key: ${key}, map: ${map}`);
+// })
+
+// //SET
+// const currUnique = new Set([`USD`, `GBP`, `USD`, `EUR`,]);
+
+// currUnique.forEach(function(value, key, set) {
+//   console.log(`value: ${value}. key: ${key}, set: ${set}`);
+// })
+
+
+
+
+
+
+
+
+
+
