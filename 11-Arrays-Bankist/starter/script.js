@@ -188,6 +188,13 @@ const type = mov > 0 ? `deposit` : `withdrawal`
 }
 displayMovements(account1.movements);
 
+// const calcDisplayBalance = function(movements) {
+//   const balance = movements.reduce((acc, mov) => acc + mov, 0);
+//   labelBalance.textContent = `${balance} EUR`;
+// };
+
+// calcDisplayBalance(account1.movements);
+
 // console.log(containerMovements.innerHTML);
 
 //?----------------------Lesson 148 CHALLENGE - PASSED
@@ -217,33 +224,98 @@ displayMovements(account1.movements);
 
 //MAP, FILTER, REDUCE
 
-//*----------------------Lesson 149
+//*----------------------Lesson 150
 
 //MAP
 
-const eurToUsd = 1.1;
-const movementsUsd = movements.map(function(mov){
-  return mov*eurToUsd;
-})
-//same with arrow function:
-const movementsUsd2 = movements.map(mov => mov * eurToUsd);
-console.log(movementsUsd2);
+// const eurToUsd = 1.1;
+// const movementsUsd = movements.map(function(mov){
+//   return mov*eurToUsd;
+// })
+// //same with arrow function:
+// const movementsUsd2 = movements.map(mov => mov * eurToUsd);
+// console.log(movementsUsd2);
 
 
 
-console.log(movements);
-console.log(movementsUsd);
+// console.log(movements);
+// console.log(movementsUsd);
 
-const movementsUsdFor = []
-for(const mov of movements)movementsUsdFor.push(mov * eurToUsd);
-console.log(movementsUsdFor);
+// const movementsUsdFor = []
+// for(const mov of movements)movementsUsdFor.push(mov * eurToUsd);
+// console.log(movementsUsdFor);
 
-const movementsDescription = movements.map((mov, i, arr) =>  `Movement ${i+1}: You ${mov > 0 ? `deposited` : `withdrew`}`
-  // {if (mov>0) {
-  //   return `Movement ${i+1}: You deposited ${mov}`
-  // } else {
-  //   return `Movement ${i+1}: You withdrew ${Math.abs(mov)}`
-  // }}
-)
+// const movementsDescription = movements.map((mov, i, arr) =>  `Movement ${i+1}: You ${mov > 0 ? `deposited` : `withdrew`}`
+//   // {if (mov>0) {
+//   //   return `Movement ${i+1}: You deposited ${mov}`
+//   // } else {
+//   //   return `Movement ${i+1}: You withdrew ${Math.abs(mov)}`
+//   // }}
+// )
 
-console.log(movementsDescription);
+// console.log(movementsDescription);
+
+//*----------------------Lesson 150
+//create user name
+// const createUserNames = function(accs) {
+// accs.forEach(function(acc) {
+//   acc.userName = acc.owner//creates and adds a new property in account object
+//   .toLowerCase()
+//   .split(` `)
+//   .map(name => name[0])
+//   .join(``);
+// })
+// };
+
+// createUserNames(accounts)
+// console.log(accounts);
+
+//*----------------------Lesson 151
+
+//FILTER method
+// const deposits = movements.filter(mov => mov>0)
+// console.log(deposits);
+
+//for of method the same operation
+// const depositsFor = [];
+// for (const mov of movements)
+//   if (mov > 0) depositsFor.push(mov);
+//   console.log(depositsFor);
+
+//   //
+//   const withdrawals = movements.filter(mov => mov<0)
+//   console.log(withdrawals);
+
+//*----------------------Lesson 152
+
+//REDUCE method -> snowball
+
+// console.log(movements);
+// const balance = movements.reduce(function(accum, currentValue, i, arr){
+//   console.log(`Iteration ${i}: ${accum}`);
+// return accum + currentValue;
+// }, 0)
+
+// console.log(movements);
+// const balance = movements.reduce((accum, currentValue, i, arr)=> accum + currentValue, 0)
+
+// console.log(balance);
+// //the same thing with FOR OF:
+// let balance2 = 0;
+// for (const mov of movements) balance2 += mov;
+
+const calcDisplayBalance = function(movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+calcDisplayBalance(account1.movements)
+
+
+// to get maximum value of the movements arr
+const max = movements.reduce((acc, mov) => acc>mov ? acc : mov, movements[0]);
+console.log(max);
+
+
+
+
