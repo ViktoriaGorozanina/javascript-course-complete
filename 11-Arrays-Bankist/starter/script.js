@@ -255,7 +255,7 @@ displayMovements(account1.movements);
 
 // console.log(movementsDescription);
 
-//*----------------------Lesson 150
+//*----------------------Lesson 151
 //create user name
 // const createUserNames = function(accs) {
 // accs.forEach(function(acc) {
@@ -270,7 +270,7 @@ displayMovements(account1.movements);
 // createUserNames(accounts)
 // console.log(accounts);
 
-//*----------------------Lesson 151
+//*----------------------Lesson 152
 
 //FILTER method
 // const deposits = movements.filter(mov => mov>0)
@@ -286,7 +286,7 @@ displayMovements(account1.movements);
 //   const withdrawals = movements.filter(mov => mov<0)
 //   console.log(withdrawals);
 
-//*----------------------Lesson 152
+//*----------------------Lesson 153
 
 //REDUCE method -> snowball
 
@@ -304,18 +304,53 @@ displayMovements(account1.movements);
 // let balance2 = 0;
 // for (const mov of movements) balance2 += mov;
 
-const calcDisplayBalance = function(movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
-};
+// const calcDisplayBalance = function(movements) {
+//   const balance = movements.reduce((acc, mov) => acc + mov, 0);
+//   labelBalance.textContent = `${balance} EUR`;
+// };
 
-calcDisplayBalance(account1.movements)
-
-
-// to get maximum value of the movements arr
-const max = movements.reduce((acc, mov) => acc>mov ? acc : mov, movements[0]);
-console.log(max);
+// calcDisplayBalance(account1.movements)
 
 
+// // to get maximum value of the movements arr
+// const max = movements.reduce((acc, mov) => acc>mov ? acc : mov, movements[0]);
+// console.log(max);
 
+
+//?----------------------Lesson 154 CHALLENGE
+// const dogsJulia = [9, 16, 6, 8, 3];
+// const dogsKate = [10, 5, 6, 1, 4];
+
+
+// const checkDogs = function(dogs) {
+// return dogs.slice(1,3)
+// }
+
+// const dogsJuliaKate = dogsKate.concat(checkDogs(dogsJulia))
+// console.log(dogsJuliaKate);
+
+// dogsJuliaKate.forEach(function(age, i) {
+// if(age>=3) {
+//   console.log(`Dog number ${i+1} is an adult, and is ${age} years old`);
+// } else {
+//   console.log(`Dog number ${i+1} is still a puppy, and is ${age} years old`);
+// }
+// })
+
+// console.log(dogsJulia);
+//////////////////////////////////////////
+const calcAverageHumanAge = function(dogsAges) {
+
+  const humanAge = dogsAges.map(years => years<= 2 ? years *2 : years * 4 +16) 
+  console.log(humanAge);
+
+  const older = humanAge.filter(years => years >= 18)
+  console.log(older);
+
+  const averAge = older.reduce((acc, years,i,array) => acc + years / array.length, 0);
+  console.log(Math.trunc(averAge));
+}
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3])
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4])
 
