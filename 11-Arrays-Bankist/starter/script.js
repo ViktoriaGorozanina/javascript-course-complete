@@ -234,16 +234,16 @@ const movementsUsd = movements.map(function(mov){
 })
 //same with arrow function:
 const movementsUsd2 = movements.map(mov => mov * eurToUsd);
-console.log(movementsUsd2);
+// console.log(movementsUsd2);
 
 
 
-console.log(movements);
-console.log(movementsUsd);
+// console.log(movements);
+// console.log(movementsUsd);
 
 const movementsUsdFor = []
 for(const mov of movements)movementsUsdFor.push(mov * eurToUsd);
-console.log(movementsUsdFor);
+// console.log(movementsUsdFor);
 
 const movementsDescription = movements.map((mov, i, arr) =>  `Movement ${i+1}: You ${mov > 0 ? `deposited` : `withdrew`}`
   // {if (mov>0) {
@@ -253,7 +253,7 @@ const movementsDescription = movements.map((mov, i, arr) =>  `Movement ${i+1}: Y
   // }}
 )
 
-console.log(movementsDescription);
+// console.log(movementsDescription);
 
 //*----------------------Lesson 151
 // create user name
@@ -268,23 +268,23 @@ accs.forEach(function(acc) {
 };
 
 createUserNames(accounts)
-console.log(accounts);
+// console.log(accounts);
 
 //*----------------------Lesson 152
 
 // FILTER method
 const deposits = movements.filter(mov => mov>0)
-console.log(deposits);
+// console.log(deposits);
 
 // for of method the same operation
 const depositsFor = [];
 for (const mov of movements)
   if (mov > 0) depositsFor.push(mov);
-  console.log(depositsFor);
+  // console.log(depositsFor);
 
   //
   const withdrawals = movements.filter(mov => mov<0)
-  console.log(withdrawals);
+  // console.log(withdrawals);
 
 //*----------------------Lesson 153
 
@@ -296,10 +296,10 @@ for (const mov of movements)
 // return accum + currentValue;
 // }, 0)
 
-console.log(movements);
+// console.log(movements);
 const balance = movements.reduce((accum, currentValue, i, arr)=> accum + currentValue, 0)
 
-console.log(balance);
+// console.log(balance);
 //the same thing with FOR OF:
 let balance2 = 0;
 for (const mov of movements) balance2 += mov;
@@ -312,7 +312,7 @@ const calcDisplayBalance = function(movements) {
 
 // to get maximum value of the movements arr
 const max = movements.reduce((acc, mov) => acc>mov ? acc : mov, movements[0]);
-console.log(max);
+// console.log(max);
 
 
 //?----------------------Lesson 154 CHALLENGE
@@ -342,7 +342,7 @@ const totalDepositsUSD = movements
 .map(mov => mov * eurToUsd1)
 .reduce((acc,mov) => acc + mov , 0);
 
-console.log(totalDepositsUSD);
+// console.log(totalDepositsUSD);
 ///////////////////////////////////
 calcDisplayBalance(account1.movements)
 
@@ -370,12 +370,27 @@ calcDisplaySummary(account1.movements);
 ///////////////////////////////
 //?----------------------Lesson 156 CHALLENGE - PASSED
 
-const calcAverageHumanAge = dogsAges => dogsAges
-  .map(years => years<= 2 ? years *2 : years * 4 +16) 
-  .filter(years => years >= 18)
-  .reduce((acc, years,i,array) => acc + years / array.length, 0);
+// const calcAverageHumanAge = dogsAges => dogsAges
+//   .map(years => years<= 2 ? years *2 : years * 4 +16) 
+//   .filter(years => years >= 18)
+//   .reduce((acc, years,i,array) => acc + years / array.length, 0);
   
   
-  const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3])
-  const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4])
-  console.log(Math.trunc(avg1),Math.trunc(avg2));
+//   const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3])
+//   const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4])
+//   console.log(Math.trunc(avg1),Math.trunc(avg2));
+
+//*----------------------Lesson 157
+
+const firstWithdrawal2 = movements.find(mov => mov < 0);
+console.log(firstWithdrawal2);
+
+console.log(accounts);
+const account = accounts.find(acc => acc.owner === `Jessica Davis`)//returns the whole object with owner name Jessica Davis found in the accounts
+console.log(account);
+//the same thing with for of loop
+for(const acc of accounts) {
+  if (acc.owner === `Jessica Davis`) {
+    console.log(acc);
+  }
+}
