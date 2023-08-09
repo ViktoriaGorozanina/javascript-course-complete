@@ -186,7 +186,7 @@ const type = mov > 0 ? `deposit` : `withdrawal`
   containerMovements.insertAdjacentHTML(`afterbegin`, html)
 })
 }
-displayMovements(account1.movements);
+
 
 // const calcDisplayBalance = function(movements) {
 //   const balance = movements.reduce((acc, mov) => acc + mov, 0);
@@ -344,28 +344,28 @@ const totalDepositsUSD = movements
 
 // console.log(totalDepositsUSD);
 ///////////////////////////////////
-calcDisplayBalance(account1.movements)
 
-const calcDisplaySummary = function(movements) {
-const incomes = movements
+
+const calcDisplaySummary = function(acc) {
+const incomes = acc.movements
 .filter(mov => mov>0)
 .reduce((acc,mov) => acc + mov, 0)
 labelSumIn.textContent = `${incomes}€`;
 
-const out = movements
+const out = acc.movements
 .filter(mov => mov < 0)
 .reduce((acc, mov) => acc + mov, 0)
 labelSumOut.textContent = `${Math.abs(out)}€`
 
-const interest = movements
+const interest = acc.movements
 .filter(mov => mov>0)
-.map(deposit => deposit * 1.2 / 100)
+.map(deposit => deposit * acc.interestRate/ 100)
 .filter(int => int>=1)
 .reduce((acc,int) => acc + int, 0);
 labelSumInterest.textContent = `${interest}€`
 };
 
-calcDisplaySummary(account1.movements);
+
 
 ///////////////////////////////
 //?----------------------Lesson 156 CHALLENGE - PASSED
@@ -382,15 +382,49 @@ calcDisplaySummary(account1.movements);
 
 //*----------------------Lesson 157
 
-const firstWithdrawal2 = movements.find(mov => mov < 0);
-console.log(firstWithdrawal2);
+// const firstWithdrawal2 = movements.find(mov => mov < 0);
+// console.log(firstWithdrawal2);
 
-console.log(accounts);
-const account = accounts.find(acc => acc.owner === `Jessica Davis`)//returns the whole object with owner name Jessica Davis found in the accounts
-console.log(account);
-//the same thing with for of loop
-for(const acc of accounts) {
-  if (acc.owner === `Jessica Davis`) {
-    console.log(acc);
+// console.log(accounts);
+// const account = accounts.find(acc => acc.owner === `Jessica Davis`)//returns the whole object with owner name Jessica Davis found in the accounts
+// console.log(account);
+// //the same thing with for of loop
+// for(const acc of accounts) {
+//   if (acc.owner === `Jessica Davis`) {
+//     console.log(acc);
+//   }
+// }
+
+
+//*----------------------Lesson 158
+
+//! LOGIN
+//Event handlers
+let currentAccount;
+
+btnLogin.addEventListener(`click`, function(e) {
+  e.preventDefault();//prevent form from submitting by HTML default function
+  currentAccount = accounts.find(acc => acc.userName === inputLoginUsername.value)
+  console.log(currentAccount);
+
+  if(currentAccount?.pin === Number(inputLoginPin.value)) {
+//Display UI and message
+labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(` `)[0]}`//to use only the first name of the owner
+containerApp.style.opacity = 100;
+
+//Clear inout fields:
+inputLoginUsername.value = inputLoginPin.value = ``;
+inputLoginPin.blur();//field loses the focus
+
+//Display movements
+displayMovements(currentAccount.movements);
+//Display balance
+calcDisplayBalance(currentAccount.movements)
+//Display summary
+calcDisplaySummary(currentAccount);
   }
-}
+
+})
+
+//*----------------------Lesson 159
+
