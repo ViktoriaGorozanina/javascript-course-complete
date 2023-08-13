@@ -267,6 +267,15 @@ accs.forEach(function(acc) {
 })
 };
 
+const updateUI = function(acc) {
+  //Display movements
+displayMovements(acc.movements);
+//Display balance
+calcDisplayBalance(acc)
+//Display summary
+calcDisplaySummary(acc);
+}
+
 createUserNames(accounts)
 // console.log(accounts);
 
@@ -304,9 +313,12 @@ const balance = movements.reduce((accum, currentValue, i, arr)=> accum + current
 let balance2 = 0;
 for (const mov of movements) balance2 += mov;
 
-const calcDisplayBalance = function(movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance}€`;
+const calcDisplayBalance = function(acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+
+  labelBalance.textContent = `${acc.balance}€`;
+  //we need to save the value to be able to use it in other functions when transferring money, so we change (movements) in function to (acc) so the value will be calculated nad passed according to the current account
+
 };
 
 
@@ -416,15 +428,39 @@ containerApp.style.opacity = 100;
 inputLoginUsername.value = inputLoginPin.value = ``;
 inputLoginPin.blur();//field loses the focus
 
-//Display movements
-displayMovements(currentAccount.movements);
-//Display balance
-calcDisplayBalance(currentAccount.movements)
-//Display summary
-calcDisplaySummary(currentAccount);
+//UPDATE UI:
+updateUI(currentAccount);
   }
 
 })
 
 //*----------------------Lesson 159
+//IMPLEMENTING TRANSFERS
 
+btnTransfer.addEventListener(`click`, function(e) {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const recieverAcc = accounts.find(acc => acc.userName === inputTransferTo.value)
+
+  console.log(amount, recieverAcc);
+
+  if(amount > 0 && 
+    currentAccount.balance >= amount && 
+    recieverAcc?.userName !== currentAccount.userName &&
+    recieverAcc) 
+    {
+      //doing the tranfer:
+      currentAccount.movements.push(-amount);
+      recieverAcc.movements.push(amount);
+      updateUI(currentAccount);
+
+    } else {
+      console.log(`ERROR`);
+    };
+
+    //Clean the fields
+    inputTransferAmount.value = inputTransferTo.value = ``;
+    inputTransferAmount.blur()
+    inputTransferTo.blur()
+  });
