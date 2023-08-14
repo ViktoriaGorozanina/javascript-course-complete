@@ -454,13 +454,76 @@ btnTransfer.addEventListener(`click`, function(e) {
       currentAccount.movements.push(-amount);
       recieverAcc.movements.push(amount);
       updateUI(currentAccount);
-
     } else {
       console.log(`ERROR`);
     };
 
+    
     //Clean the fields
     inputTransferAmount.value = inputTransferTo.value = ``;
     inputTransferAmount.blur()
     inputTransferTo.blur()
   });
+
+  btnLoan.addEventListener('click', function (e) {
+e.preventDefault();
+
+const amount = Number(inputLoanAmount.value);
+
+if (amount > 0 && 
+  currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+  // Add movement
+  currentAccount.movements.push(amount);
+
+  // Update UI
+  updateUI(currentAccount);
+}
+inputLoanAmount.value = '';
+});
+
+  //*----------------------Lesson 160
+  //FINDINDEX
+
+  btnClose.addEventListener(`click`, function(e) {
+    e.preventDefault();
+    
+    const accIndex = accounts.findIndex(acc => acc.userName === currentAccount.userName)
+    const pin = Number(inputClosePin.value);
+    
+    console.log(accIndex);
+    if (currentAccount.userName === inputCloseUsername.value &&
+      currentAccount.pin === pin) 
+      {
+        console.log(`deleted`);
+      accounts.splice(accIndex, 1)
+      updateUI(currentAccount);
+
+      
+      //Log out
+      labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(` `)[0]}`//to use only the first name of the owner
+      containerApp.style.opacity = 0;
+      
+    }
+    //Clean the fields
+  inputClosePin.value = inputCloseUsername.value = ``;
+  inputClosePin.blur()
+  inputCloseUsername.blur()
+
+  })
+
+   //*----------------------Lesson 161
+  //SOME method
+
+  //INCLUDES works with equality
+//   console.log(movements);
+//   console.log(movements.includes(-130));
+
+//   //SOME works with condition
+//  if(movements.some(mov => mov > 0)) {
+//   console.log(movements);
+//  } 
+
+//EVERY method
+if (movements.every(mov => mov === 100)) {
+  console.log(movements);
+}
