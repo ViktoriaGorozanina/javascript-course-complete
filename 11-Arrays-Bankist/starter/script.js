@@ -170,20 +170,22 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 
 //*----------------------Lesson 147
-const displayMovements = function(movements) {
+const displayMovements = function(movements, sort = false) {
+  
+    const movs = sort ? movements.slice().sort((a,b) => a-b) : movements;// we add slice to make a shallow copy of the array so it doest mutate the original array, and then sort it
 
-containerMovements.innerHTML = ``;//innerHTML is similar to textContent, but textContext return text, while innerHTML returns everyting in HMTL
+    containerMovements.innerHTML = ``;//innerHTML is similar to textContent, but textContext return text, while innerHTML returns everyting in HMTL
 
-movements.forEach(function(mov, i) {
-const type = mov > 0 ? `deposit` : `withdrawal`
+    movs.forEach(function(mov, i) {
+    const type = mov > 0 ? `deposit` : `withdrawal`
 
   //create HTML element
-  const html = `
-  <div class="movements__row">
-    <div class="movements__type movements__type--${type}">${i+1} ${type}</div>
-    <div class="movements__value">${mov}</div>
-  </div>`;
-  containerMovements.insertAdjacentHTML(`afterbegin`, html)
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${i+1} ${type}</div>
+      <div class="movements__value">${mov}€</div>
+    </div>`;
+    containerMovements.insertAdjacentHTML(`afterbegin`, html)
 })
 }
 
@@ -508,6 +510,14 @@ inputLoanAmount.value = '';
   inputClosePin.value = inputCloseUsername.value = ``;
   inputClosePin.blur()
   inputCloseUsername.blur()
+  });
+
+
+  let sorted = false;
+  btnSort.addEventListener(`click` , function(e) {
+    e.preventDefault();
+    displayMovements(currentAccount.movements, !sorted);
+    sorted = !sorted;//so when we click the second time it switches back every time
 
   })
 
@@ -524,6 +534,82 @@ inputLoanAmount.value = '';
 //  } 
 
 //EVERY method
-if (movements.every(mov => mov === 100)) {
-  console.log(movements);
-}
+// if (movements.every(mov => mov === 100)) {
+//   console.log(movements);
+// }
+
+ //*----------------------Lesson 162
+  //FLAT and FLATMAP methods
+
+//FLAT
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8, 9];
+// console.log(arr.flat());//flattens all the nested arrays
+
+// const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8, 9];
+// console.log(arrDeep.flat(2));//now it goes 2 levels deep
+// //to calculate overall balance
+// const accountMovements = accounts.map(acc => acc.movements)
+// const allMovements = accountMovements.flat();
+// const overallBalance = allMovements.reduce((acc,mov) => acc + mov, 0)
+// console.log(overallBalance);
+// //chaining:
+// const overallBalance2 = accounts.map(acc => acc.movements).flat().reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance2);
+
+// //FLATMAP = combined map + flat
+// const overallBalance3 = accounts.flatMap(acc => acc.movements)
+// .reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance3);
+
+
+//*----------------------Lesson 163
+//SORTING arrays
+
+const owners = [`Jonas`, `Zach`, `Adam`, `Martha`];
+// console.log(owners.sort());//now its sorted alphabetically, mutates the orginal array
+
+//Numbers
+//!if we return < 0 then A is greater than B (keep order)
+//!if we return > 0 then B is greater than A (switch order)
+
+console.log(movements.sort((a,b) => {
+  if (a > b) return 1;
+  if (a < b) return -1;
+}));
+//OR
+console.log(movements.sort((a,b) =>a-b));//for ascending result
+console.log(movements.sort((a,b) =>b-a));//for descending result
+
+//implementing it on website:
+//up in the code btnSort
+
+//*----------------------Lesson 164
+//CREATING and FILLING ARRAYS, more ways:
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+const x = new Array(7);//creates an array with 7 empty elements
+//FILL
+console.log(x);
+console.log(x.fill(1));
+console.log(x);
+console.log(x.fill(2));
+console.log(x.fill(5, 2, 5));
+
+//ARRAY.FROM - the same but cleaner way than new Array + fill
+const y = Array.from({length: 7}, () => 1);
+console.log(y);
+
+const z = Array.from({length: 7}, (_, i) => i + 1);
+console.log(z);
+
+const q = Array.from({length: 30}, () => Math.floor(Math.random()*6)+1);
+console.log(q);
+
+
+
+labelBalance.addEventListener(`click`, function() {
+  const movementsUI = Array.from(document.querySelectorAll(`.movements__value`), (el) => Number(el.textContent.replace(`€`, ``)));
+  console.log(movementsUI);
+})
