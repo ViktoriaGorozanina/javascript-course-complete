@@ -572,13 +572,13 @@ const owners = [`Jonas`, `Zach`, `Adam`, `Martha`];
 //!if we return < 0 then A is greater than B (keep order)
 //!if we return > 0 then B is greater than A (switch order)
 
-console.log(movements.sort((a,b) => {
-  if (a > b) return 1;
-  if (a < b) return -1;
-}));
+// console.log(movements.sort((a,b) => {
+//   if (a > b) return 1;
+//   if (a < b) return -1;
+// }));
 //OR
-console.log(movements.sort((a,b) =>a-b));//for ascending result
-console.log(movements.sort((a,b) =>b-a));//for descending result
+// console.log(movements.sort((a,b) =>a-b));//for ascending result
+// console.log(movements.sort((a,b) =>b-a));//for descending result
 
 //implementing it on website:
 //up in the code btnSort
@@ -587,29 +587,74 @@ console.log(movements.sort((a,b) =>b-a));//for descending result
 //CREATING and FILLING ARRAYS, more ways:
 
 const arr = [1, 2, 3, 4, 5, 6, 7];
-console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+// console.log(new Array(1, 2, 3, 4, 5, 6, 7));
 
 const x = new Array(7);//creates an array with 7 empty elements
 //FILL
-console.log(x);
-console.log(x.fill(1));
-console.log(x);
-console.log(x.fill(2));
-console.log(x.fill(5, 2, 5));
+// console.log(x);
+// console.log(x.fill(1));
+// console.log(x);
+// console.log(x.fill(2));
+// console.log(x.fill(5, 2, 5));
 
 //ARRAY.FROM - the same but cleaner way than new Array + fill
 const y = Array.from({length: 7}, () => 1);
-console.log(y);
+// console.log(y);
 
 const z = Array.from({length: 7}, (_, i) => i + 1);
-console.log(z);
+// console.log(z);
 
 const q = Array.from({length: 30}, () => Math.floor(Math.random()*6)+1);
-console.log(q);
+// console.log(q);
 
 
 
 labelBalance.addEventListener(`click`, function() {
   const movementsUI = Array.from(document.querySelectorAll(`.movements__value`), (el) => Number(el.textContent.replace(`€`, ``)));
-  console.log(movementsUI);
+  // console.log(movementsUI);
 })
+
+//*----------------------Lesson 166
+//Array methods practice
+
+//1. calculate how much ha sbeen deposited from all the accounts
+const bankDepositSum = accounts.map(acc => acc.movements).flat().filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);//or replace two first with FLATMAP
+
+console.log(bankDepositSum);
+
+//2. how many deposits at least 1000
+const numAtLeast1000 = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
+
+console.log(numAtLeast1000);
+//the same using reduce method:
+const numAtLeast1000reduce = accounts
+.flatMap(acc => acc.movements)
+.reduce((accum, curr) => curr >= 1000 ? accum + 1 : accum, 0)
+
+console.log(numAtLeast1000reduce);
+
+//3. create a new object using reduce
+//object that contains some of the withdrawals and some of the deposits
+const {deposits1, withdrawals1} = accounts
+.flatMap(acc => acc.movements)
+.reduce(function(accum, curr) {
+curr > 0 ? accum.deposits1 += curr : accum.withdrawals1 += curr;
+return accum
+}, 
+{deposits1: 0, withdrawals1: 0});
+
+console.log(deposits1, withdrawals1);
+
+//4. create a simple function to convert any string in a title case ( capitalize words): this is a nice title --> This Is a Nice Title
+const convertTitleCase = function(title) {
+const exceptions = [`a`, `the`, `an`, `and`, `but`, `or`, `on`, `in`, `with`];
+const titleCase = title.toLowerCase().split(` `).map(word => exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)).join(` `);
+const upperCaseSentance = titleCase[0].toUpperCase() + titleCase.slice(1);
+return upperCaseSentance
+};
+console.log(convertTitleCase(`this is a nice title`));
+console.log(convertTitleCase(`this is a LONG title, but not too long`));
+console.log(convertTitleCase(`here is an another title with an example`));
+console.log(convertTitleCase(`a very nice picture`));
+
+
