@@ -618,43 +618,189 @@ labelBalance.addEventListener(`click`, function() {
 //Array methods practice
 
 //1. calculate how much ha sbeen deposited from all the accounts
-const bankDepositSum = accounts.map(acc => acc.movements).flat().filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);//or replace two first with FLATMAP
+// const bankDepositSum = accounts.map(acc => acc.movements).flat().filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);//or replace two first with FLATMAP
 
-console.log(bankDepositSum);
+// console.log(bankDepositSum);
 
-//2. how many deposits at least 1000
-const numAtLeast1000 = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
+// //2. how many deposits at least 1000
+// const numAtLeast1000 = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
 
-console.log(numAtLeast1000);
-//the same using reduce method:
-const numAtLeast1000reduce = accounts
-.flatMap(acc => acc.movements)
-.reduce((accum, curr) => curr >= 1000 ? accum + 1 : accum, 0)
+// console.log(numAtLeast1000);
+// //the same using reduce method:
+// const numAtLeast1000reduce = accounts
+// .flatMap(acc => acc.movements)
+// .reduce((accum, curr) => curr >= 1000 ? accum + 1 : accum, 0)
 
-console.log(numAtLeast1000reduce);
+// console.log(numAtLeast1000reduce);
 
-//3. create a new object using reduce
-//object that contains some of the withdrawals and some of the deposits
-const {deposits1, withdrawals1} = accounts
-.flatMap(acc => acc.movements)
-.reduce(function(accum, curr) {
-curr > 0 ? accum.deposits1 += curr : accum.withdrawals1 += curr;
-return accum
-}, 
-{deposits1: 0, withdrawals1: 0});
+// //3. create a new object using reduce
+// //object that contains some of the withdrawals and some of the deposits
+// const {deposits1, withdrawals1} = accounts
+// .flatMap(acc => acc.movements)
+// .reduce(function(accum, curr) {
+// curr > 0 ? accum.deposits1 += curr : accum.withdrawals1 += curr;
+// return accum
+// }, 
+// {deposits1: 0, withdrawals1: 0});
 
-console.log(deposits1, withdrawals1);
+// console.log(deposits1, withdrawals1);
 
-//4. create a simple function to convert any string in a title case ( capitalize words): this is a nice title --> This Is a Nice Title
-const convertTitleCase = function(title) {
-const exceptions = [`a`, `the`, `an`, `and`, `but`, `or`, `on`, `in`, `with`];
-const titleCase = title.toLowerCase().split(` `).map(word => exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)).join(` `);
-const upperCaseSentance = titleCase[0].toUpperCase() + titleCase.slice(1);
-return upperCaseSentance
-};
-console.log(convertTitleCase(`this is a nice title`));
-console.log(convertTitleCase(`this is a LONG title, but not too long`));
-console.log(convertTitleCase(`here is an another title with an example`));
-console.log(convertTitleCase(`a very nice picture`));
+// //4. create a simple function to convert any string in a title case ( capitalize words): this is a nice title --> This Is a Nice Title
+// const convertTitleCase = function(title) {
+// const exceptions = [`a`, `the`, `an`, `and`, `but`, `or`, `on`, `in`, `with`];
+// const titleCase = title.toLowerCase().split(` `).map(word => exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)).join(` `);
+// const upperCaseSentance = titleCase[0].toUpperCase() + titleCase.slice(1);
+// return upperCaseSentance
+// };
+// console.log(convertTitleCase(`this is a nice title`));
+// console.log(convertTitleCase(`this is a LONG title, but not too long`));
+// console.log(convertTitleCase(`here is an another title with an example`));
+// console.log(convertTitleCase(`a very nice picture`));
 
+
+//?----------------------Lesson 167 CHALLENGE
+
+const dogs = [
+  { weight: 22, 
+    curFood: 250, 
+    owners: ['Alice', 'Bob'] },
+
+  { weight: 8, 
+    curFood: 200, 
+    owners: ['Matilda'] },
+
+  { weight: 13, 
+    curFood: 275, 
+    owners: ['Sarah', 'John'] },
+
+  { weight: 32, 
+    curFood: 340, 
+    owners: ['Michael'] }
+
+  ];
+  
+ //? 1. = passed
+ console.log(`1.`);
+
+  dogs.map(function(dog) {
+  const calcFood = dog.weight ** 0.75 * 28;
+  dog.recommendedFood = Math.trunc(calcFood);
+  })
+  //To check teachers solution:
+  // dogs.forEach(dog => (dog.recFood = Math.trunc(dog.weight ** 0.75 * 28)));
+
+  console.log(dogs);
+
+  //? 2. = passed
+  console.log(`2.`);
+
+  const eatWell = function(name) {
+
+    const ownerDog = dogs.find(function(dog) {
+      dog.owners.includes(name)
+      return dog
+    } )
+
+    if(ownerDog.recommendedFood === ownerDog.curFood) {
+      console.log(`The dog eats normal`);
+    } else if (ownerDog.recommendedFood > ownerDog.curFood) {
+      console.log(`The dog eats too little`);
+    } else {
+      console.log(`The dog eats too much`);
+    }
+//better:
+    console.log(`dog is eating too ${
+      ownerDog.curFood > ownerDog.recommendedFood ? 'much' : 'little'}.`);
+
+  }
+eatWell(`Sarah`)
+
+//To check teachers solution:
+
+//?3. = passed
+
+console.log(`3.`);
+const ownersEatTooMuch = [];
+const ownersEatTooLittle = [];
+
+dogs.filter(function(dog) {
+
+  // if(dog.recommendedFood < dog.curFood) return ownersEatTooMuch.push(dog.owners)
+  // if(dog.recommendedFood > dog.curFood) return ownersEatTooLittle.push(dog.owners)
+  
+//SHORTER:
+  dog.recommendedFood < dog.curFood ? ownersEatTooMuch.push(dog.owners) : ownersEatTooLittle.push(dog.owners)
+})
+
+console.log(ownersEatTooMuch.flat(), ownersEatTooLittle.flat());
+
+//To check teachers solution:
+const ownersEatTooMuch2 = dogs
+  .filter(dog => dog.curFood > dog.recommendedFood)
+  .flatMap(dog => dog.owners);
+// .flat();
+console.log(ownersEatTooMuch2);
+
+//? 4. = passed
+console.log(`4.`);
+
+// const display = function(arr) {
+//   const arrFlat = arr.flat();
+// const owners = arrFlat.join(` and `)
+// return owners
+// }
+
+//shorter version if its not used further on and function is not needed:
+console.log(`${ownersEatTooLittle.flat().join(` and `)}'s dogs eat too little`);
+console.log(`${ownersEatTooMuch.flat().join(` and `)}'s dogs eat too much`);
+
+//? 5. = passed
+console.log(`5.`);
+// const normalEating = dogs.map(dog => dog.recommendedFood === dog.curFood ? true : false).includes(true);
+// console.log(normalEating);
+// //OR
+const normalEating2 = dogs.some(dog => dog.recommendedFood === dog.curFood);
+console.log(normalEating2);
+
+//? 6. = passed
+console.log(`6.`);
+
+const eatingOkay = dogs.some(dog => dog.curFood >= dog.recommendedFood*0.9 && dog.curFood <= dog.recommendedFood*1.1);
+console.log(eatingOkay);
+
+//To check teachers solution:
+const checkEatingOkay = dog =>
+  dog.curFood > dog.recommendedFood * 0.9 && dog.curFood < dog.recommendedFood * 1.1;
+
+console.log(dogs.some(checkEatingOkay));
+
+//? 7. = passed
+console.log(`7.`);
+
+const eatingOkayDogs = dogs.filter(dog => dog.curFood >= dog.recommendedFood*0.9 && dog.curFood <= dog.recommendedFood*1.1);
+
+console.log(eatingOkayDogs);
+
+//To check teachers solution:
+console.log(dogs.filter(checkEatingOkay));
+
+
+//? 8. = passed
+console.log(`8.`);
+
+const dogs2 = dogs.slice();
+console.log(dogs2);
+
+const dogsArr = dogs2.map(dog => dog.recommendedFood).sort((a,b) => a-b);
+console.log(dogsArr);
+
+//shorter:
+const dogs3 = dogs.slice().map(dog => dog.recommendedFood).sort((a,b) => a-b);
+console.log(dogs3);
+//ok the task was to sort the dogs not their recommendedfood results, but otherwise good.
+
+
+//To check teachers solution:
+const dogsSorted = dogs.slice().sort((a, b) => a.recommendedFood - b.recommendedFood);
+console.log(dogsSorted);
 
