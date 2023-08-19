@@ -371,36 +371,69 @@ btnSort.addEventListener('click', function (e) {
 //*----------------------Lesson 174
 //BigInt
 
-console.log(2 ** 53 - 1);
-console.log(Number.MAX_SAFE_INTEGER);
-console.log(2 ** 53 + 1);
-console.log(2 ** 53 + 2);
-console.log(2 ** 53 + 3);
-console.log(2 ** 53 + 4);
+// console.log(2 ** 53 - 1);
+// console.log(Number.MAX_SAFE_INTEGER);
+// console.log(2 ** 53 + 1);
+// console.log(2 ** 53 + 2);
+// console.log(2 ** 53 + 3);
+// console.log(2 ** 53 + 4);
 
-console.log(4838430248342043823408394839483204n);
-console.log(BigInt(48384302));
+// console.log(4838430248342043823408394839483204n);
+// console.log(BigInt(48384302));
 
-// Operations
-console.log(10000n + 10000n);
-console.log(36286372637263726376237263726372632n * 10000000n);
-// console.log(Math.sqrt(16n));//wont work !
+// // Operations
+// console.log(10000n + 10000n);
+// console.log(36286372637263726376237263726372632n * 10000000n);
+// // console.log(Math.sqrt(16n));//wont work !
 
-const huge = 20289830237283728378237n;
-const num = 23;
-console.log(huge * BigInt(num));
-// console.log(huge * num);//wont work !
+// const huge = 20289830237283728378237n;
+// const num = 23;
+// console.log(huge * BigInt(num));
+// // console.log(huge * num);//wont work !
 
-// Exceptions
-console.log(20n > 15);//true
-console.log(20n === 20);//false
-console.log(typeof 20n);//bigInt
-console.log(20n == '20');//true
+// // Exceptions
+// console.log(20n > 15);//true
+// console.log(20n === 20);//false
+// console.log(typeof 20n);//bigInt
+// console.log(20n == '20');//true
 
-console.log(huge + ' is REALLY big!!!');//20289830237283728378237 is REALLY big!!!
+// console.log(huge + ' is REALLY big!!!');//20289830237283728378237 is REALLY big!!!
 
-// Divisions
-console.log(`------`);
-console.log(11n / 3n);//it will cut decimal part
-console.log(10n / 3n);//it will cut decimal part
-console.log(10 / 3);//3.33333333333335
+// // Divisions
+// console.log(`------`);
+// console.log(11n / 3n);//it will cut decimal part
+// console.log(10n / 3n);//it will cut decimal part
+// console.log(10 / 3);//3.33333333333335
+
+//*----------------------Lesson 175
+//CREATE A DATE
+//4 ways to create dates:
+
+// const now = new Date()
+// console.log(now);//Sat Aug 19 2023 13:52:14 GMT+0300 (Eastern European Summer Time)
+
+// console.log(new Date(`Aug 19 2023 13:52:14`));
+// console.log(new Date(`December 23, 2012`));
+// console.log(new Date(account1.movementsDates[0]));
+
+// console.log(new Date(2037, 10, 19, 15, 23, 5));
+// console.log(new Date(2037, 10, 31));
+
+// console.log(new Date(0));//Thu Jan 01 1970 03:00:00 GMT+0300 (Eastern European Standard Time)
+// // console.log(new Date(3 * 24 * 60 * 60 * 1000));//converting days to miliseconds, 3 days later
+// //if we calculate 3 * 24 * 60 * 60 * 1000 = we get 259200000 - it is TIMESTAMP
+
+// //Working with dates
+// const future = new Date(2037, 10, 19, 15, 23);
+// console.log(future.getFullYear());
+// console.log(future.getMonth());
+// console.log(future.getDate());
+// console.log(future.getDay());
+// console.log(future.getHours());
+// console.log(future.getMinutes());
+// console.log(future.getSeconds());
+// console.log(future.toISOString());
+
+// future.setFullYear(2040)
+// console.log(future);
+
