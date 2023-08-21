@@ -81,6 +81,14 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
+const formatCurr = function(value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+  style: `currency`,
+  currency: currency  
+}).format(value);
+};
+
+
 const formatMovementsDates = function(date) {
 
   const calcDays = (date1, date2) => Math.round(Math.abs(date2- date1) / (1000*60*60*24));
@@ -94,14 +102,18 @@ const formatMovementsDates = function(date) {
   if (daysPassed <= 7) return `${daysPassed} days ago`
 
   //If conditions are not met then proceed to this:
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() +1}`.padStart(2, 0);
-    const year = date.getFullYear();
+  //   const day = `${date.getDate()}`.padStart(2, 0);
+  //   const month = `${date.getMonth() +1}`.padStart(2, 0);
+  //   const year = date.getFullYear();
   
-  return `${day}/${month}/${year}`
-  }
   // return `${day}/${month}/${year}`
-}
+
+  //OR (INTL)
+  return new Intl.DateTimeFormat(currentAccount.locale).format(date)
+
+  }
+ 
+
 
 
 const displayMovements = function (acc, sort = false) {
@@ -116,13 +128,15 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(acc.movementsDates[i])
     const displayDate = formatMovementsDates(date)
 
+const formattedMov = formatCurr(mov, acc.locale, acc.currency);
+
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
     <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${mov.toFixed(2)}€</div>
+        <div class="movements__value">${formattedMov}</div>
       </div>
     `;
 
@@ -134,19 +148,28 @@ const displayMovements = function (acc, sort = false) {
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  const formattedBalance = formatCurr(acc.balance, acc.locale, acc.currency);
+
+  labelBalance.textContent = `${formattedBalance}`;
 };
 
 const calcDisplaySummary = function (acc) {
+
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
-  const out = acc.movements
+  const formattedIncome = formatCurr(incomes, acc.locale, acc.currency);
+
+  labelSumIn.textContent = `${formattedIncome}`;
+
+  const out = Math.abs(acc.movements
     .filter(mov => mov < 0)
-    .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out.toFixed(2))}€`;
+    .reduce((acc, mov) => acc + mov, 0));
+
+    const formattedOut = formatCurr(out, acc.locale, acc.currency);
+
+  labelSumOut.textContent = `${formattedOut}`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -156,7 +179,10 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+
+    const formattedInterest = formatCurr(interest, acc.locale, acc.currency);
+
+  labelSumInterest.textContent = `${formattedInterest}`;
 };
 
 const createUsernames = function (accs) {
@@ -186,9 +212,25 @@ const updateUI = function (acc) {
 let currentAccount;
 
 // ..FAKED ALWAYS LOGGED IN------------
-currentAccount= account1;
+currentAccount = account1;
 updateUI(currentAccount);
 containerApp.style.opacity = 100;
+//-------------------------------------
+//experimenting with API
+const now = new Date();
+// const options = {
+//   hour: `numeric`,
+//   minute: `numeric`,
+//   day: `numeric`,
+//   month: `long`,
+//   year: `numeric`,
+//   weekday: `long`
+// };
+
+// const locale = navigator.language;
+// console.log(locale);
+
+// labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now)
 //-------------------------------------
 
 btnLogin.addEventListener('click', function (e) {
@@ -209,12 +251,26 @@ btnLogin.addEventListener('click', function (e) {
 
     //create current date and time
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0)
-    const month = `${now.getMonth() +1}`.padStart(2, 0)
-    const year = now.getFullYear();
-    const hours = `${now.getHours()}`.padStart(2, 0);
-    const minutes = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+    // const day = `${now.getDate()}`.padStart(2, 0)
+    // const month = `${now.getMonth() +1}`.padStart(2, 0)
+    // const year = now.getFullYear();
+    // const hours = `${now.getHours()}`.padStart(2, 0);
+    // const minutes = `${now.getMinutes()}`.padStart(2, 0);
+    // labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+//another way (INTL adapted)
+    const options = {
+      hour: `numeric`,
+      minute: `numeric`,
+      day: `numeric`,
+      month: `2-digit`,
+      year: `numeric`,
+      // weekday: `long`
+    };
+    
+    // const locale = navigator.language;
+    // console.log(locale);
+    
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now)
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -519,3 +575,39 @@ btnSort.addEventListener('click', function (e) {
 // const days1 = calcDaysPassed(new Date(2037, 3, 14),new Date(2037, 3, 4))
 // console.log(days1);
 
+//*----------------------Lesson 178
+//INTL DATES
+
+// labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale).format(date)
+
+// //to control styling:
+// const options = {
+//   hour: `numeric`,
+//   minute: `numeric`,
+//   day: `numeric`,
+//   month: `2-digit`,
+//   year: `numeric`,
+//   // weekday: `long`
+// };//then pass it as a second argument in the below function
+
+// // const locale = navigator.language;//to get user's browser lang
+// // console.log(locale);
+
+// labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now)
+
+//*----------------------Lesson 179
+//INTL NUMBERS
+
+const num = 3884764.23;
+const options = {
+  style: 'currency',//percent, unit...
+  // unit: `celsius`//mile-per-hour...
+  currency: `EUR`,
+  // useGrouping: false,//number are printed without separators
+}
+
+console.log(new Intl.NumberFormat(`en-US`, options).format(num));
+console.log(new Intl.NumberFormat(`de-DE`, options).format(num));
+console.log(new Intl.NumberFormat(`es-ES`, options).format(num));
+console.log(new Intl.NumberFormat(`ar-EG`, options).format(num));
+console.log(new Intl.NumberFormat(navigator.language, options).format(num));
