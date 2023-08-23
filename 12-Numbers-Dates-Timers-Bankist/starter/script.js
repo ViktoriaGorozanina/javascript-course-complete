@@ -314,14 +314,15 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
   
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
+    setTimeout(function() {
+      // Add movement
     currentAccount.movements.push(amount);
-
     // add loan date
     currentAccount.movementsDates.push(new Date().toISOString());
-
     // Update UI
     updateUI(currentAccount);
+  }, 2500);
+    
   }
   inputLoanAmount.value = '';
 });
@@ -598,16 +599,45 @@ btnSort.addEventListener('click', function (e) {
 //*----------------------Lesson 179
 //INTL NUMBERS
 
-const num = 3884764.23;
-const options = {
-  style: 'currency',//percent, unit...
-  // unit: `celsius`//mile-per-hour...
-  currency: `EUR`,
-  // useGrouping: false,//number are printed without separators
-}
+// const num = 3884764.23;
+// const options = {
+//   style: 'currency',//percent, unit...
+//   // unit: `celsius`//mile-per-hour...
+//   currency: `EUR`,
+//   // useGrouping: false,//number are printed without separators
+// }
 
-console.log(new Intl.NumberFormat(`en-US`, options).format(num));
-console.log(new Intl.NumberFormat(`de-DE`, options).format(num));
-console.log(new Intl.NumberFormat(`es-ES`, options).format(num));
-console.log(new Intl.NumberFormat(`ar-EG`, options).format(num));
-console.log(new Intl.NumberFormat(navigator.language, options).format(num));
+// console.log(new Intl.NumberFormat(`en-US`, options).format(num));
+// console.log(new Intl.NumberFormat(`de-DE`, options).format(num));
+// console.log(new Intl.NumberFormat(`es-ES`, options).format(num));
+// console.log(new Intl.NumberFormat(`ar-EG`, options).format(num));
+// console.log(new Intl.NumberFormat(navigator.language, options).format(num));
+
+//*----------------------Lesson 180
+//SET TIMOUT
+
+setTimeout(() => console.log(`Here is your pizza`), 3000);
+console.log(`waiting...`);
+
+const ingredients = [`olives`, `spinach`]
+const pizzaTimer = setTimeout((ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`), 
+3500,
+...ingredients
+);
+
+if (ingredients.includes(`spinach`)) clearTimeout(pizzaTimer);
+
+//setInterval
+// setInterval(function() {
+//   const now = new Date();
+//   console.log(now);
+// }, 10000)
+
+//CHALLENGE `clock` - passed
+setInterval(function() {
+  const now = new Date();
+  const hours = `${now.getHours()}`.padStart(2, 0);
+  const min = `${now.getMinutes()}`.padStart(2, 0);
+  const sec = `${now.getSeconds()}`.padStart(2, 0);
+  console.log(`${hours}:${min}:${sec}`);
+}, 1000);
