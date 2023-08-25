@@ -207,15 +207,50 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogoutTimer = function(){
+const tick = function() {
+
+    //convert (number) seconds to time format 00:00
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    //each call back print the remainig time
+  labelTimer.textContent = `${min}:${sec}`;
+  
+  //when time is 0 - stop timer and logout
+  
+  if(time ===0){
+    clearInterval(timer);
+    labelWelcome.textComtent = `Log in to get started`;
+    containerApp.style.opacity = 0;
+  }
+  
+    //decrease 1 sec
+    time = time -1; // or time--
+  };
+
+  // setting the time to 5 min
+  let time = 120;
+
+  //to call the function immediately:
+  tick();
+  //call timer every second
+  const timer = setInterval(tick, 1000)
+  return timer;
+
+}
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 // ..FAKED ALWAYS LOGGED IN------------
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 //-------------------------------------
+
+
 //experimenting with API
 const now = new Date();
 // const options = {
@@ -275,6 +310,11 @@ btnLogin.addEventListener('click', function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+
+    //if there is a timer then need to clear the first one:
+    if(timer) clearInterval(timer);
+    timer = startLogoutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -616,16 +656,16 @@ btnSort.addEventListener('click', function (e) {
 //*----------------------Lesson 180
 //SET TIMOUT
 
-setTimeout(() => console.log(`Here is your pizza`), 3000);
-console.log(`waiting...`);
+// setTimeout(() => console.log(`Here is your pizza`), 3000);
+// console.log(`waiting...`);
 
-const ingredients = [`olives`, `spinach`]
-const pizzaTimer = setTimeout((ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`), 
-3500,
-...ingredients
-);
+// const ingredients = [`olives`, `spinach`]
+// const pizzaTimer = setTimeout((ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`), 
+// 3500,
+// ...ingredients
+// );
 
-if (ingredients.includes(`spinach`)) clearTimeout(pizzaTimer);
+// if (ingredients.includes(`spinach`)) clearTimeout(pizzaTimer);
 
 //setInterval
 // setInterval(function() {
@@ -634,10 +674,14 @@ if (ingredients.includes(`spinach`)) clearTimeout(pizzaTimer);
 // }, 10000)
 
 //CHALLENGE `clock` - passed
-setInterval(function() {
-  const now = new Date();
-  const hours = `${now.getHours()}`.padStart(2, 0);
-  const min = `${now.getMinutes()}`.padStart(2, 0);
-  const sec = `${now.getSeconds()}`.padStart(2, 0);
-  console.log(`${hours}:${min}:${sec}`);
-}, 1000);
+// setInterval(function() {
+//   const now = new Date();
+//   const hours = `${now.getHours()}`.padStart(2, 0);
+//   const min = `${now.getMinutes()}`.padStart(2, 0);
+//   const sec = `${now.getSeconds()}`.padStart(2, 0);
+//   console.log(`${hours}:${min}:${sec}`);
+// }, 1000);
+
+//*----------------------Lesson 181
+
+//code in btnLogin and separate function startLogoutTimer
