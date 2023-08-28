@@ -75,55 +75,91 @@ document.querySelector(`.btn--close-cookie`).addEventListener(`click`, function(
 //*-------------------Lesson 187 
 
 //STYLES
-message.style.backgroundColor = `#37383d`;
-message.style.width = `120%`;
-// message.style.padding = `10px 0px 10px 0px`;
-//we can't read styles from css:
-console.log(message.style.height);
-console.log(message.style.backgroundColor);//reads only the color that we set above here in JS
+// message.style.backgroundColor = `#37383d`;
+// message.style.width = `120%`;
+// // message.style.padding = `10px 0px 10px 0px`;
+// //we can't read styles from css:
+// console.log(message.style.height);
+// console.log(message.style.backgroundColor);//reads only the color that we set above here in JS
 
-//GET STYLE FROM CSS
-console.log(getComputedStyle(message).color);
-console.log(getComputedStyle(message).height);
-//increase height
-message.style.height = Number.parseFloat(getComputedStyle(message).height) + 30 + `px`;
-console.log(getComputedStyle(message).height);
+// //GET STYLE FROM CSS
+// console.log(getComputedStyle(message).color);
+// console.log(getComputedStyle(message).height);
+// //increase height
+// message.style.height = Number.parseFloat(getComputedStyle(message).height) + 30 + `px`;
+// console.log(getComputedStyle(message).height);
 
-//CSS custom properties (variables)
-document.documentElement.style.setProperty(`--color-primary`, `orangered`)
+// //CSS custom properties (variables)
+// document.documentElement.style.setProperty(`--color-primary`, `orangered`)
 
-//ATTRIBUTES
-const logo = document.querySelector(`.nav__logo`);
-console.log(logo.alt);
-console.log(logo.src);
-console.log(logo.className);//class (before it was `className` in html)
-//shows only standard properties
+// //ATTRIBUTES
+// const logo = document.querySelector(`.nav__logo`);
+// console.log(logo.alt);
+// console.log(logo.src);
+// console.log(logo.className);//class (before it was `className` in html)
+// //shows only standard properties
 
-logo.alt = `Hello you`
-console.log(logo.alt);
-//Non-standard
-// console.log(logo.designer);//wont work since its non standard
-console.log(logo.getAttribute(`designer`));
-logo.setAttribute(`company`, `Vicky`)
-console.log(logo.company);
+// logo.alt = `Hello you`
+// console.log(logo.alt);
+// //Non-standard
+// // console.log(logo.designer);//wont work since its non standard
+// console.log(logo.getAttribute(`designer`));
+// logo.setAttribute(`company`, `Vicky`)
+// console.log(logo.company);
 
-//to get real src from HTML
-console.log(logo.src);//absolute link - http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/img/logo.png
-console.log(logo.getAttribute(`src`));//img/logo.png
+// //to get real src from HTML
+// console.log(logo.src);//absolute link - http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/img/logo.png
+// console.log(logo.getAttribute(`src`));//img/logo.png
 
-const link = document.querySelector(`.twitter-link`);
-console.log(link.href);
-console.log(link.getAttribute(`href`));
+// const link = document.querySelector(`.twitter-link`);
+// console.log(link.href);
+// console.log(link.getAttribute(`href`));
 
-//DATA attributes
-console.log(logo.dataset.versionNumber);
+// //DATA attributes
+// console.log(logo.dataset.versionNumber);
 
 
-//CLASSES
-logo.classList.add(`class`);//can pass multiple classes
-logo.classList.remove(`class`);//can pass multiple classes
-logo.classList.toggle(`class`);//can pass multiple classes
-logo.classList.contains(`class`);//not includes. can pass multiple classes
+// //CLASSES
+// logo.classList.add(`class`);//can pass multiple classes
+// logo.classList.remove(`class`);//can pass multiple classes
+// logo.classList.toggle(`class`);//can pass multiple classes
+// logo.classList.contains(`class`);//not includes. can pass multiple classes
 
-//set a class
-logo.className = `Jonas`//dont use, it will overwrite  all teh existing classes and allows to put only 1 class
+// //set a class
+// logo.className = `Jonas`//dont use, it will overwrite  all teh existing classes and allows to put only 1 class
+
+//*-------------------Lesson 188
+
+
+const btnScrollTo = document.querySelector(`.btn--scroll-to`);
+const section1 = document.querySelector(`#section--1`);
+
+btnScrollTo.addEventListener(`click`, function(e) {
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+
+  console.log(e.target.getBoundingClientRect());
+
+  console.log(`Current scroll (X/Y)`, 
+  window.pageXOffset, 
+  window.pageYOffset);
+
+  console.log(`height and with viewport`, 
+  document.documentElement.clientHeight, 
+  document.documentElement.clientWidth);
+
+  //scrolling (oldschool):
+  // window.scrollTo(
+    // s1coords.left + window.pageXOffset, 
+    // s1coords.top + window.pageYOffset)
+
+    //smooth scrolling:
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset, 
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: `smooth`,
+  // })
+
+  //modern scrolling:
+section1.scrollIntoView({behavior: `smooth`});
+})
