@@ -163,3 +163,24 @@ btnScrollTo.addEventListener(`click`, function(e) {
   //modern scrolling:
 section1.scrollIntoView({behavior: `smooth`});
 })
+
+
+//*-------------------Lesson 189
+//TYPE OF EVENTS
+// const h1 = document.querySelector(`h1`);
+
+// const alertH1 = function(e) {
+//   alert(`ALERT ALERT`)
+
+//   // h1.removeEventListener(`mouseenter`, alertH1)
+//   }
+
+// h1.addEventListener(`mouseenter`, alertH1)
+
+// setTimeout(() => h1.removeEventListener(`mouseenter`, alertH1), 3000);
+// //another way to attatch an event listener to an element (old school):
+// // h1.onmouseenter = function(e) {
+// //   alert(`onmouseenter alert`)
+// //   }
+
+//*-------------------Lesson 190
