@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector(`.btn--scroll-to`);
+const section1 = document.querySelector(`#section--1`);
 
 const openModal = function (e) {
   e.preventDefault();
@@ -29,26 +31,30 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+//////////////////////////////////
+//Lesson 192
+// Page navigation
+
 
 //*-------------------Lesson 186
 
 //SELECTING
-console.log(document.documentElement);//selects the entire HTML
-console.log(document.head);//selects head of HTML
-console.log(document.body);//selects body of HTML
+// console.log(document.documentElement);//selects the entire HTML
+// console.log(document.head);//selects head of HTML
+// console.log(document.body);//selects body of HTML
 
 const header = document.querySelector(`.header`);//selects class
 const allSections = document.querySelectorAll(`.section`);//selects all
-console.log(allSections);//returns Node list
+// console.log(allSections);//returns Node list
 
 document.getElementById(`section--1`);//select by id name
 
 const allButtons = document.getElementsByTagName(`button`);//selects all elements with selected tags 
 
-console.log(allButtons);//returns HTML collection
+// console.log(allButtons);//returns HTML collection
 
 const btn = document.getElementsByClassName(`btn`);
-console.log(btn);//gets HTML collection of all btn class elements
+// console.log(btn);//gets HTML collection of all btn class elements
 
 
 //CREATING and INSERTING html elements
@@ -131,38 +137,35 @@ document.querySelector(`.btn--close-cookie`).addEventListener(`click`, function(
 //*-------------------Lesson 188
 
 
-const btnScrollTo = document.querySelector(`.btn--scroll-to`);
-const section1 = document.querySelector(`#section--1`);
+// btnScrollTo.addEventListener(`click`, function(e) {
+//   const s1coords = section1.getBoundingClientRect();
+//   // console.log(s1coords);
 
-btnScrollTo.addEventListener(`click`, function(e) {
-  const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
+//   // console.log(e.target.getBoundingClientRect());
 
-  console.log(e.target.getBoundingClientRect());
+//   // console.log(`Current scroll (X/Y)`, 
+//   // window.pageXOffset, 
+//   // window.pageYOffset);
 
-  console.log(`Current scroll (X/Y)`, 
-  window.pageXOffset, 
-  window.pageYOffset);
+//   // console.log(`height and with viewport`, 
+//   // document.documentElement.clientHeight, 
+//   // document.documentElement.clientWidth);
 
-  console.log(`height and with viewport`, 
-  document.documentElement.clientHeight, 
-  document.documentElement.clientWidth);
+//   //scrolling (oldschool):
+//   // window.scrollTo(
+//     // s1coords.left + window.pageXOffset, 
+//     // s1coords.top + window.pageYOffset)
 
-  //scrolling (oldschool):
-  // window.scrollTo(
-    // s1coords.left + window.pageXOffset, 
-    // s1coords.top + window.pageYOffset)
+//     //smooth scrolling:
+//   // window.scrollTo({
+//   //   left: s1coords.left + window.pageXOffset, 
+//   //   top: s1coords.top + window.pageYOffset,
+//   //   behavior: `smooth`,
+//   // })
 
-    //smooth scrolling:
-  // window.scrollTo({
-  //   left: s1coords.left + window.pageXOffset, 
-  //   top: s1coords.top + window.pageYOffset,
-  //   behavior: `smooth`,
-  // })
-
-  //modern scrolling:
-section1.scrollIntoView({behavior: `smooth`});
-})
+//   //modern scrolling:
+// section1.scrollIntoView({behavior: `smooth`});
+// })
 
 
 //*-------------------Lesson 189
@@ -183,4 +186,102 @@ section1.scrollIntoView({behavior: `smooth`});
 // //   alert(`onmouseenter alert`)
 // //   }
 
-//*-------------------Lesson 190
+//*-------------------Lesson 191
+
+// //rgb(255,255,255)
+// const randomInt = (min,max) => Math.floor(Math.random () * (max - min +1) + min);
+
+// const randomColor = () => `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+// console.log(randomColor(0,255));
+
+// document.querySelector(`.nav__link`).addEventListener(`click`, function(e) {
+//   // console.log(`link`);
+//   this.style.backgroundColor = randomColor();
+//   console.log(`LINK`, e.target, e.currentTarget);//to see from wich element the event is triggered, and through which elements it bubbles
+//   console.log(e.currentTarget === this);//means that e.current target is the same as the element in this querySelector
+
+//   //Stop propagation:
+//   // e.stopPropagation();//to `isolate` the element so propagation stops and the event will happen only in this element
+// });
+
+// document.querySelector(`.nav__links`).addEventListener(`click`, function(e) {
+//   this.style.height = `100px`;
+//   console.log(`LINK`, e.target, e.currentTarget);//to see from wich element the event is triggered, and through which elements it bubbles
+//   console.log(e.currentTarget === this);//means that e.current target is the same as the element in this querySelector
+
+//   //Stop propagation:
+//   e.stopPropagation();//to `isolate` the element so propagation stops and the event will happen only in this element
+// });
+
+// document.querySelector(`.nav`).addEventListener(`click`, function(e) {
+//   this.style.backgroundColor = randomColor();
+//   console.log(`LINK`, e.target, e.currentTarget);//to see from wich element the event is triggered, and through which elements it bubbles
+//   console.log(e.currentTarget === this);//means that e.current target is the same as the element in this querySelector
+
+//   //Stop propagation:
+//   e.stopPropagation();//to `isolate` the element so propagation stops and the event will happen only in this element
+// });
+
+//*-------------------Lesson 192
+
+//
+btnScrollTo.addEventListener(`click`, function(e) {
+  const s1coords = section1.getBoundingClientRect();
+  // console.log(s1coords);
+
+  // console.log(e.target.getBoundingClientRect());
+
+  // console.log(`Current scroll (X/Y)`, 
+  // window.pageXOffset, 
+  // window.pageYOffset);
+
+  // console.log(`height and with viewport`, 
+  // document.documentElement.clientHeight, 
+  // document.documentElement.clientWidth);
+
+  //scrolling (oldschool):
+  // window.scrollTo(
+    // s1coords.left + window.pageXOffset, 
+    // s1coords.top + window.pageYOffset)
+
+    //smooth scrolling:
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset, 
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: `smooth`,
+  // })
+
+  //modern scrolling:
+section1.scrollIntoView({behavior: `smooth`});
+})
+
+  // Page navigation
+//this is the way we would do it a normal way, but it is not a good practice to use this method to apply it for thousands of elements for example, so we need to delegate it.
+// document.querySelectorAll(`.nav__link`).forEach(function(el) {
+//   el.addEventListener(`click`, function(e) {
+//     e.preventDefault();
+//     const id = this.getAttribute(`href`);
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({behavior: `smooth`});
+//   })
+//   })
+
+//delegate it (so now it works like "if clicked element is `this` then happen `this`"):
+
+//1. Add event listener to a common parent elemnet
+//2. Determine what element orginated the event
+
+document.querySelector(`.nav__links`).addEventListener(`click`, function(e) {
+  console.log(e.target);
+
+//Matching strategy:
+if(e.target.classList.contains(`nav__link`)){
+  console.log(`link`);
+
+  e.preventDefault();
+    const id = e.target.getAttribute(`href`);
+    console.log(id);
+    document.querySelector(id).scrollIntoView({behavior: `smooth`})
+}
+})
