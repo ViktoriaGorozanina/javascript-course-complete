@@ -273,15 +273,47 @@ section1.scrollIntoView({behavior: `smooth`});
 //2. Determine what element orginated the event
 
 document.querySelector(`.nav__links`).addEventListener(`click`, function(e) {
-  console.log(e.target);
+    console.log(e.target);
 
-//Matching strategy:
-if(e.target.classList.contains(`nav__link`)){
-  console.log(`link`);
+    //Matching strategy:
+    if(e.target.classList.contains(`nav__link`)){
+    console.log(`link`);
 
-  e.preventDefault();
-    const id = e.target.getAttribute(`href`);
-    console.log(id);
-    document.querySelector(id).scrollIntoView({behavior: `smooth`})
-}
+      e.preventDefault();
+        const id = e.target.getAttribute(`href`);
+        console.log(id);
+        document.querySelector(id).scrollIntoView({behavior:     `smooth`})
+    }
+})
+
+
+//*-------------------Lesson 193
+
+const h1 = document.querySelector(`h1`);
+
+// Going downwards: child
+console.log(h1.querySelectorAll(`.highlight`));
+console.log(h1.childNodes);//direct children nodes
+console.log(h1.children);//direct children elements
+
+h1.firstElementChild.style.color = `white`;
+h1.lastElementChild.style.color = `black`;
+
+// Going upwards: parent
+console.log(h1.parentNode);//direct parent node
+console.log(h1.parentElement);//direct parent elements
+
+console.log(h1.closest(`.header`).style.background = `var(--gradient-secondary)`);//it will find NON direct parent
+console.log(h1.closest(`h1`).style.background = `var(--color-tertiary)`);//it will find itself
+
+//Going sideways: siblings
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+console.log(h1.parentElement.children);//selects all siblings
+[...h1.parentElement.children].forEach(function(el) {
+  if(el !== h1) el.style.transform = `scale(0.5)`
 })
