@@ -289,31 +289,60 @@ document.querySelector(`.nav__links`).addEventListener(`click`, function(e) {
 
 //*-------------------Lesson 193
 
-const h1 = document.querySelector(`h1`);
+// const h1 = document.querySelector(`h1`);
 
-// Going downwards: child
-console.log(h1.querySelectorAll(`.highlight`));
-console.log(h1.childNodes);//direct children nodes
-console.log(h1.children);//direct children elements
+// // Going downwards: child
+// console.log(h1.querySelectorAll(`.highlight`));
+// console.log(h1.childNodes);//direct children nodes
+// console.log(h1.children);//direct children elements
 
-h1.firstElementChild.style.color = `white`;
-h1.lastElementChild.style.color = `black`;
+// h1.firstElementChild.style.color = `white`;
+// h1.lastElementChild.style.color = `black`;
 
-// Going upwards: parent
-console.log(h1.parentNode);//direct parent node
-console.log(h1.parentElement);//direct parent elements
+// // Going upwards: parent
+// console.log(h1.parentNode);//direct parent node
+// console.log(h1.parentElement);//direct parent elements
 
-console.log(h1.closest(`.header`).style.background = `var(--gradient-secondary)`);//it will find NON direct parent
-console.log(h1.closest(`h1`).style.background = `var(--color-tertiary)`);//it will find itself
+// console.log(h1.closest(`.header`).style.background = `var(--gradient-secondary)`);//it will find NON direct parent
+// console.log(h1.closest(`h1`).style.background = `var(--color-tertiary)`);//it will find itself
 
-//Going sideways: siblings
-console.log(h1.previousElementSibling);
-console.log(h1.nextElementSibling);
+// //Going sideways: siblings
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
 
-console.log(h1.previousSibling);
-console.log(h1.nextSibling);
+// console.log(h1.previousSibling);
+// console.log(h1.nextSibling);
 
-console.log(h1.parentElement.children);//selects all siblings
-[...h1.parentElement.children].forEach(function(el) {
-  if(el !== h1) el.style.transform = `scale(0.5)`
+// console.log(h1.parentElement.children);//selects all siblings
+// [...h1.parentElement.children].forEach(function(el) {
+//   if(el !== h1) el.style.transform = `scale(0.5)`
+// })
+
+//*-------------------Lesson 194
+
+
+const tabs = document.querySelectorAll(`.operations__tab`);
+const tabsContainer = document.querySelector(`.operations__tab-container`);
+const tabsContent = document.querySelectorAll(`.operations__content`);
+
+// tabs.forEach(t=>t.addEventListener(`click`, () =>
+// console.log(`tab`)));
+//better to use event delegation!:
+tabsContainer.addEventListener(`click`, function(e) {
+  const clicked = e.target.closest(`.operations__tab`);
+  // console.log(clicked);
+
+  //Guard clause:
+  if(!clicked) return;//if nothing is clicked then we wanto to immediately finish the function
+
+  //putting other buttons down (clearing active status):
+  tabs.forEach(t => t.classList.remove(`operations__tab--active`));
+//adding active status to clicked btn:
+  clicked.classList.add(`operations__tab--active`);
+
+  //activate content area:
+  tabsContent.forEach(c => c.classList.remove(`operations__content--active`))
+  // console.log(clicked.dataset.tab);//remove active class
+
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add(`operations__content--active`);
 })
