@@ -380,3 +380,55 @@ const handleHover = function(e) {
   
   nav.addEventListener(`mouseout`, handleHover.bind(1));
   
+
+  //*-------------------Lesson 195
+
+//   //Sticky navigation: not the best option, check the next lesson
+// const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
+
+//   window.addEventListener(`scroll`, function(e) {
+//     // console.log(window.scrollY);
+
+//     if(window.scrollY > initialCoords.top) {
+//       nav.classList.add(`sticky`)} 
+//       else {nav.classList.remove(`sticky`)
+//   }});
+
+//*-------------------Lesson 196
+// Sticky navigation: Intersection Observer API
+
+// const obsCallBack = function(entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   })
+// };
+
+// const obsOptions = {
+//   root: null,//viewport
+//   // threshold: 0.1,//10% of root (viewport)
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(obsCallBack, obsOptions);
+// observer.observe(section1);
+
+const header1 = document.querySelector(`.header`);
+const navHeight = nav.getBoundingClientRect();
+
+const stickyNav = function(entries) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if(!entry.isIntersecting)
+  nav.classList.add(`sticky`)
+  else nav.classList.remove(`sticky`)
+}
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  // rootMargin: `-90px`,//has to be px, rem and % do not work
+  rootMargin: `-${navHeight}px`
+});
+
+headerObserver.observe(header1);
