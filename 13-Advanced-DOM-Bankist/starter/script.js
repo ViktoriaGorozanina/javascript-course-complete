@@ -413,12 +413,14 @@ const handleHover = function(e) {
 // const observer = new IntersectionObserver(obsCallBack, obsOptions);
 // observer.observe(section1);
 
+//*-------------------Lesson 197
+
 const header1 = document.querySelector(`.header`);
 const navHeight = nav.getBoundingClientRect();
 
 const stickyNav = function(entries) {
   const [entry] = entries;
-  console.log(entry);
+  // console.log(entry);
 
   if(!entry.isIntersecting)
   nav.classList.add(`sticky`)
@@ -428,7 +430,64 @@ const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
   threshold: 0,
   // rootMargin: `-90px`,//has to be px, rem and % do not work
-  rootMargin: `-${navHeight}px`
+  // rootMargin: `-${navHeight}px`
 });
 
 headerObserver.observe(header1);
+
+
+
+//*-------------------Lesson 198
+//reveal sections
+const allaSections = document.querySelectorAll(`.section`);
+
+const revealSection = function(entries, observer) {
+    const [entry] = entries;
+    // console.log(entry);
+    
+    if(!entry.isIntersecting) return;
+    entry.target.classList.remove(`section--hidden`);
+
+    observer.unobserve(entry.target)//stop observing. so the action happens only once
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+root: null,
+threshold: 0.15,
+});
+
+allSections.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add(`section--hidden`);
+})
+
+
+//*-------------------Lesson 199
+
+//Lazy loading Images
+const imgTargets = document.querySelectorAll(`img[data-src]`);
+
+const loadImg = function(entries, observer) {
+  const [entry] = entries;
+    
+    if(!entry.isIntersecting) return;
+
+    //Replace the src attribute:
+    entry.target.src = entry.target.dataset.src;
+    //remove blur css class (since we changed the source, behind the scenes it loads a new img and we need to listen and attach a function to this event(loading)):
+    entry.target.addEventListener(`load`, function() {
+      entry.target.classList.remove(`lazy-img`);
+
+    });
+
+    //stop observing. so the action happens only once:
+    observer.unobserve(entry.target)
+}
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: `200px`
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
