@@ -458,7 +458,7 @@ threshold: 0.15,
 
 allSections.forEach(function(section) {
   sectionObserver.observe(section);
-  section.classList.add(`section--hidden`);
+  // section.classList.add(`section--hidden`);
 })
 
 
@@ -491,3 +491,55 @@ const imgObserver = new IntersectionObserver(loadImg, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+
+//*-------------------Lesson 200
+
+
+//Slider
+
+const slides = document.querySelectorAll(`.slide`);
+const btnLeft = document.querySelector(`.slider__btn--left`);
+const btnRight = document.querySelector(`.slider__btn--right`);
+
+let currentSlide = 0;
+//define number of slides:
+const maxSlide = slides.length;//length of the node list
+
+//the code below just for comfort working (mute it) :
+// const slider = document.querySelector(`.slider`)
+// slider.style.transform = `scale(0.4) translateX(-300px)`;
+// slider.style.overflow = `visible`;
+
+// slides.forEach((s, i) => s.style.transform = `translateX(${100 * i}%)`);
+// //0%, 100%, 200%, 300%
+
+const goToSlide = function(slide) {
+  slides.forEach((s, i) => (s.style.transform = `translateX(${100 * (i-currentSlide)}%)`));
+};
+  // currSLide is 1 : -100%, 0%, 100%, 200%
+
+  goToSlide(0)
+
+//Next slide
+
+const nextSlide = function() {
+  if(currentSlide === maxSlide -1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide)
+
+};
+const prevSlide = function() {
+  if(currentSlide === 0) {
+    currentSlide = maxSlide -1
+  } else {
+    currentSlide--;
+  }
+  goToSlide(currentSlide);
+};
+
+btnRight.addEventListener(`click`, nextSlide);
+btnLeft.addEventListener(`click`, prevSlide);
