@@ -10,6 +10,7 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector(`.btn--scroll-to`);
 const section1 = document.querySelector(`#section--1`);
 const nav = document.querySelector(`.nav`);
+const dotContainer = document.querySelector(`.dots`);
 
 const openModal = function (e) {
   e.preventDefault();
@@ -514,15 +515,27 @@ const maxSlide = slides.length;//length of the node list
 // slides.forEach((s, i) => s.style.transform = `translateX(${100 * i}%)`);
 // //0%, 100%, 200%, 300%
 
+//Functions:
+const createDots = function() {
+  slides.forEach(function(_, i) {
+    dotContainer.insertAdjacentHTML(`beforeend`, `<button class="dots__dot" data-slide="${i}"></button>`)
+  })
+}
+
+const activateDot = function(slide) {
+  document.querySelectorAll(`.dots__dot`).forEach(dot => dot.classList.remove(`dots__dot--active`));
+
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`)
+  .classList.add(`dots__dot--active`)
+}
+
 const goToSlide = function(slide) {
   slides.forEach((s, i) => (s.style.transform = `translateX(${100 * (i-currentSlide)}%)`));
 };
   // currSLide is 1 : -100%, 0%, 100%, 200%
 
-  goToSlide(0)
-
+  
 //Next slide
-
 const nextSlide = function() {
   if(currentSlide === maxSlide -1) {
     currentSlide = 0;
@@ -530,8 +543,9 @@ const nextSlide = function() {
     currentSlide++;
   }
   goToSlide(currentSlide)
-
+  activateDot(currentSlide);
 };
+
 const prevSlide = function() {
   if(currentSlide === 0) {
     currentSlide = maxSlide -1
@@ -539,7 +553,39 @@ const prevSlide = function() {
     currentSlide--;
   }
   goToSlide(currentSlide);
+  activateDot(currentSlide);
 };
 
+const init = function() {
+  createDots();
+  goToSlide(0);
+  activateDot(0);
+}
+init()
+//event handlers
 btnRight.addEventListener(`click`, nextSlide);
 btnLeft.addEventListener(`click`, prevSlide);
+
+//*-------------------Lesson 201
+
+
+//Slider part 2
+
+document.addEventListener(`keydown`, function(e) {
+  if(e.key === `ArrowLeft`) prevSlide();
+  if(e.key === `ArrowRight`) nextSlide();
+  
+})
+
+//code for the dots is in th eprevious lesson
+
+dotContainer.addEventListener(`click`, function(e) {
+  if (e.target.classList.contains(`dots__dot`)){
+    console.log(`OK`);
+    // const slide = e.target.dataset.slide;
+    const {slide} = e.target.dataset;
+    console.log(slide);
+    goToSlide(slide);
+    activateDot(slide);
+  }
+});
