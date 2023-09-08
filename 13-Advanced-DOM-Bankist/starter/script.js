@@ -589,3 +589,21 @@ dotContainer.addEventListener(`click`, function(e) {
     activateDot(slide);
   }
 });
+
+//*-------------------Lesson 202
+
+document.addEventListener(`DOMContentLoaded`, function(e) {
+  console.log(`HTML parsed and DOM tree built`, e);
+});
+
+window.addEventListener(`load`, function(e) {
+  console.log(`Page fully loaded`, e);
+});
+
+//event that happens just before th euser is about to leave the page 
+// (pop up asking if you really want to leave the page):
+// window.addEventListener(`beforeunload`, function(e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = ``;
+// })
