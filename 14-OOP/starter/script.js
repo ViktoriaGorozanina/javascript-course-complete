@@ -28,27 +28,49 @@ const Jack = new Person(`Jack`, 2015);
 //*---------------- LESSON 209
 
 //Prototypes
-console.log(Person.prototype);
+// console.log(Person.prototype);
 
 Person.prototype.calcAge = function () {
-  console.log(2037 - this.birthYear);
+  // console.log(2037 - this.birthYear);
 };
 
 Victoria.calcAge();
-console.log(Victoria.__proto__);
-console.log(Victoria.__proto__ === Person.prototype); //true
+// console.log(Victoria.__proto__);
+// console.log(Victoria.__proto__ === Person.prototype); //true
 
-console.log(Person.prototype.isPrototypeOf(Victoria)); //true
-console.log(Person.prototype.isPrototypeOf(Person)); //false
+// console.log(Person.prototype.isPrototypeOf(Victoria)); //true
+// console.log(Person.prototype.isPrototypeOf(Person)); //false
 
-console.log(Victoria);
+// console.log(Victoria);
 
 //---
 Person.prototype.species = `Homosapiens`;
-console.log(Victoria.species);
-console.log(Olga);
+// console.log(Victoria.species);
+// console.log(Olga);
 
-console.log(Victoria.hasOwnProperty(`firstName`)); //true
-console.log(Victoria.hasOwnProperty(`species`)); //false, since its is coming fron a prototype and its not it;s direct property
+// console.log(Victoria.hasOwnProperty(`firstName`)); //true
+// console.log(Victoria.hasOwnProperty(`species`)); //false, since its is coming fron a prototype and its not it;s direct property
 
 //*---------------- LESSON 210
+//Theory about prototype
+
+//*---------------- LESSON 211
+
+console.log(Victoria.__proto__);
+console.log(Victoria.__proto__.__proto__);
+
+console.log(Person.prototype.constructor);
+
+const arr = [1, 2, 5, 2, 5, 2];
+console.log(arr.__proto__); //each array inherits all methods from the default array default construction
+console.log(arr.__proto__ === Array.prototype); //true
+console.log(arr.__proto__.__proto__); //leads to the object.prototype
+
+//we add a new method to an array construction and we can call this method anytime (shouldnt use this, may be on a small projects, for maintanence reasons and if JS updates with the same method name but different action)
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique());
+
+const h1 = document.querySelector(`h1`);
