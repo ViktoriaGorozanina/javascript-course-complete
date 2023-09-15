@@ -76,29 +76,29 @@ Array.prototype.unique = function () {
 const h1 = document.querySelector(`h1`);
 // console.dir(x => x + 1);
 
-//?---------------- LESSON 212 CHALLENGE#1 - PASSED
+// //?---------------- LESSON 212 CHALLENGE#1 - PASSED
 
-const Car = function (make, speed) {
-  this.make = make;
-  this.speed = speed;
-};
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// };
 
-Car.prototype.accelerate = function () {
-  this.speed = this.speed + 10;
-  // console.log(this.speed);
-};
-Car.prototype.brake = function () {
-  this.speed = this.speed - 5;
-  // console.log(this.speed);
-};
+// Car.prototype.accelerate = function () {
+//   this.speed = this.speed + 10;
+//   // console.log(this.speed);
+// };
+// Car.prototype.brake = function () {
+//   this.speed = this.speed - 5;
+//   // console.log(this.speed);
+// };
 
-const bmw = new Car(`BMW`, 120);
-const mercedes = new Car(`Mercedes`, 95);
+// const bmw = new Car(`BMW`, 120);
+// const mercedes = new Car(`Mercedes`, 95);
 
-bmw.accelerate();
-bmw.brake();
-mercedes.accelerate();
-mercedes.brake();
+// bmw.accelerate();
+// bmw.brake();
+// mercedes.accelerate();
+// mercedes.brake();
 
 //*---------------- LESSON 213
 //CLASSES
@@ -151,10 +151,10 @@ const account = {
   },
 };
 
-console.log(account.latest); //we write it just like a usual object property
+// console.log(account.latest); //we write it just like a usual object property
 
 account.latest = 50;
-console.log(account.movements);
+// console.log(account.movements);
 
 //setter is great for data validation:
 
@@ -164,6 +164,8 @@ class PersonCl2 {
     this.birthYear = birthYear;
   }
 
+  //Instance methods
+  //methods will be added to .prototype property
   calcAge() {
     // console.log(2037 - this.birthYear);
   }
@@ -181,6 +183,79 @@ class PersonCl2 {
   get fullName() {
     return this._fullName;
   }
+
+  static hey() {
+    console.log(`hey`);
+  }
 }
 const jess = new PersonCl2(`jess pess`, 1980);
-console.log(jess);
+// console.log(jess);
+
+//*---------------- LESSON 214
+//STATIC METHODS
+//added static into the previous lecture class
+
+//*---------------- LESSON 215
+//Object.create
+
+const PersonProto = {
+  calcAge() {
+    // console.log(2037 - this.birthYear);
+  },
+
+  data(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+// console.log(steven);
+
+steven.name = `Steven`;
+steven.birthYear = 2002;
+
+steven.calcAge();
+
+//
+const sarah = Object.create(PersonProto);
+sarah.data(`Sarah`, 1979);
+sarah.calcAge();
+// console.log(sarah);
+
+//?---------------- LESSON 216 CHALLENGE#2 partually done - didnt get the task
+
+class Car {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed = this.speed + 10;
+    console.log(this.speed);
+  }
+
+  brake() {
+    this.speed = this.speed - 5;
+    console.log(this.speed);
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(km) {
+    this.speed = km * 1.6;
+  }
+}
+
+const ford = new Car(`Ford`, 120);
+console.log(ford.speedUS);
+ford.brake();
+ford.accelerate();
+console.log(ford.speedUS);
+ford.accelerate();
+console.log(ford.speedUS);
+ford.speedUS = 50;
+console.log(ford);
