@@ -223,7 +223,7 @@ sarah.data(`Sarah`, 1979);
 sarah.calcAge();
 // console.log(sarah);
 
-//?---------------- LESSON 216 CHALLENGE#2 partually done - didnt get the task
+//?---------------- LESSON 217 CHALLENGE#2 partually done - didnt get the task
 
 // class Car {
 //   constructor(make, speed) {
@@ -280,20 +280,66 @@ const Student = function (firstName, birthYear, course) {
 Student.prototype = Object.create(Person2.prototype);
 //we have to create this connection before we create any more methods
 Student.prototype.introduce = function () {
-  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+  // console.log(`My name is ${this.firstName} and I study ${this.course}`);
 };
 
 const mike = new Student(`Mike`, 2020, `IT science`);
-console.log(mike);
+// console.log(mike);
 mike.introduce();
 mike.calcAge();
 
-console.log(mike.__proto__);
-console.dir(Student.prototype.constructor); //Person, but must be STudent
+// console.log(mike.__proto__);
+// console.dir(Student.prototype.constructor); //Person, but must be STudent
 Student.prototype.constructor = Student; //setting correct prototype
 //checking
-console.log(mike instanceof Student); //true
-console.log(mike instanceof Person); //false
-console.log(mike instanceof Object); //true
+// console.log(mike instanceof Student); //true
+// console.log(mike instanceof Person2); //true
+// console.log(mike instanceof Object); //true
+// console.dir(Student.prototype.constructor);
+
 // in the code above there was a repetition of the code block, also if in the future we change Person then Student will not be affected (he is also a person)
 // ***instead - we call Person.call(this, arguments here) in Student to replace the code block that we need
+
+//?---------------- LESSON 219 CHALLENGE#3 - PASSED
+//Parent
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+Car.prototype.accelerate = function () {
+  this.speed = this.speed + 10;
+  console.log(this.speed);
+};
+Car.prototype.brake = function () {
+  this.speed = this.speed - 5;
+  console.log(this.speed);
+};
+//CHILD
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+};
+//link prototypes
+EV.prototype = Object.create(Car.prototype);
+
+//EV prototypes
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+  console.log(this.charge);
+};
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge -= 1;
+  console.log(
+    `${this.make} is going at ${this.speed}km/h, with a cherge of ${this.charge}%`
+  );
+};
+
+const evcar = new EV(`EVcar`, 120, 23);
+
+evcar.chargeBattery(90);
+evcar.accelerate();
+evcar.accelerate();
+evcar.accelerate();
+evcar.brake();
+evcar.accelerate();
