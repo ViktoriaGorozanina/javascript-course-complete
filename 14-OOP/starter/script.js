@@ -225,37 +225,75 @@ sarah.calcAge();
 
 //?---------------- LESSON 216 CHALLENGE#2 partually done - didnt get the task
 
-class Car {
-  constructor(make, speed) {
-    this.make = make;
-    this.speed = speed;
-  }
+// class Car {
+//   constructor(make, speed) {
+//     this.make = make;
+//     this.speed = speed;
+//   }
 
-  accelerate() {
-    this.speed = this.speed + 10;
-    console.log(this.speed);
-  }
+//   accelerate() {
+//     this.speed = this.speed + 10;
+//     console.log(this.speed);
+//   }
 
-  brake() {
-    this.speed = this.speed - 5;
-    console.log(this.speed);
-  }
+//   brake() {
+//     this.speed = this.speed - 5;
+//     console.log(this.speed);
+//   }
 
-  get speedUS() {
-    return this.speed / 1.6;
-  }
+//   get speedUS() {
+//     return this.speed / 1.6;
+//   }
 
-  set speedUS(km) {
-    this.speed = km * 1.6;
-  }
-}
+//   set speedUS(km) {
+//     this.speed = km * 1.6;
+//   }
+// }
 
-const ford = new Car(`Ford`, 120);
-console.log(ford.speedUS);
-ford.brake();
-ford.accelerate();
-console.log(ford.speedUS);
-ford.accelerate();
-console.log(ford.speedUS);
-ford.speedUS = 50;
-console.log(ford);
+// const ford = new Car(`Ford`, 120);
+// console.log(ford.speedUS);
+// ford.brake();
+// ford.accelerate();
+// console.log(ford.speedUS);
+// ford.accelerate();
+// console.log(ford.speedUS);
+// ford.speedUS = 50;
+// console.log(ford);
+
+//*---------------- LESSON 218
+//Inheritance between classes: Constructor functions
+
+const Person2 = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person2.prototype.calcAge = function () {
+  // console.log(2037 - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person2.call(this, firstName, birthYear);
+  this.course = course;
+};
+//linking prototypes (methods)
+Student.prototype = Object.create(Person2.prototype);
+//we have to create this connection before we create any more methods
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const mike = new Student(`Mike`, 2020, `IT science`);
+console.log(mike);
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__);
+console.dir(Student.prototype.constructor); //Person, but must be STudent
+Student.prototype.constructor = Student; //setting correct prototype
+//checking
+console.log(mike instanceof Student); //true
+console.log(mike instanceof Person); //false
+console.log(mike instanceof Object); //true
+// in the code above there was a repetition of the code block, also if in the future we change Person then Student will not be affected (he is also a person)
+// ***instead - we call Person.call(this, arguments here) in Student to replace the code block that we need
