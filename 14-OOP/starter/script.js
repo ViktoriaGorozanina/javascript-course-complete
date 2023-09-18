@@ -366,46 +366,86 @@ Student.prototype.constructor = Student; //setting correct prototype
 
 //?--------- bonus CHALLENGE# - PASSED
 //Parent class
-class Car {
-  constructor(make, speed) {
-    this.make = make;
-    this.speed = speed;
-  }
+// class Car {
+//   constructor(make, speed) {
+//     this.make = make;
+//     this.speed = speed;
+//   }
 
-  accelerate() {
-    this.speed = this.speed + 10;
-    console.log(this.speed);
-  }
-  brake() {
-    this.speed = this.speed - 5;
-    console.log(this.speed);
-  }
-}
+//   accelerate() {
+//     this.speed = this.speed + 10;
+//     console.log(this.speed);
+//   }
+//   brake() {
+//     this.speed = this.speed - 5;
+//     console.log(this.speed);
+//   }
+// }
 
-//CHILD class
-class EV extends Car {
-  constructor(make, speed, charge) {
-    super(make, speed);
-    this.charge = charge;
-  }
-  chargeBattery(chargeTo) {
-    this.charge = chargeTo;
-    console.log(this.charge);
-  }
-  accelerate() {
-    this.speed += 20;
-    this.charge -= 1;
-    console.log(
-      `${this.make} is going at ${this.speed}km/h, with a cherge of ${this.charge}%`
-    );
-  }
-}
+// //CHILD class
+// class EV extends Car {
+//   constructor(make, speed, charge) {
+//     super(make, speed);
+//     this.charge = charge;
+//   }
+//   chargeBattery(chargeTo) {
+//     this.charge = chargeTo;
+//     console.log(this.charge);
+//   }
+//   accelerate() {
+//     this.speed += 20;
+//     this.charge -= 1;
+//     console.log(
+//       `${this.make} is going at ${this.speed}km/h, with a cherge of ${this.charge}%`
+//     );
+//   }
+// }
 
-const tesla = new EV(`Tesla`, 120, 23);
+// const tesla = new EV(`Tesla`, 120, 23);
 
-tesla.chargeBattery(90);
-tesla.accelerate();
-tesla.accelerate();
-tesla.accelerate();
-tesla.brake();
-tesla.accelerate();
+// tesla.chargeBattery(90);
+// tesla.accelerate();
+// tesla.accelerate();
+// tesla.accelerate();
+// tesla.brake();
+// tesla.accelerate();
+
+//*---------------- LESSON 221
+//INheritance between classes: Object.create
+//Parent class
+const PersonProto2 = {
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+
+  calcAge() {
+    return 2037 - this.birthYear;
+  },
+};
+
+const steveno = Object.create(PersonProto2);
+
+const StudentProto = Object.create(PersonProto2);
+//add inherited init to Students prototype
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto2.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(
+    `My name is ${this.firstName}, i am ${this.calcAge()} years old. I study ${
+      this.course
+    }`
+  );
+};
+
+const jay = Object.create(StudentProto);
+jay.init(`Jay`, 2015, `Maths`);
+jay.calcAge();
+jay.introduce();
+console.log(jay);
+
+//*---------------- LESSON 222
+//Another Class example
