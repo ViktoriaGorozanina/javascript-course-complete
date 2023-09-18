@@ -454,16 +454,21 @@ class Account {
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
+    this._pin = pin;
     //new
-    this.movements = [];
+    //protected property
+    this._movements = [];
     this.locale = navigator.language;
 
     console.log(`thanks ${owner}`);
   }
   //Public interface
+  getMovements() {
+    return this._movements;
+  }
+
   deposit(value) {
-    this.movements.push(value);
+    this._movements.push(value);
   }
   withdraw(value) {
     this.deposit(-value); //we call deposit methodbecause the function is the same
@@ -477,4 +482,11 @@ const acc1 = new Account(`Victoria`, `eur`, 1111);
 
 acc1.deposit(250);
 acc1.withdraw(140);
+console.log(acc1.getMovements());
 console.log(acc1);
+
+//*---------------- LESSON 223
+//Encapsulation: Protected Properties and Methods
+
+//classes do not support it yet (almost there)
+//see previous lecture just added to movements and pin ( _ ). not truly protected, its just conventional, just to know that this one is not to be touched outside the class
