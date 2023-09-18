@@ -114,7 +114,7 @@ class PersonCl {
   }
 
   calcAge() {
-    // console.log(2037 - this.birthYear);
+    console.log(2037 - this.birthYear);
   }
 }
 
@@ -301,45 +301,111 @@ Student.prototype.constructor = Student; //setting correct prototype
 // ***instead - we call Person.call(this, arguments here) in Student to replace the code block that we need
 
 //?---------------- LESSON 219 CHALLENGE#3 - PASSED
-//Parent
-const Car = function (make, speed) {
-  this.make = make;
-  this.speed = speed;
-};
-Car.prototype.accelerate = function () {
-  this.speed = this.speed + 10;
-  console.log(this.speed);
-};
-Car.prototype.brake = function () {
-  this.speed = this.speed - 5;
-  console.log(this.speed);
-};
-//CHILD
-const EV = function (make, speed, charge) {
-  Car.call(this, make, speed);
-  this.charge = charge;
-};
-//link prototypes
-EV.prototype = Object.create(Car.prototype);
+//Parent class
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// };
+// Car.prototype.accelerate = function () {
+//   this.speed = this.speed + 10;
+//   console.log(this.speed);
+// };
+// Car.prototype.brake = function () {
+//   this.speed = this.speed - 5;
+//   console.log(this.speed);
+// };
+// //CHILD class
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// };
+// //link prototypes
+// EV.prototype = Object.create(Car.prototype);
 
-//EV prototypes
-EV.prototype.chargeBattery = function (chargeTo) {
-  this.charge = chargeTo;
-  console.log(this.charge);
-};
-EV.prototype.accelerate = function () {
-  this.speed += 20;
-  this.charge -= 1;
-  console.log(
-    `${this.make} is going at ${this.speed}km/h, with a cherge of ${this.charge}%`
-  );
-};
+// //EV prototypes
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo;
+//   console.log(this.charge);
+// };
+// EV.prototype.accelerate = function () {
+//   this.speed += 20;
+//   this.charge -= 1;
+//   console.log(
+//     `${this.make} is going at ${this.speed}km/h, with a cherge of ${this.charge}%`
+//   );
+// };
 
-const evcar = new EV(`EVcar`, 120, 23);
+// const evcar = new EV(`EVcar`, 120, 23);
 
-evcar.chargeBattery(90);
-evcar.accelerate();
-evcar.accelerate();
-evcar.accelerate();
-evcar.brake();
-evcar.accelerate();
+// evcar.chargeBattery(90);
+// evcar.accelerate();
+// evcar.accelerate();
+// evcar.accelerate();
+// evcar.brake();
+// evcar.accelerate();
+
+//*---------------- LESSON 220
+//INheritance between classes: ES6 classes
+
+// class StudentCl extends PersonCl {
+//   //it can work even without constructor at all, it will inherit what is available from the parent
+//   constructor(firstName, birthYear, course) {
+//     super(firstName, birthYear);
+//     this.course = course;
+//   }
+
+//   introduce() {
+//     console.log(`My name is ${this.firstName} and I study ${this.course}`);
+//   }
+// }
+
+// const martha = new StudentCl(`Martha`, 2012, `Data science`);
+// martha.introduce();
+// martha.calcAge();
+// console.log(martha);
+
+//?--------- bonus CHALLENGE# - PASSED
+//Parent class
+class Car {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed = this.speed + 10;
+    console.log(this.speed);
+  }
+  brake() {
+    this.speed = this.speed - 5;
+    console.log(this.speed);
+  }
+}
+
+//CHILD class
+class EV extends Car {
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.charge = charge;
+  }
+  chargeBattery(chargeTo) {
+    this.charge = chargeTo;
+    console.log(this.charge);
+  }
+  accelerate() {
+    this.speed += 20;
+    this.charge -= 1;
+    console.log(
+      `${this.make} is going at ${this.speed}km/h, with a cherge of ${this.charge}%`
+    );
+  }
+}
+
+const tesla = new EV(`Tesla`, 120, 23);
+
+tesla.chargeBattery(90);
+tesla.accelerate();
+tesla.accelerate();
+tesla.accelerate();
+tesla.brake();
+tesla.accelerate();
