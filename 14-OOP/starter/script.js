@@ -443,9 +443,38 @@ StudentProto.introduce = function () {
 
 const jay = Object.create(StudentProto);
 jay.init(`Jay`, 2015, `Maths`);
-jay.calcAge();
-jay.introduce();
-console.log(jay);
+// jay.calcAge();
+// jay.introduce();
+// console.log(jay);
 
 //*---------------- LESSON 222
 //Another Class example
+
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    //new
+    this.movements = [];
+    this.locale = navigator.language;
+
+    console.log(`thanks ${owner}`);
+  }
+  //Public interface
+  deposit(value) {
+    this.movements.push(value);
+  }
+  withdraw(value) {
+    this.deposit(-value); //we call deposit methodbecause the function is the same
+  }
+}
+
+const acc1 = new Account(`Victoria`, `eur`, 1111);
+
+// acc1.movements.push(250);
+// acc1.movements.push(-250);//replaced it with methods within the class
+
+acc1.deposit(250);
+acc1.withdraw(140);
+console.log(acc1);
