@@ -511,7 +511,7 @@ class Account {
     this.currency = currency;
     this.#pin = pin;
 
-    console.log(`thanks ${owner}`);
+    // console.log(`thanks ${owner}`);
   }
   //Public methods:
 
@@ -522,20 +522,11 @@ class Account {
 
   deposit(value) {
     this.#movements.push(value);
+    return this;
   }
   withdraw(value) {
     this.deposit(-value); //we call deposit methodbecause the function is the same
-  }
-
-  requestLoan(val) {
-    if (this._approveLoan(val)) {
-      this.deposit(val);
-      console.log(`Approved`);
-    }
-  }
-
-  static helper() {
-    console.log(`Helper`);
+    return this;
   }
 
   //Private methods: (browsers do not support it yet, or may be chrome does)
@@ -543,8 +534,19 @@ class Account {
   //   return true;
   // }
 
-  _approveLoan(val) {
+  _approveLoan(value) {
     return true;
+  }
+  requestLoan(value) {
+    if (this._approveLoan(value)) {
+      this.deposit(value);
+      // console.log(`Approved`);
+      return this;
+    }
+  }
+
+  static helper() {
+    // console.log(`Helper`);
   }
 }
 
@@ -553,12 +555,85 @@ const acc1 = new Account(`Victoria`, `eur`, 1111);
 // acc1.movements.push(250);
 // acc1.movements.push(-250);//replaced it with methods within the class
 
-acc1.deposit(250);
-acc1.withdraw(140);
-console.log(acc1.getMovements());
-console.log(acc1);
+// acc1.deposit(250);
+// acc1.withdraw(140);
+// console.log(acc1.getMovements());
+// console.log(acc1);
 
 // console.log(acc1.#movements); //error message, since it is protected
 
 //for static:
-Account.helper();
+// Account.helper();
+
+//*---------------- LESSON 225
+//chaining methods of a class
+//add "return this" in the deposit method above
+acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
+// console.log(acc1.getMovements());
+
+//?---------------- LESSON 227 CHALLENGE#4
+
+//Parent class
+class Car {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed = this.speed + 10;
+    // console.log(`${this.make} is goinf at ${this.speed}km/h`);
+    return this;
+  }
+  brake() {
+    this.speed = this.speed - 5;
+    // console.log(this.speed);
+    console.log(`${this.make} is going at ${this.speed}km/h`);
+    return this;
+  }
+}
+
+//CHILD class
+class EV extends Car {
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    // console.log(this.charge);
+    return this;
+  }
+  accelerate() {
+    this.speed += 20;
+    this.#charge -= 1;
+    console.log(
+      `${this.make} is going at ${this.speed}km/h, with a charge of ${
+        this.#charge
+      }%`
+    );
+    return this;
+  }
+  brake() {
+    this.speed = this.speed - 5;
+    // console.log(this.speed);
+    console.log(
+      `${this.make} is going at ${this.speed}km/h, with a charge of ${
+        this.#charge
+      }%`
+    );
+    return this;
+  }
+}
+
+const rivian = new EV(`Rivian`, 120, 23);
+rivian
+  .chargeBattery(50)
+  .accelerate()
+  .accelerate()
+  .accelerate()
+  .brake()
+  .chargeBattery(80)
+  .accelerate();
