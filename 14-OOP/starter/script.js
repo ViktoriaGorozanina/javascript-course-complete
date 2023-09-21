@@ -450,28 +450,101 @@ jay.init(`Jay`, 2015, `Maths`);
 //*---------------- LESSON 222
 //Another Class example
 
+// class Account {
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+//     this._pin = pin;
+//     //new
+//     //protected property
+//     this._movements = [];
+//     this.locale = navigator.language;
+
+//     console.log(`thanks ${owner}`);
+//   }
+//   //Public interface
+//   getMovements() {
+//     return this._movements;
+//   }
+
+//   deposit(value) {
+//     this._movements.push(value);
+//   }
+//   withdraw(value) {
+//     this.deposit(-value); //we call deposit methodbecause the function is the same
+//   }
+// }
+
+// const acc1 = new Account(`Victoria`, `eur`, 1111);
+
+// // acc1.movements.push(250);
+// // acc1.movements.push(-250);//replaced it with methods within the class
+
+// acc1.deposit(250);
+// acc1.withdraw(140);
+// console.log(acc1.getMovements());
+// console.log(acc1);
+
+//*---------------- LESSON 223
+//Encapsulation: Protected Properties and Methods
+
+//classes do not support it yet (almost there)
+//see previous lecture just added to movements and pin ( _ ). not truly protected, its just conventional, just to know that this one is not to be touched outside the class
+
+//*---------------- LESSON 224
+//Public fields
+//Private fields
+//Public methods
+//Private methods
+//(there is also a static version)
+
 class Account {
+  //public fields (instances, not on prototype):
+  locale = navigator.language;
+
+  //Private fields (instances):
+  #movements = [];
+  #pin; //creating kinda emty variable because it actually must be set in the constructor later on
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this._pin = pin;
-    //new
-    //protected property
-    this._movements = [];
-    this.locale = navigator.language;
+    this.#pin = pin;
 
     console.log(`thanks ${owner}`);
   }
+  //Public methods:
+
   //Public interface
   getMovements() {
-    return this._movements;
+    return this.#movements;
   }
 
   deposit(value) {
-    this._movements.push(value);
+    this.#movements.push(value);
   }
   withdraw(value) {
     this.deposit(-value); //we call deposit methodbecause the function is the same
+  }
+
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Approved`);
+    }
+  }
+
+  static helper() {
+    console.log(`Helper`);
+  }
+
+  //Private methods: (browsers do not support it yet, or may be chrome does)
+  // #approveLoan(val) {
+  //   return true;
+  // }
+
+  _approveLoan(val) {
+    return true;
   }
 }
 
@@ -485,8 +558,7 @@ acc1.withdraw(140);
 console.log(acc1.getMovements());
 console.log(acc1);
 
-//*---------------- LESSON 223
-//Encapsulation: Protected Properties and Methods
+// console.log(acc1.#movements); //error message, since it is protected
 
-//classes do not support it yet (almost there)
-//see previous lecture just added to movements and pin ( _ ). not truly protected, its just conventional, just to know that this one is not to be touched outside the class
+//for static:
+Account.helper();
