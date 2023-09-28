@@ -21,7 +21,24 @@ if (navigator.geolocation) {
       const { longitude } = position.coords;
       console.log(latitude, longitude); //59.4477056 24.8741888
       console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+
+      //lesson 233, also added script in HTML in the <head>
+      const coords = [latitude, longitude];
+
+      const map = L.map('map').setView(coords, 13);
+
+      L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      L.marker(coords)
+        .addTo(map)
+        .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+        .openPopup();
     },
+    //end lesson 233
+
     function () {
       alert(`Couldn't get your position`);
     }
