@@ -11,8 +11,54 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+class Workout {
+  date = new Date();
+  id = (Date.now() + ``).slice(-10);
+
+  constructor(coords, distance, duration) {
+    this.coords = coords; //array of longitude and latitude
+    this.distance = distance; //km
+    this.duration = duration; //min
+  }
+}
+
+class Running extends Workout {
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
+    this.cadence = cadence;
+
+    this.calcPace();
+  }
+
+  calcPace() {
+    //min/km
+    this.pace = this.duration / this.distance;
+    return this.pace;
+  }
+}
+
+class Cycling extends Workout {
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
+    this.elevationGain = elevationGain;
+
+    //calling methods
+    this.calcSpeed();
+  }
+
+  calcSpeed() {
+    //km/h
+    this.speed = this.distance / (this.duration / 60); //because its in minutes be default
+    return this.speed;
+  }
+}
+const run1 = new Running([39, -12], 5.2, 24, 178);
+const cycling1 = new Cycling([39, -12], 27, 95, 523);
+
+// console.log(run1, cycling1);
 //* ------------------------- LESSON 232 (restructured in lecture 237)
 
+//APPLICATION ARCHITECTURE////////////////////////////////////////////////////
 class App {
   #map;
   #mapEvent;
@@ -38,16 +84,16 @@ class App {
   }
 
   _loadMap(position) {
-    console.log(position);
+    // console.log(position);
     const { latitude } = position.coords;
     const { longitude } = position.coords;
-    console.log(latitude, longitude); //59.4477056 24.8741888
-    console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+    // console.log(latitude, longitude); //59.4477056 24.8741888
+    // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
     //lesson 233, also added script in HTML in the <head>
     const coords = [latitude, longitude];
 
-    console.log(this);
+    // console.log(this);
     this.#map = L.map('map').setView(coords, 13);
     // console.log(this.#map);
 
