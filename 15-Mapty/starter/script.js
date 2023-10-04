@@ -8,63 +8,10 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
-class Workout {
-  date = new Date();
-  id = (Date.now() + ``).slice(-10);
-
-  constructor(coords, distance, duration) {
-    this.coords = coords; //array of longitude and latitude
-    this.distance = distance; //km
-    this.duration = duration; //min
-  }
-
-  _setDescription() {
-    // prettier-ignore
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    // prettier-ignore
-    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
-  }
-}
-
-class Running extends Workout {
-  type = `running`;
-  constructor(coords, distance, duration, cadence) {
-    super(coords, distance, duration);
-    this.cadence = cadence;
-
-    this.calcPace();
-    this._setDescription(); //inherited from parent class Workout
-  }
-
-  calcPace() {
-    //min/km
-    this.pace = this.duration / this.distance;
-    return this.pace;
-  }
-}
-
-class Cycling extends Workout {
-  type = `cycling`;
-  constructor(coords, distance, duration, elevationGain) {
-    super(coords, distance, duration);
-    this.elevationGain = elevationGain;
-
-    //calling methods
-    this.calcSpeed();
-    this._setDescription(); //inherited from parent class Workout
-  }
-
-  calcSpeed() {
-    //km/h
-    this.speed = this.distance / (this.duration / 60); //because its in minutes be default
-    return this.speed;
-  }
-}
-
 //APPLICATION ARCHITECTURE////////////////////////////////////////////////////
 class App {
   #map;
+  #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
 
@@ -74,8 +21,8 @@ class App {
 
     //Dispays the marker on form submit event:
     form.addEventListener(`submit`, this._newWorkout.bind(this));
-
     inputType.addEventListener(`change`, this._toggleElevationField);
+    containerWorkouts.addEventListener(`click`, this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -100,7 +47,7 @@ class App {
     const coords = [latitude, longitude];
 
     // console.log(this);
-    this.#map = L.map('map').setView(coords, 13);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
     // console.log(this.#map);
 
     L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
@@ -257,8 +204,86 @@ class App {
         </li>
         `;
     }
-
     form.insertAdjacentHTML(`afterend`, html);
+  }
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest(`.workout`);
+    console.log(workoutEl);
+    if (!workoutEl) return; //to prevent event reacting on clicks out of the desired element
+
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
+    );
+    console.log(workout);
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+
+    //Using public interface
+    workout.click();
+  }
+}
+
+class Workout {
+  date = new Date();
+  id = (Date.now() + ``).slice(-10);
+  clicks = 0;
+
+  constructor(coords, distance, duration) {
+    this.coords = coords; //array of longitude and latitude
+    this.distance = distance; //km
+    this.duration = duration; //min
+  }
+
+  _setDescription() {
+    // prettier-ignore
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // prettier-ignore
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
+  }
+
+  click() {
+    this.clicks++;
+  }
+}
+
+class Running extends Workout {
+  type = `running`;
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
+    this.cadence = cadence;
+
+    this.calcPace();
+    this._setDescription(); //inherited from parent class Workout
+  }
+
+  calcPace() {
+    //min/km
+    this.pace = this.duration / this.distance;
+    return this.pace;
+  }
+}
+
+class Cycling extends Workout {
+  type = `cycling`;
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
+    this.elevationGain = elevationGain;
+
+    //calling methods
+    this.calcSpeed();
+    this._setDescription(); //inherited from parent class Workout
+  }
+
+  calcSpeed() {
+    //km/h
+    this.speed = this.distance / (this.duration / 60); //because its in minutes be default
+    return this.speed;
   }
 }
 
