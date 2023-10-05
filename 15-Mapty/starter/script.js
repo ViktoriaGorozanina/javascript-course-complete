@@ -16,8 +16,10 @@ class App {
   #workouts = [];
 
   constructor() {
-    // this._capitalize();
     this._getPosition(); //we call this method here because: normally we should be calling it outside the class (app._getPosition), but once we create a new object "new App" - class constructor is immediately called therefore is called everething that is in it
+
+    //Get data from local storage
+    this._getLocalStorage();
 
     //Dispays the marker on form submit event:
     form.addEventListener(`submit`, this._newWorkout.bind(this));
@@ -57,6 +59,10 @@ class App {
 
     //Handling clicks on map:
     this.#map.on(`click`, this._showForm.bind(this));
+
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -136,6 +142,9 @@ class App {
 
     // Hide form + clear input fields
     this._hideForm();
+
+    //Set local storage to all workouts
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -225,6 +234,23 @@ class App {
 
     //Using public interface
     workout.click();
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem(`workouts`, JSON.stringify(this.#workouts)); //in the first declaration we pass the name for the information (key) and the second one must be a stringified information that we want to store. JSON.stringify - makes a string out of any JS object. Local storage is very simple API and should be used for a very small amount of data
+  }
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem(`workouts`)); //brings back data from API but it is a string, for converting it back to an object we use JSON.PARSE()
+    console.log(data);
+
+    //check if there is data to show
+    if (!data) return;
+
+    this.#workouts = data;
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+      // this._renderWorkoutMarker(work);//it wont work since we set this functions to work right at the very beggining but the map is not yet loaded
+    });
   }
 }
 
