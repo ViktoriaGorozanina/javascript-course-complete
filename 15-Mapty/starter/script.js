@@ -1,5 +1,62 @@
 'use strict';
+class Workout {
+  date = new Date();
+  id = (Date.now() + ``).slice(-10);
+  clicks = 0;
 
+  constructor(coords, distance, duration) {
+    this.coords = coords; //array of longitude and latitude
+    this.distance = distance; //km
+    this.duration = duration; //min
+  }
+
+  _setDescription() {
+    // prettier-ignore
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // prettier-ignore
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
+  }
+
+  click() {
+    this.clicks++;
+  }
+}
+
+class Running extends Workout {
+  type = `running`;
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
+    this.cadence = cadence;
+
+    this.calcPace();
+    this._setDescription(); //inherited from parent class Workout
+  }
+
+  calcPace() {
+    //min/km
+    this.pace = this.duration / this.distance;
+    return this.pace;
+  }
+}
+
+class Cycling extends Workout {
+  type = `cycling`;
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
+    this.elevationGain = elevationGain;
+
+    //calling methods
+    this.calcSpeed();
+    this._setDescription(); //inherited from parent class Workout
+  }
+
+  calcSpeed() {
+    //km/h
+    this.speed = this.distance / (this.duration / 60); //because its in minutes be default
+    return this.speed;
+  }
+}
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -132,7 +189,7 @@ class App {
     }
     // Add a new object to workout array
     this.#workouts.push(workout);
-    console.log(workout);
+    // console.log(workout);
 
     // Render workout on the map as a marker
     this._renderWorkoutMarker(workout);
@@ -218,13 +275,13 @@ class App {
 
   _moveToPopup(e) {
     const workoutEl = e.target.closest(`.workout`);
-    console.log(workoutEl);
+    // console.log(workoutEl);
     if (!workoutEl) return; //to prevent event reacting on clicks out of the desired element
 
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
-    console.log(workout);
+    // console.log(workout);
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
       pan: {
@@ -233,7 +290,7 @@ class App {
     });
 
     //Using public interface
-    workout.click();
+    // workout.click();
   }
 
   _setLocalStorage() {
@@ -241,7 +298,9 @@ class App {
   }
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem(`workouts`)); //brings back data from API but it is a string, for converting it back to an object we use JSON.PARSE()
-    console.log(data);
+    //?because we convert it from a string it looses all the prototype links and wont inherit all the methods!!!
+    //we can restore the object by creating a ne wobject using the class based on this data from local storage
+    // console.log(data);
 
     //check if there is data to show
     if (!data) return;
@@ -252,69 +311,16 @@ class App {
       // this._renderWorkoutMarker(work);//it wont work since we set this functions to work right at the very beggining but the map is not yet loaded
     });
   }
-}
-
-class Workout {
-  date = new Date();
-  id = (Date.now() + ``).slice(-10);
-  clicks = 0;
-
-  constructor(coords, distance, duration) {
-    this.coords = coords; //array of longitude and latitude
-    this.distance = distance; //km
-    this.duration = duration; //min
-  }
-
-  _setDescription() {
-    // prettier-ignore
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    // prettier-ignore
-    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
-  }
-
-  click() {
-    this.clicks++;
-  }
-}
-
-class Running extends Workout {
-  type = `running`;
-  constructor(coords, distance, duration, cadence) {
-    super(coords, distance, duration);
-    this.cadence = cadence;
-
-    this.calcPace();
-    this._setDescription(); //inherited from parent class Workout
-  }
-
-  calcPace() {
-    //min/km
-    this.pace = this.duration / this.distance;
-    return this.pace;
-  }
-}
-
-class Cycling extends Workout {
-  type = `cycling`;
-  constructor(coords, distance, duration, elevationGain) {
-    super(coords, distance, duration);
-    this.elevationGain = elevationGain;
-
-    //calling methods
-    this.calcSpeed();
-    this._setDescription(); //inherited from parent class Workout
-  }
-
-  calcSpeed() {
-    //km/h
-    this.speed = this.distance / (this.duration / 60); //because its in minutes be default
-    return this.speed;
+  // to delete data from local storage
+  reset() {
+    localStorage.removeItem(`workouts`);
+    location.reload(); //this method reloads the page
   }
 }
 
 //new objects:
 const app = new App();
+// app.reset();
 
 //* ------------------------- LESSON 233 (restructured in lecture 237)
 //added code in the previous lesson
