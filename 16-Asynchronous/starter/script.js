@@ -112,6 +112,7 @@ const getCountryData = function (country) {
     })
     .then(response => response.json())
     .then(data => renderCountry(data, `neighbour`));
+  //!solve the bug with svg
 };
 getCountryData(`usa`);
 
