@@ -65,7 +65,7 @@ const getCountryAndNeighbour = function (country) {
   });
 };
 // getCountryAndNeighbour(`portugal`);
-getCountryAndNeighbour(`usa`);
+// getCountryAndNeighbour(`usa`);
 // getCountryAndNeighbour(`usa`);
 // getCountryAndNeighbour(`spain`);
 // getCountryAndNeighbour(`france`);
@@ -101,6 +101,20 @@ console.log(request2);
 const getCountryData = function (country) {
   fetch(`https://restcountries.com/v3.1/name/${country}`)
     .then(response => response.json())
-    .then(data => renderCountry(data[0]));
+    .then(data => {
+      renderCountry(data[0]);
+      console.log(data);
+      //(Lesson 253) getting neighbour data
+      const neighbour = data[0].borders[0];
+      if (!neighbour) return;
+      //2nd ajax call
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data, `neighbour`));
 };
-getCountryData(`eesti`);
+getCountryData(`usa`);
+
+//*_______________________________Lesson 253
+//CHAINING promises
+//modifying the previous lessons code in the second .then
