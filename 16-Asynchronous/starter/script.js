@@ -43,7 +43,7 @@ const getCountryAndNeighbour = function (country) {
     //   console.log(this.responseText); //gives JSON
 
     const [data] = JSON.parse(this.responseText);
-    console.log(data);
+    // console.log(data);
     //render country (1)
     renderCountry(data);
 
@@ -58,7 +58,7 @@ const getCountryAndNeighbour = function (country) {
     request2.send();
 
     request2.addEventListener(`load`, function () {
-      console.log(this.responseText);
+      // console.log(this.responseText);
       const [data2] = JSON.parse(this.responseText);
       renderCountry(data2, `neighbour`);
     });
@@ -75,3 +75,32 @@ getCountryAndNeighbour(`usa`);
 //*_______________________________Lesson 250
 
 // implementing a sequance of AJAX call. (which action after which)
+
+//*_______________________________Lesson 251
+//?MODERN WAY OF AJAX CALL:
+
+const request2 = fetch(`https://restcountries.com/v3.1/name/eesti`);
+console.log(request2);
+
+//*_______________________________Lesson 252
+//CONSUMING PROMISES returned from the Fetch function
+
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(function (response) {
+//       console.log(response);
+//       return response.json(); //it is a promise itself too. read conspect
+//     })
+//     .then(function (data) {
+//       console.log(data);
+//       renderCountry(data[0]);
+//     });
+// };
+
+//? same but simplified:
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+getCountryData(`eesti`);
