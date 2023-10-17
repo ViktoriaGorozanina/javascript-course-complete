@@ -31,8 +31,6 @@ const renderCountry = function (data, className = ``) {
   </div>`;
 
   countriesContainer.insertAdjacentHTML(`beforeend`, html);
-
-  countriesContainer.style.opacity = 1;
 };
 
 //CALLING API oldschool:
@@ -101,30 +99,82 @@ console.log(request2);
 //     });
 // };
 
-//? same but simplified:
+const getJson = function (url, errorMsg = `Something went wrong!`) {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error(`${errorMsg} (${response.status})`);
+    }
+    return response.json();
+  });
+};
+
+//? same but simplified (also added other ifno):
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     //for fulfilled promise
+//     .then(response => {
+//       console.log(response);
+
+//       if (!response.ok) {
+//         throw new Error(`Country not found (${response.status})`);
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       renderCountry(data[0]);
+//       // console.log(data);
+//       //(Lesson 253) getting neighbour data
+//       const neighbour = data[0].borders[0];
+//       // const neighbour = `fffwfwf`;//test faulsy data
+
+//       if (!neighbour) return;
+//       if (!data.ok) {
+//         throw new Error(`Unknow neighbour (${data.status})`);
+//       }
+//       //2nd ajax call for neightbours country
+//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     })
+//     //*bug fixed
+//     .then(response => response.json())
+//     .then(data => renderCountry(data[0], `neighbour`))
+//     // ERROR HANDLING
+//     .catch(err => {
+//       // console.log(`${err} 🛠`);
+//       renderError(`Something went wrong 🛠 ${err.message}`); //err is a JS object itself and it has message property
+//     })
+//     //finally method is not always useful. This is something that happens anyways if fetch was successful or not
+//     .finally(() => {
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
+//*same code but using a function for repetative code:
+
 const getCountryData = function (country) {
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    //for fulfilled promise
-    .then(
-      response => response.json()
-      // err => alert(err)
-    )
+  getJson(
+    `https://restcountries.com/v3.1/name/${country}`,
+    `Country not found `
+  )
     .then(data => {
       renderCountry(data[0]);
-      // console.log(data);
-      //(Lesson 253) getting neighbour data
+      console.log(data[0]);
+      const neighboursCheck = data[0].borders;
+      console.log(neighboursCheck);
+      //*bug fixed
+      if (!neighboursCheck) throw new Error(`No neighbours`);
       const neighbour = data[0].borders[0];
-      console.log(neighbour);
-      if (!neighbour) return;
+
       //2nd ajax call for neightbours country
-      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+      return getJson(
+        `https://restcountries.com/v3.1/alpha/${neighbour}`,
+        `Country not found `
+      );
     })
-    //*bug fixed
-    .then(response => response.json())
+    //Render neighbour
     .then(data => renderCountry(data[0], `neighbour`))
+
     // ERROR HANDLING
     .catch(err => {
-      console.log(`${err} 🛠`);
+      // console.log(`${err} 🛠`);
       renderError(`Something went wrong 🛠 ${err.message}`); //err is a JS object itself and it has message property
     })
     //finally method is not always useful. This is something that happens anyways if fetch was successful or not
@@ -140,7 +190,8 @@ const getCountryData = function (country) {
 //*_______________________________Lesson 254
 
 btn.addEventListener(`click`, function () {
-  getCountryData(`usa`);
+  getCountryData(`australia`);
 });
 
 // getCountryData(`cscsc`);
+//*_______________________________Lesson 255
