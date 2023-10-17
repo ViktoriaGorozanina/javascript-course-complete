@@ -11,6 +11,10 @@ const getKeys = function (object, keyInd) {
   return object[keyName];
 };
 
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText(`beforeend`, msg);
+  countriesContainer.style.opacity = 1;
+};
 const renderCountry = function (data, className = ``) {
   const html = `<article class="country ${className}" >
   <img class="country__img" src="${data.flags.svg}" />
@@ -27,8 +31,6 @@ const renderCountry = function (data, className = ``) {
   </div>`;
 
   countriesContainer.insertAdjacentHTML(`beforeend`, html);
-
-  countriesContainer.style.opacity = 1;
 };
 
 //CALLING API oldschool:
@@ -100,22 +102,45 @@ console.log(request2);
 //? same but simplified:
 const getCountryData = function (country) {
   fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then(response => response.json())
+    //for fulfilled promise
+    .then(
+      response => response.json()
+      // err => alert(err)
+    )
     .then(data => {
       renderCountry(data[0]);
-      console.log(data);
+      // console.log(data);
       //(Lesson 253) getting neighbour data
       const neighbour = data[0].borders[0];
       if (!neighbour) return;
-      //2nd ajax call
+      //2nd ajax call for neightbours country
       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
     })
-    .then(response => response.json())
-    .then(data => renderCountry(data, `neighbour`));
-  //!solve the bug with svg
+    //!bug not fixed
+    .then(
+      response => response.json()
+      // err => alert(err)
+    )
+    .then(data => renderCountry(data, `neighbour`))
+    //ERROR HANDLING
+    .catch(err => {
+      console.log(`${err} 🛠`);
+      renderError(`Something went wrong 🛠 ${err.message}`); //err is a JS object itself and it has message property
+    })
+    //finally method is not always useful. This is something that happens anyways if fetch was successful or not
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
 };
-getCountryData(`usa`);
 
 //*_______________________________Lesson 253
 //CHAINING promises
-//modifying the previous lessons code in the second .then
+//modifying the previous lessons' code in the second .then
+
+//*_______________________________Lesson 254
+
+btn.addEventListener(`click`, function () {
+  getCountryData(`usa`);
+});
+
+getCountryData(`cscsc`);
