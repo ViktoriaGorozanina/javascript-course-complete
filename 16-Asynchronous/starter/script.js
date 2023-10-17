@@ -31,6 +31,8 @@ const renderCountry = function (data, className = ``) {
   </div>`;
 
   countriesContainer.insertAdjacentHTML(`beforeend`, html);
+
+  countriesContainer.style.opacity = 1;
 };
 
 //CALLING API oldschool:
@@ -112,17 +114,15 @@ const getCountryData = function (country) {
       // console.log(data);
       //(Lesson 253) getting neighbour data
       const neighbour = data[0].borders[0];
+      console.log(neighbour);
       if (!neighbour) return;
       //2nd ajax call for neightbours country
       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
     })
-    //!bug not fixed
-    .then(
-      response => response.json()
-      // err => alert(err)
-    )
-    .then(data => renderCountry(data, `neighbour`))
-    //ERROR HANDLING
+    //*bug fixed
+    .then(response => response.json())
+    .then(data => renderCountry(data[0], `neighbour`))
+    // ERROR HANDLING
     .catch(err => {
       console.log(`${err} 🛠`);
       renderError(`Something went wrong 🛠 ${err.message}`); //err is a JS object itself and it has message property
@@ -143,4 +143,4 @@ btn.addEventListener(`click`, function () {
   getCountryData(`usa`);
 });
 
-getCountryData(`cscsc`);
+// getCountryData(`cscsc`);
