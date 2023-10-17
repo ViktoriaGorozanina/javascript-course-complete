@@ -34,38 +34,38 @@ const renderCountry = function (data, className = ``) {
 };
 
 //CALLING API oldschool:
-const getCountryAndNeighbour = function (country) {
-  //AJAX call country 1
-  const request = new XMLHttpRequest();
-  request.open(`GET`, `https://restcountries.com/v3.1/name/${country}`);
+// const getCountryAndNeighbour = function (country) {
+//   //AJAX call country 1
+//   const request = new XMLHttpRequest();
+//   request.open(`GET`, `https://restcountries.com/v3.1/name/${country}`);
 
-  request.send(); // we send the request and it fetches tha data on the background
-  //then we listen to the event Load:
-  request.addEventListener(`load`, function () {
-    //   console.log(this.responseText); //gives JSON
+//   request.send(); // we send the request and it fetches tha data on the background
+//   //then we listen to the event Load:
+//   request.addEventListener(`load`, function () {
+//     //   console.log(this.responseText); //gives JSON
 
-    const [data] = JSON.parse(this.responseText);
-    // console.log(data);
-    //render country (1)
-    renderCountry(data);
+//     const [data] = JSON.parse(this.responseText);
+//     // console.log(data);
+//     //render country (1)
+//     renderCountry(data);
 
-    //get neighbour country (2)
-    const neighbour = data.borders?.[0];
+//     //get neighbour country (2)
+//     const neighbour = data.borders?.[0];
 
-    if (!neighbour) return; //finish if there is no neighbour
+//     if (!neighbour) return; //finish if there is no neighbour
 
-    //AJAX call country 2
-    const request2 = new XMLHttpRequest();
-    request2.open(`GET`, `https://restcountries.com/v3.1/alpha/${neighbour}`);
-    request2.send();
+//     //AJAX call country 2
+//     const request2 = new XMLHttpRequest();
+//     request2.open(`GET`, `https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     request2.send();
 
-    request2.addEventListener(`load`, function () {
-      // console.log(this.responseText);
-      const [data2] = JSON.parse(this.responseText);
-      renderCountry(data2, `neighbour`);
-    });
-  });
-};
+//     request2.addEventListener(`load`, function () {
+//       // console.log(this.responseText);
+//       const [data2] = JSON.parse(this.responseText);
+//       renderCountry(data2, `neighbour`);
+//     });
+//   });
+// };
 // getCountryAndNeighbour(`portugal`);
 // getCountryAndNeighbour(`usa`);
 // getCountryAndNeighbour(`usa`);
@@ -189,9 +189,72 @@ const getCountryData = function (country) {
 
 //*_______________________________Lesson 254
 
-btn.addEventListener(`click`, function () {
-  getCountryData(`australia`);
-});
+// btn.addEventListener(`click`, function () {
+//   getCountryData(`australia`);
+// });
 
 // getCountryData(`cscsc`);
 //*_______________________________Lesson 255
+//modifying the previous lessons' code
+
+//?_______________________________Lesson 255 - CHALLENGE #1
+
+const renderMessage = function (data) {
+  const html = `You are in ${data.city}, ${data.country}.`;
+  console.log(html);
+};
+const whereAmI = function (lat, long) {
+  fetch(
+    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+  )
+    .then(response => response.json())
+    // .then(result => console.log(result));
+    .then(data => {
+      if (!data.features) throw new Error(`May be you are on Mars.`);
+      const countryData = data.features[0].properties;
+      console.log(countryData);
+      renderMessage(countryData);
+
+      //Displaying ythe card:
+      const country = countryData.country;
+
+      fetch(`https://restcountries.com/v3.1/name/${country}`)
+        .then(response => response.json())
+        .then(data => {
+          renderCountry(data[0]);
+
+          const neighbour = data[0].borders[0];
+          if (!neighbour) return;
+
+          return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+        })
+        .then(response => response.json())
+        .then(data => renderCountry(data[0], `neighbour`));
+    })
+    .catch(err => {
+      console.log(`Now this is an error. ${err.message}`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
+
+btn.addEventListener(`click`, function () {
+  //Get geolocation data from browser
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        console.log(position);
+        const { latitude, longitude } = position.coords;
+        console.log(latitude, longitude);
+        // return latitude, longitude;
+        //Pass lat and lng to the function
+        whereAmI(latitude, longitude);
+      },
+      //error
+      function () {
+        console.log(`No position`);
+      }
+    );
+  }
+});
