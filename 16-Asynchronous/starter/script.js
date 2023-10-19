@@ -199,65 +199,60 @@ const getCountryData = function (country) {
 
 //?_______________________________Lesson 255 - CHALLENGE #1
 
-const renderMessage = function (data) {
-  const html = `You are in ${data.city}, ${data.country}.`;
-  console.log(html);
-};
-const whereAmI = function (lat, long) {
-  fetch(
-    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
-  )
-    .then(response => response.json())
-    // .then(result => console.log(result));
-    .then(data => {
-      if (!data.features) throw new Error(`May be you are on Mars.`);
-      const countryData = data.features[0].properties;
-      console.log(countryData);
-      renderMessage(countryData);
+// const whereAmI = function (lat, long) {
+//   fetch(
+//     `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+//   )
+//     .then(response => response.json())
+//     // .then(result => console.log(result));
+//     .then(data => {
+//       if (!data.features) throw new Error(`May be you are on Mars.`);
+//       const countryData = data.features[0].properties;
+//       console.log(`You are in ${countryData.city}, ${countryData.country}.`);
 
-      //Displaying ythe card:
-      const country = countryData.country;
+//       //Displaying ythe card:
+//       const country = countryData.country;
 
-      fetch(`https://restcountries.com/v3.1/name/${country}`)
-        .then(response => response.json())
-        .then(data => {
-          renderCountry(data[0]);
+//       fetch(`https://restcountries.com/v3.1/name/${country}`)
+//         .then(response => response.json())
+//         .then(data => {
+//           renderCountry(data[0]);
 
-          const neighbour = data[0].borders[0];
-          if (!neighbour) return;
+//           const neighbour = data[0].borders[0];
+//           if (!neighbour) return;
 
-          return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-        })
-        .then(response => response.json())
-        .then(data => renderCountry(data[0], `neighbour`));
-    })
-    .catch(err => {
-      console.log(`Now this is an error. ${err.message}`);
-    })
-    .finally(() => {
-      countriesContainer.style.opacity = 1;
-    });
-};
+//           return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//         })
+//         .then(response => response.json())
+//         .then(data => renderCountry(data[0], `neighbour`));
+//     })
+//     .catch(err => {
+//       console.log(`Now this is an error. ${err.message}`);
+//     })
+//     .finally(() => {
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
 
-btn.addEventListener(`click`, function () {
-  //Get geolocation data from browser
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        console.log(position);
-        const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude);
-        // return latitude, longitude;
-        //Pass lat and lng to the function
-        whereAmI(latitude, longitude);
-      },
-      //error
-      function () {
-        console.log(`No position`);
-      }
-    );
-  }
-});
+// btn.addEventListener(`click`, function () {
+//   //Get geolocation data from browser
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       function (position) {
+//         console.log(position);
+//         const { latitude, longitude } = position.coords;
+//         console.log(latitude, longitude);
+//         // return latitude, longitude;
+//         //Pass lat and lng to the function
+//         whereAmI(latitude, longitude);
+//       },
+//       //error
+//       function () {
+//         console.log(`No position`);
+//       }
+//     );
+//   }
+// });
 
 //*_______________________________Lesson 258
 
@@ -289,20 +284,89 @@ btn.addEventListener(`click`, function () {
 // lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
 
 //Promisifying setTimeout:
-const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000);
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(2)
+//   .then(() => {
+//     console.log(`2 seconds gone`);
+//     return wait(1);
+//   })
+//   .then(() => console.log(`1 more second gone`));
+
+// //all this is to perform an async behavior to avoid callback hell
+
+// Promise.resolve(`abc`).then(x => console.log(x));
+// Promise.reject(new Error(`abc`)).catch(x => console.error(x));
+
+//*_______________________________Lesson 260
+
+// navigator.geolocation.getCurrentPosition(
+//   position => console.log(position),
+//   err => console.error(`cant get your position ${err}`)
+// );
+console.log(`test`); //this one is logged first since it gets executed while geolocation loads in the API
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(`cant get your position ${err}`)
+    // );
+    //SHORTER:
+    navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
 
-wait(2)
-  .then(() => {
-    console.log(`2 seconds gone`);
-    return wait(1);
-  })
-  .then(() => console.log(`1 more second gone`));
+getPosition().then(result => console.log(result));
 
-//all this is to perform an async behavior to avoid callback hell
+//now refactor the prebious challenge:
+const whereAmI = function () {
+  getPosition()
+    .then(result => {
+      const { latitude: lat, longitude: long } = result.coords;
 
-Promise.resolve(`abc`).then(x => console.log(x));
-Promise.reject(new Error(`abc`)).catch(x => console.error(x));
+      // const lat = latitude;
+      // const long = longitude;
+
+      return fetch(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+      );
+    })
+    .then(response => response.json())
+    // .then(result => console.log(result));
+    .then(data => {
+      if (!data.features) throw new Error(`May be you are on Mars.`);
+      const countryData = data.features[0].properties;
+      console.log(`You are in ${countryData.city}, ${countryData.country}.`);
+
+      //Displaying ythe card:
+      const country = countryData.country;
+
+      fetch(`https://restcountries.com/v3.1/name/${country}`)
+        .then(response => response.json())
+        .then(data => {
+          renderCountry(data[0]);
+
+          const neighbour = data[0].borders[0];
+          if (!neighbour) return;
+
+          return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+        })
+        .then(response => response.json())
+        .then(data => renderCountry(data[0], `neighbour`));
+    })
+    .catch(err => {
+      console.log(`Now this is an error. ${err.message}`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
+
+btn.addEventListener(`click`, function () {
+  whereAmI();
+});
