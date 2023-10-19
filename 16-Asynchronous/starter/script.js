@@ -82,7 +82,7 @@ const renderCountry = function (data, className = ``) {
 //?MODERN WAY OF AJAX CALL:
 
 const request2 = fetch(`https://restcountries.com/v3.1/name/eesti`);
-console.log(request2);
+// console.log(request2);
 
 //*_______________________________Lesson 252
 //CONSUMING PROMISES returned from the Fetch function
@@ -261,13 +261,48 @@ btn.addEventListener(`click`, function () {
 
 //*_______________________________Lesson 258
 
-console.log(`Test start`);
-setTimeout(() => console.log(`0 sec timer`), 0);
+// console.log(`Test start`);
+// setTimeout(() => console.log(`0 sec timer`), 0);
 
-Promise.resolve(`Resolved promise 1`).then(res => console.log(res));
+// Promise.resolve(`Resolved promise 1`).then(res => console.log(res));
 
-Promise.resolve(`Resolved promise 2`).then(res => {
-  for (let i = 0; i < 1000000000; i++) {}
-  console.log(res);
-});
-console.log(`Test end`);
+// Promise.resolve(`Resolved promise 2`).then(res => {
+//   for (let i = 0; i < 1000000000; i++) {}
+//   console.log(res);
+// });
+// console.log(`Test end`);
+
+//*_______________________________Lesson 259
+
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log(`Lottery draw is happening`);
+
+//   setTimeout(() => {
+//     if (Math.random() >= 0.5) {
+//       resolve(`You win!`);
+//     } else {
+//       reject(new Error(`You loose :(`));
+//     }
+//   }, 2000);
+// });
+// //consuming the promise:
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+//Promisifying setTimeout:
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(2)
+  .then(() => {
+    console.log(`2 seconds gone`);
+    return wait(1);
+  })
+  .then(() => console.log(`1 more second gone`));
+
+//all this is to perform an async behavior to avoid callback hell
+
+Promise.resolve(`abc`).then(x => console.log(x));
+Promise.reject(new Error(`abc`)).catch(x => console.error(x));
