@@ -304,69 +304,116 @@ const getCountryData = function (country) {
 
 //*_______________________________Lesson 260
 
-// navigator.geolocation.getCurrentPosition(
-//   position => console.log(position),
-//   err => console.error(`cant get your position ${err}`)
-// );
-console.log(`test`); //this one is logged first since it gets executed while geolocation loads in the API
+// // navigator.geolocation.getCurrentPosition(
+// //   position => console.log(position),
+// //   err => console.error(`cant get your position ${err}`)
+// // );
+// console.log(`test`); //this one is logged first since it gets executed while geolocation loads in the API
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    // navigator.geolocation.getCurrentPosition(
-    //   position => resolve(position),
-    //   err => reject(`cant get your position ${err}`)
-    // );
-    //SHORTER:
-    navigator.geolocation.getCurrentPosition(resolve, reject);
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   position => resolve(position),
+//     //   err => reject(`cant get your position ${err}`)
+//     // );
+//     //SHORTER:
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// getPosition().then(result => console.log(result));
+
+//now refactor the previous challenge:
+// const whereAmI = function () {
+//   getPosition()
+//     .then(result => {
+//       const { latitude: lat, longitude: long } = result.coords;
+
+//       // const lat = latitude;
+//       // const long = longitude;
+
+//       return fetch(
+//         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+//       );
+//     })
+//     .then(response => response.json())
+//     // .then(result => console.log(result));
+//     .then(data => {
+//       if (!data.features) throw new Error(`May be you are on Mars.`);
+//       const countryData = data.features[0].properties;
+//       console.log(`You are in ${countryData.city}, ${countryData.country}.`);
+
+//       //Displaying ythe card:
+//       const country = countryData.country;
+
+//       fetch(`https://restcountries.com/v3.1/name/${country}`)
+//         .then(response => response.json())
+//         .then(data => {
+//           renderCountry(data[0]);
+
+//           const neighbour = data[0].borders[0];
+//           if (!neighbour) return;
+
+//           return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//         })
+//         .then(response => response.json())
+//         .then(data => renderCountry(data[0], `neighbour`));
+//     })
+//     .catch(err => {
+//       console.log(`Now this is an error. ${err.message}`);
+//     })
+//     .finally(() => {
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
+
+// btn.addEventListener(`click`, function () {
+//   whereAmI();
+// });
+
+//?_______________________________Lesson 261 - CHALLENGE #2 (level: hard)
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
   });
 };
 
-getPosition().then(result => console.log(result));
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement(`img`);
 
-//now refactor the prebious challenge:
-const whereAmI = function () {
-  getPosition()
-    .then(result => {
-      const { latitude: lat, longitude: long } = result.coords;
+    img.onload = function () {
+      document.body.appendChild(img);
+      resolve(img);
+    };
 
-      // const lat = latitude;
-      // const long = longitude;
+    img.onerror = function () {
+      reject(new Error(`No image found`));
+    };
 
-      return fetch(
-        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
-      );
-    })
-    .then(response => response.json())
-    // .then(result => console.log(result));
-    .then(data => {
-      if (!data.features) throw new Error(`May be you are on Mars.`);
-      const countryData = data.features[0].properties;
-      console.log(`You are in ${countryData.city}, ${countryData.country}.`);
-
-      //Displaying ythe card:
-      const country = countryData.country;
-
-      fetch(`https://restcountries.com/v3.1/name/${country}`)
-        .then(response => response.json())
-        .then(data => {
-          renderCountry(data[0]);
-
-          const neighbour = data[0].borders[0];
-          if (!neighbour) return;
-
-          return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-        })
-        .then(response => response.json())
-        .then(data => renderCountry(data[0], `neighbour`));
-    })
-    .catch(err => {
-      console.log(`Now this is an error. ${err.message}`);
-    })
-    .finally(() => {
-      countriesContainer.style.opacity = 1;
-    });
+    img.setAttribute(`src`, imgPath);
+  });
 };
 
-btn.addEventListener(`click`, function () {
-  whereAmI();
-});
+createImage(`img/img-1.jpg`)
+  .then(function (el) {
+    return wait(2).then(() => el);
+  })
+  .then(el => {
+    el.style.opacity = 0;
+    el.src = `img/img-2.jpg`;
+    return wait(2).then(() => el);
+  })
+  .then(el => {
+    el.style.opacity = 1;
+    return wait(2).then(() => el);
+  })
+  .then(el => {
+    el.style.opacity = 0;
+    el.src = `img/img-3.jpg`;
+    return wait(2).then(() => el);
+  })
+  .then(el => {
+    el.style.opacity = 1;
+  })
+  .catch(err => console.error(err));
