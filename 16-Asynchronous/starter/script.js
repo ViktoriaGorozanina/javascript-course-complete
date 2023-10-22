@@ -31,6 +31,7 @@ const renderCountry = function (data, className = ``) {
   </div>`;
 
   countriesContainer.insertAdjacentHTML(`beforeend`, html);
+  countriesContainer.style.opacity = 1;
 };
 
 //CALLING API oldschool:
@@ -372,48 +373,84 @@ const getCountryData = function (country) {
 // });
 
 //?_______________________________Lesson 261 - CHALLENGE #2 (level: hard)
-const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000);
-  });
-};
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
 
-const createImage = function (imgPath) {
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const img = document.createElement(`img`);
+
+//     img.onload = function () {
+//       document.body.appendChild(img);
+//       resolve(img);
+//     };
+
+//     img.onerror = function () {
+//       reject(new Error(`No image found`));
+//     };
+
+//     img.setAttribute(`src`, imgPath);
+//   });
+// };
+
+// createImage(`img/img-1.jpg`)
+//   .then(function (el) {
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 0;
+//     el.src = `img/img-2.jpg`;
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 1;
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 0;
+//     el.src = `img/img-3.jpg`;
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 1;
+//   })
+//   .catch(err => console.error(err));
+
+//*_______________________________Lesson 262
+
+//ASYNC AWAIT
+//Async runs on the background and when its done it returns a promise
+
+const getPosition = function () {
   return new Promise(function (resolve, reject) {
-    const img = document.createElement(`img`);
-
-    img.onload = function () {
-      document.body.appendChild(img);
-      resolve(img);
-    };
-
-    img.onerror = function () {
-      reject(new Error(`No image found`));
-    };
-
-    img.setAttribute(`src`, imgPath);
+    navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
 
-createImage(`img/img-1.jpg`)
-  .then(function (el) {
-    return wait(2).then(() => el);
-  })
-  .then(el => {
-    el.style.opacity = 0;
-    el.src = `img/img-2.jpg`;
-    return wait(2).then(() => el);
-  })
-  .then(el => {
-    el.style.opacity = 1;
-    return wait(2).then(() => el);
-  })
-  .then(el => {
-    el.style.opacity = 0;
-    el.src = `img/img-3.jpg`;
-    return wait(2).then(() => el);
-  })
-  .then(el => {
-    el.style.opacity = 1;
-  })
-  .catch(err => console.error(err));
+const whereAmI = async function () {
+  //geolocation
+  const pos = await getPosition();
+  const { longitude: long, latitude: lat } = pos.coords;
+
+  //reverse geocoding
+  const resGeo = await fetch(
+    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+  );
+  // console.log(resGeo);
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
+
+  //country data
+  const res = await fetch(
+    `https://restcountries.com/v3.1/name/${dataGeo.country}`
+  );
+  // console.log(res);
+  const data = await res.json();
+  renderCountry(data[0]);
+};
+whereAmI();
+// whereAmI(`eesti`);
+console.log(`First`);
