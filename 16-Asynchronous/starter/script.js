@@ -431,26 +431,46 @@ const getPosition = function () {
 };
 
 const whereAmI = async function () {
-  //geolocation
-  const pos = await getPosition();
-  const { longitude: long, latitude: lat } = pos.coords;
+  try {
+    //geolocation
+    const pos = await getPosition();
+    const { longitude: long, latitude: lat } = pos.coords;
 
-  //reverse geocoding
-  const resGeo = await fetch(
-    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
-  );
-  // console.log(resGeo);
-  const dataGeo = await resGeo.json();
-  console.log(dataGeo);
+    //reverse geocoding
+    const resGeo = await fetch(
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}lon=${long}&format=json&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+    );
+    if (!resGeo.ok) throw new Error(` ERRROOOORRR`);
+    // console.log(resGeo);
+    const dataGeo = await resGeo.json();
+    // console.log(dataGeo);
+    const dataCountry = dataGeo.results[0];
+    // console.log(dataCountry);
 
-  //country data
-  const res = await fetch(
-    `https://restcountries.com/v3.1/name/${dataGeo.country}`
-  );
-  // console.log(res);
-  const data = await res.json();
-  renderCountry(data[0]);
+    //country data
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataCountry.country}`
+    );
+    // console.log(res);
+    const data = await res.json();
+    renderCountry(data[0]);
+  } catch (err) {
+    //ERROR HANDLER
+    console.log(`err.message`);
+    renderError(`something wetn wrong ${err.message}`);
+  }
 };
 whereAmI();
+
 // whereAmI(`eesti`);
 console.log(`First`);
+
+//*_______________________________Lesson 262
+//Error handling with try...catch
+// try {
+//   let y = 1;
+//   const x = 2;
+//   x = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
