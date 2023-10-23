@@ -438,8 +438,9 @@ const whereAmI = async function () {
 
     //reverse geocoding
     const resGeo = await fetch(
-      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}lon=${long}&format=json&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
     );
+
     if (!resGeo.ok) throw new Error(` ERRROOOORRR`);
     // console.log(resGeo);
     const dataGeo = await resGeo.json();
@@ -454,16 +455,25 @@ const whereAmI = async function () {
     // console.log(res);
     const data = await res.json();
     renderCountry(data[0]);
+
+    return `you are in ${dataCountry.city}, ${dataCountry.country}`;
   } catch (err) {
     //ERROR HANDLER
     console.log(`err.message`);
     renderError(`something wetn wrong ${err.message}`);
+
+    //reject promise returnes from async function
+    throw err;
   }
 };
-whereAmI();
 
-// whereAmI(`eesti`);
-console.log(`First`);
+console.log(`1:`);
+// const city = whereAmI();
+// console.log(city);
+whereAmI()
+  .then(city => console.log(city))
+  .catch(err => console.log(`2: ${err.message} ERROOORR2`))
+  .finally(() => console.log(`3:`));
 
 //*_______________________________Lesson 262
 //Error handling with try...catch
@@ -474,3 +484,5 @@ console.log(`First`);
 // } catch (err) {
 //   alert(err.message);
 // }
+
+//*_______________________________Lesson 263
