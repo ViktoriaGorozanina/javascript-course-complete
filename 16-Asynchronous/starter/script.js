@@ -100,14 +100,14 @@ const request2 = fetch(`https://restcountries.com/v3.1/name/eesti`);
 //     });
 // };
 
-const getJson = function (url, errorMsg = `Something went wrong!`) {
-  return fetch(url).then(response => {
-    if (!response.ok) {
-      throw new Error(`${errorMsg} (${response.status})`);
-    }
-    return response.json();
-  });
-};
+// const getJson = function (url, errorMsg = `Something went wrong!`) {
+//   return fetch(url).then(response => {
+//     if (!response.ok) {
+//       throw new Error(`${errorMsg} (${response.status})`);
+//     }
+//     return response.json();
+//   });
+// };
 
 //? same but simplified (also added other ifno):
 // const getCountryData = function (country) {
@@ -424,56 +424,68 @@ const getCountryData = function (country) {
 //ASYNC AWAIT
 //Async runs on the background and when its done it returns a promise
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
 
-const whereAmI = async function () {
-  try {
-    //geolocation
-    const pos = await getPosition();
-    const { longitude: long, latitude: lat } = pos.coords;
+// const whereAmI = async function () {
+//   try {
+//     //geolocation
+//     const pos = await getPosition();
+//     const { longitude: long, latitude: lat } = pos.coords;
 
-    //reverse geocoding
-    const resGeo = await fetch(
-      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
-    );
+//     //reverse geocoding
+//     const resGeo = await fetch(
+//       `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=e9762358fbaa41d1ae5a2a6404d1d4fb`
+//     );
 
-    if (!resGeo.ok) throw new Error(` ERRROOOORRR`);
-    // console.log(resGeo);
-    const dataGeo = await resGeo.json();
-    // console.log(dataGeo);
-    const dataCountry = dataGeo.results[0];
-    // console.log(dataCountry);
+//     if (!resGeo.ok) throw new Error(` ERRROOOORRR`);
+//     // console.log(resGeo);
+//     const dataGeo = await resGeo.json();
+//     // console.log(dataGeo);
+//     const dataCountry = dataGeo.results[0];
+//     // console.log(dataCountry);
 
-    //country data
-    const res = await fetch(
-      `https://restcountries.com/v3.1/name/${dataCountry.country}`
-    );
-    // console.log(res);
-    const data = await res.json();
-    renderCountry(data[0]);
+//     //country data
+//     const res = await fetch(
+//       `https://restcountries.com/v3.1/name/${dataCountry.country}`
+//     );
+//     // console.log(res);
+//     const data = await res.json();
+//     renderCountry(data[0]);
 
-    return `you are in ${dataCountry.city}, ${dataCountry.country}`;
-  } catch (err) {
-    //ERROR HANDLER
-    console.log(`err.message`);
-    renderError(`something wetn wrong ${err.message}`);
+//     return `you are in ${dataCountry.city}, ${dataCountry.country}`;
+//   } catch (err) {
+//     //ERROR HANDLER
+//     console.log(`err.messageYOYOOY`);
+//     renderError(`something wetn wrong ${err.message}`);
 
-    //reject promise returnes from async function
-    throw err;
-  }
-};
+//     //reject promise returnes from async function (rethrow the error so the code below catches and represents the same error message)
+//     throw err;
+//   }
+// };
 
-console.log(`1:`);
-// const city = whereAmI();
-// console.log(city);
-whereAmI()
-  .then(city => console.log(city))
-  .catch(err => console.log(`2: ${err.message} ERROOORR2`))
-  .finally(() => console.log(`3:`));
+// // console.log(`1:`);
+// // const city = whereAmI();
+// // console.log(city);
+
+// // whereAmI()
+// //   .then(city => console.log(`00: ${city}`))
+// //   .catch(err => console.log(`2: ${err.message} ERROOORR2`))
+// //   .finally(() => console.log(`3:`));
+
+// (async function () {
+//   try {
+//     const loc = await whereAmI();
+//     console.log(loc);
+//   } catch (err) {
+//     console.log(err);
+//   } finally {
+//     console.log(`finished`);
+//   }
+// })();
 
 //*_______________________________Lesson 262
 //Error handling with try...catch
@@ -486,3 +498,36 @@ whereAmI()
 // }
 
 //*_______________________________Lesson 263
+//*_______________________________Lesson 264
+//*_______________________________Lesson 265
+const getJson = function (url, errorMsg = `Something went wrong!`) {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error(`${errorMsg} (${response.status})`);
+    }
+    return response.json();
+  });
+};
+
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    //the following way it will load one after another, basically not async:
+    // const [data1] = await getJson(`https://restcountries.com/v3.1/name/${c1}`);
+    // const [data2] = await getJson(`https://restcountries.com/v3.1/name/${c2}`);
+    // const [data3] = await getJson(`https://restcountries.com/v3.1/name/${c3}`);
+
+    //to fix this non-async (parallel) behaviour:
+    const data = await Promise.all([
+      getJson(`https://restcountries.com/v3.1/name/${c1}`),
+      getJson(`https://restcountries.com/v3.1/name/${c2}`),
+      getJson(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    //if one of the elements of `promise all` will get rejected then the whole thing is rejected
+
+    console.log(data.map(d => d[0].capital[0]));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+get3Countries(`eesti`, `usa`, `portugal`);
