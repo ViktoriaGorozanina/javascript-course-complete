@@ -568,8 +568,90 @@ const timeout = function (sec) {
 
 //Promise.any(ES2021)
 
-Promise.any([
-  Promise.resolve(`Successsss`),
-  Promise.reject(`Error`),
-  Promise.resolve(`Success2`),
-]).then(res => console.log(res));
+// Promise.any([
+//   Promise.resolve(`Successsss`),
+//   Promise.reject(`Error`),
+//   Promise.resolve(`Success2`),
+// ]).then(res => console.log(res));
+
+//?_______________________________Lesson 267 CHALLENGE #3
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement(`img`);
+
+    img.onload = function () {
+      document.body.appendChild(img);
+      resolve(img);
+    };
+
+    img.onerror = function () {
+      reject(new Error(`No image found`));
+    };
+
+    img.setAttribute(`src`, imgPath);
+  });
+};
+
+// createImage(`img/img-1.jpg`)
+//   .then(function (el) {
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 0;
+//     el.src = `img/img-2.jpg`;
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 1;
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 0;
+//     el.src = `img/img-3.jpg`;
+//     return wait(2).then(() => el);
+//   })
+//   .then(el => {
+//     el.style.opacity = 1;
+//   })
+//   .catch(err => console.error(err));
+
+// const number = [1, 2, 3];
+
+// const loadNPause = (async function (imgPath, waitTime) {
+//   try {
+//     const img = await createImage(`img/img-${imgPath}.jpg`);
+//     document.body.appendChild(img);
+//     await wait(waitTime);
+//     // result.style.display = none;
+//   } catch (err) {
+//     console.log(err);
+//   } finally {
+//     console.log(`finished`);
+//   }
+// })();
+// loadNPause(1, 2);
+const imgWait = async function (imgPath) {
+  let img = await createImage(`img/img-${imgPath}.jpg`);
+  document.body.appendChild(img);
+  await wait(2);
+  img.style.display = 'none';
+  await wait(2);
+};
+
+const displayImage = async function (imgPath1, imgPath2, imgPath3) {
+  try {
+    await imgWait(imgPath1);
+    await imgWait(imgPath2);
+    await imgWait(imgPath3);
+  } catch (err) {
+    console.log(`hello ${err}`);
+  }
+};
+displayImage(1, 2, 3);
