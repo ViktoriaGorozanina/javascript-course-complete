@@ -100,14 +100,14 @@ const request2 = fetch(`https://restcountries.com/v3.1/name/eesti`);
 //     });
 // };
 
-// const getJson = function (url, errorMsg = `Something went wrong!`) {
-//   return fetch(url).then(response => {
-//     if (!response.ok) {
-//       throw new Error(`${errorMsg} (${response.status})`);
-//     }
-//     return response.json();
-//   });
-// };
+const getJson = function (url, errorMsg = `Something went wrong!`) {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error(`${errorMsg} (${response.status})`);
+    }
+    return response.json();
+  });
+};
 
 //? same but simplified (also added other ifno):
 // const getCountryData = function (country) {
@@ -500,34 +500,76 @@ const getCountryData = function (country) {
 //*_______________________________Lesson 263
 //*_______________________________Lesson 264
 //*_______________________________Lesson 265
-const getJson = function (url, errorMsg = `Something went wrong!`) {
-  return fetch(url).then(response => {
-    if (!response.ok) {
-      throw new Error(`${errorMsg} (${response.status})`);
-    }
-    return response.json();
+// const getJson = function (url, errorMsg = `Something went wrong!`) {
+//   return fetch(url).then(response => {
+//     if (!response.ok) {
+//       throw new Error(`${errorMsg} (${response.status})`);
+//     }
+//     return response.json();
+//   });
+// };
+
+// const get3Countries = async function (c1, c2, c3) {
+//   try {
+//     //the following way it will load one after another, basically not async:
+//     // const [data1] = await getJson(`https://restcountries.com/v3.1/name/${c1}`);
+//     // const [data2] = await getJson(`https://restcountries.com/v3.1/name/${c2}`);
+//     // const [data3] = await getJson(`https://restcountries.com/v3.1/name/${c3}`);
+
+//     //to fix this non-async (parallel) behaviour:
+//     const data = await Promise.all([
+//       getJson(`https://restcountries.com/v3.1/name/${c1}`),
+//       getJson(`https://restcountries.com/v3.1/name/${c2}`),
+//       getJson(`https://restcountries.com/v3.1/name/${c3}`),
+//     ]);
+//     //if one of the elements of `promise all` will get rejected then the whole thing is rejected
+
+//     console.log(data.map(d => d[0].capital[0]));
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+// get3Countries(`eesti`, `usa`, `portugal`);
+
+//*_______________________________Lesson 266
+
+// Promise.race([]);
+// (async function () {
+//   const res1 = await Promise.race([
+//     getJson(`https://restcountries.com/v3.1/name/italy`),
+//     getJson(`https://restcountries.com/v3.1/name/eesti`),
+//     getJson(`https://restcountries.com/v3.1/name/egypt`),
+//   ]);
+//   console.log(res1);
+// })();
+
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(() => {
+      reject(new Error(`request rejected`));
+    }, sec * 1000);
   });
 };
 
-const get3Countries = async function (c1, c2, c3) {
-  try {
-    //the following way it will load one after another, basically not async:
-    // const [data1] = await getJson(`https://restcountries.com/v3.1/name/${c1}`);
-    // const [data2] = await getJson(`https://restcountries.com/v3.1/name/${c2}`);
-    // const [data3] = await getJson(`https://restcountries.com/v3.1/name/${c3}`);
+// Promise.race([
+//   getJson(`https://restcountries.com/v3.1/name/tanzania`),
+//   timeout(1),
+// ])
+//   .then(res => console.log(res[0]))
+//   .catch(err => console.log(err));
 
-    //to fix this non-async (parallel) behaviour:
-    const data = await Promise.all([
-      getJson(`https://restcountries.com/v3.1/name/${c1}`),
-      getJson(`https://restcountries.com/v3.1/name/${c2}`),
-      getJson(`https://restcountries.com/v3.1/name/${c3}`),
-    ]);
-    //if one of the elements of `promise all` will get rejected then the whole thing is rejected
+//Promise.allSettled (ES2020)
+// Promise.allSettled([
+//   Promise.resolve(`Succes`),
+//   Promise.reject(`Error`),
+//   Promise.resolve(`Success2`),
+// ]).then(res => console.log(res));
 
-    console.log(data.map(d => d[0].capital[0]));
-  } catch (err) {
-    console.log(err);
-  }
-};
+//Promise.any(ES2021)
 
-get3Countries(`eesti`, `usa`, `portugal`);
+Promise.any([
+  Promise.resolve(`Successsss`),
+  Promise.reject(`Error`),
+  Promise.resolve(`Success2`),
+]).then(res => console.log(res));
