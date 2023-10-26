@@ -636,22 +636,31 @@ const createImage = function (imgPath) {
 //     console.log(`finished`);
 //   }
 // })();
-// loadNPause(1, 2);
-const imgWait = async function (imgPath) {
-  let img = await createImage(`img/img-${imgPath}.jpg`);
-  document.body.appendChild(img);
-  await wait(2);
-  img.style.display = 'none';
-  await wait(2);
-};
 
-const displayImage = async function (imgPath1, imgPath2, imgPath3) {
+const numbers = ['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'];
+
+const loadAll = async function (arr) {
   try {
-    await imgWait(imgPath1);
-    await imgWait(imgPath2);
-    await imgWait(imgPath3);
+    const imgs = arr.map(async num => await createImage(num));
+    console.log(imgs);
+
+    const imgsEl = await Promise.all(imgs);
+    console.log(imgsEl);
+
+    imgsEl.forEach(img => img.classList.add(`parallel`));
   } catch (err) {
-    console.log(`hello ${err}`);
+    console.log(err);
   }
 };
-displayImage(1, 2, 3);
+loadAll(numbers);
+
+// const displayImage = async function (imgPath1, imgPath2, imgPath3) {
+//   try {
+//     await imgWait(imgPath1);
+//     await imgWait(imgPath2);
+//     await imgWait(imgPath3);
+//   } catch (err) {
+//     console.log(`hello ${err}`);
+//   }
+// };
+// displayImage(1, 2, 3);
