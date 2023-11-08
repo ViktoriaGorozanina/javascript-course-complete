@@ -36,27 +36,13 @@ import anyName, { cart } from './shoppingCart.js';
 // const lastPost2 = await getLastPost();
 // console.log(lastPost2);
 
-const ShoppingCart2 = (function () {
-  const cart = [];
-  const shippingCost = 10;
-  const totalPrice = 275;
-  const totalQuantity = 55;
-  const addToCart = function (item, quantity) {
-    cart.push({ item, quantity });
-    console.log(`${quantity} ${item} added to cart`);
-  };
-  const ordredStock = function (item, quantity) {
-    cart.push({ item, quantity });
-    console.log(`${quantity} ${item} ordered from supplier`);
-  };
+///////////////////////////////
+//Not gonna work in browser but will work in NODE.js
+// export.addToCart = function (item, quantity) {
+//     cart.push({ item, quantity });
+//     console.log(`${quantity} ${item} added to cart`);
+//   };
 
-  return {
-    addToCart,
-    cart,
-    totalPrice,
-    totalQuantity,
-  };
-})();
-ShoppingCart2.addToCart(`apple`, 4);
-ShoppingCart2.addToCart(`juice`, 2);
-console.log(ShoppingCart2);
+//   //Import
+//   const { addTocart} = require(`./shoppingCart.js`)
+///////////////////////////////
