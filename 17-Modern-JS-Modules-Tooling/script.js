@@ -5,13 +5,15 @@
 // import { addToCart, totalPrice as price } from './shoppingCart.js';
 // addToCart(`iron`, 2);
 
-import * as ShoppingCart from './shoppingCart.js';
+// import * as ShoppingCart from './shoppingCart.js';
 
 // ShoppingCart.addToCart(`bread`, 7);
 
-// import anyName, { cart } from './shoppingCart';
+import add, { cart } from './shoppingCart.js';
 
-// anyName(`pizza`, 2);
+add(`ice cream`, 2);
+add(`potato`, 3);
+add(`tomato`, 5);
 
 //*-------------------- LESSON 273
 
@@ -48,6 +50,8 @@ import * as ShoppingCart from './shoppingCart.js';
 ///////////////////////////////
 import cloneDeep from '../node_modules/lodash-es/cloneDeep.js';
 
+// import { cloneDeep } from 'lodash-es';
+
 const state = {
   cart: [
     { product: `bread`, quantity: 5 },
@@ -59,3 +63,8 @@ const state = {
 const stateDeepClone = cloneDeep(state);
 state.user.loggedIn = false;
 console.log(stateDeepClone);
+
+//?means whenever we change one of the modules it doesnt trigger a reload :
+if (module.hot) {
+  module.hot.accept();
+}
