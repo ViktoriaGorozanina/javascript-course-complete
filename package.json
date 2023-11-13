@@ -1,0 +1,23 @@
+{
+  "name": "javascript-course-complete",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViktoriaGorozanina/javascript-course-complete.git"
+  },
+  "author": "Victoria",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ViktoriaGorozanina/javascript-course-complete/issues"
+  },
+  "homepage": "https://github.com/ViktoriaGorozanina/javascript-course-complete#readme",
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "lodash-es": "^4.17.21"
+  }
+}
